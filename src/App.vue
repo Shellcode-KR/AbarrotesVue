@@ -1,28 +1,55 @@
 <template>
-  <PanelAdmin/>
+  <LoginForm v-show="!login" />
+  <PanelAdmin v-show="login" />
 </template>
 
-<script lang="ts" setup>
-import PanelAdmin from './components/PanelAdmin.vue';
+<script lang="ts">
 import LoginForm from './components/LoginForm.vue';
+import PanelAdmin from './components/PanelAdmin.vue';
+export default {
+  data: () => ({
+    login: false
+  }),
+  mounted(){
+    this.refreshUser();
+  },
+  methods: {
+    refreshUser() {
+      const logConst = localStorage.getItem('varLogin');
+      if (logConst === 'true') {
+        this.login = true;
+
+      }
+      else{
+        this.login= false;
+      }
+    }
+  },
+  components: { PanelAdmin, LoginForm }
+}
 
 </script>
 
 <style>
-
-html{
-  box-sizing: border-boxs;
-}
-#app {
-  box-sizing: border-box;
+html,
+body {
   height: 100%;
   width: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#app {
+  box-sizing: border-box;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  /*background-color: rgb(112, 210, 255);
   
-  //background-color: aquamarine;
+  */
 }
 </style>

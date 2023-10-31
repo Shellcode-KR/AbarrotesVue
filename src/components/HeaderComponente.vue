@@ -40,7 +40,7 @@
   .app-header {
     box-sizing: border-box;
     width: 100%;
-    height: 50%;
+    height: 25%;
     display: flex;
     align-items: center;
     padding: 1rem;
@@ -49,14 +49,15 @@
   }
   
   .logo{
+    box-sizing: border-box;
     width: 20%;
   }
   .logo img {
-    max-width: 100%;
-    height: auto;
+    width: 70%;
   }
   
   .info {
+    box-sizing: border-box;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -69,13 +70,15 @@
   }
   
   .top-info h2 {
-    font-size: 2.5rem;
+    font-size: 2rem;
     margin: 0;
   }
   
   .bottom-info {
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
+    background-color: rgb(188, 188, 188);
   }
   
   .info-row {
@@ -87,6 +90,7 @@
 
   .info-row p{
     display: inline-block;
+    margin: 0;
     
   }
   </style>

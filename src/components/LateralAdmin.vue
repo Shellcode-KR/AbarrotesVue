@@ -16,7 +16,7 @@
         <i class="fas fa-chart-bar"></i>
         <span>Reportes</span>
       </div>
-      <div class="sidebar-button" @click="cerrarSesion">
+      <div class="sidebar-button" @click="cerrarSesion()">
         <i class="fas fa-sign-out-alt"></i>
         <span>Cerrar Sesión</span>
       </div>
@@ -32,7 +32,9 @@
       },
       cerrarSesion() {
         // Implementa la lógica para cerrar sesión.
-        console.log('Cerrar sesión');
+        localStorage.setItem('varLogin', 'false');
+        window.location.reload();
+        console.log('Cerrar sesión...');
       }
     }
   };

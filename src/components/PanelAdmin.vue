@@ -12,8 +12,7 @@
 <style scoped>
     .cabeza{
         box-sizing: border-box;
-        height: 30%;
-        width: 100%;
+
     }
     .lateral{
         box-sizing: border-box;
