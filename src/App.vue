@@ -3,7 +3,7 @@
   <PanelAdmin v-show="login" />
 </template>
 
-<script lang="ts">
+<script >
 import LoginForm from './components/LoginForm.vue';
 import PanelAdmin from './components/PanelAdmin.vue';
 export default {
