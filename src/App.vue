@@ -1,6 +1,6 @@
 <template>
-  <LoginForm v-show="!login" />
-  <PanelAdmin v-show="login" />
+  <LoginForm v-if="!login" />
+  <PanelAdmin v-else/>
 </template>
 
 <script >
@@ -43,6 +43,7 @@ body {
 }
 
 #app {
+  height: 100%;
   box-sizing: border-box;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

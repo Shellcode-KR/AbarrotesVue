@@ -14,10 +14,6 @@
         box-sizing: border-box;
 
     }
-    .lateral{
-        box-sizing: border-box;
-        height: 100%;
-        width: calc(20% + 1rem);
-    }
+    
 </style>
   

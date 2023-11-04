@@ -43,11 +43,14 @@
     height: 25%;
     display: flex;
     align-items: center;
-    padding: 1rem;
+    margin: 0;
+    padding: 0;
     background-color: #F9A95A;
     color: white;
   }
-  
+  .logo, .bottom-info{
+    padding: 1rem;
+  }
   .logo{
     box-sizing: border-box;
     width: 20%;
@@ -62,19 +65,21 @@
     display: flex;
     flex-direction: column;
     text-align: right;
+    height: 100%;
   }
   
   .top-info {
     text-align: center;
-    margin-bottom: 5%;
+    height: 50%;
+
   }
   
   .top-info h2 {
     font-size: 2rem;
-    margin: 0;
   }
   
   .bottom-info {
+    height: 50%;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
