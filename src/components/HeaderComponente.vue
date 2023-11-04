@@ -54,6 +54,8 @@
   .logo{
     box-sizing: border-box;
     width: 20%;
+    height: 100%;
+    background-color: #F9B572;
   }
   .logo img {
     width: 70%;
