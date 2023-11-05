@@ -91,7 +91,6 @@
   .info-row {
     display: flex;
     justify-content: space-between;
-    align-content: space-between;
     margin-left: 3%;
   }
 

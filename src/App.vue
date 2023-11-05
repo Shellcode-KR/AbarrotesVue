@@ -1,6 +1,6 @@
 <template>
   <LoginForm v-if="!login" />
-  <PanelAdmin v-else/>
+  <PanelAdmin v-else />
 </template>
 
 <script >
@@ -10,7 +10,7 @@ export default {
   data: () => ({
     login: false
   }),
-  mounted(){
+  mounted() {
     this.refreshUser();
   },
   methods: {
@@ -20,8 +20,8 @@ export default {
         this.login = true;
 
       }
-      else{
-        this.login= false;
+      else {
+        this.login = false;
       }
     }
   },
@@ -42,6 +42,7 @@ body {
   padding: 0;
 }
 
+
 #app {
   height: 100%;
   box-sizing: border-box;
@@ -49,6 +50,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
+  display: flex;
+  flex-wrap: wrap;
   /*background-color: rgb(112, 210, 255);
   
   */
