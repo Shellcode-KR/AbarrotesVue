@@ -82,11 +82,15 @@ h2 {
 form {}
 
 .campos {
+    box-sizing: border-box;
     display: flex;
     flex-wrap: wrap;
     background-color: #D9D9D9;
     padding: 2rem;
     margin: 0 15%;
+}
+.ladoIzq, .ladoDerecho{
+    width: 50%;
 }
 
 .form-group {
