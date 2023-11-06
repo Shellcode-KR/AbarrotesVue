@@ -33,6 +33,8 @@ export default {
   methods: {
     navigateTo(route) {
       // Implementa la lógica para navegar a la ruta correspondiente (por ejemplo, usando Vue Router).
+      localStorage.setItem('vista','${route}')
+      window.location.reload();
       console.log(`Navegar a ${route}`);
     },
     cerrarSesion() {

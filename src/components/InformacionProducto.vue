@@ -1,7 +1,7 @@
 <template>
     <div class="contenidoPrincipal">
         <h2>Informacion de Usuario</h2>
-        <form @submit.prevent="InfoUsuario">
+        <form @submit.prevent="InfoProducto">
             <div class="campos">
                 <div class="ladoIzq">
                     <div class="form-group">
@@ -79,7 +79,8 @@ form {}
     margin: 1rem 0 0 70%;
 }
 
-.guardar img {
+.guardar input {
+    display: flex;
     width: 1rem;
 }
 

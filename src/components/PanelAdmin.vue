@@ -1,7 +1,11 @@
 <template>
     <HeaderComponente class="cabeza"/>
     <LateralAdmin class="lateral"/>
+    <InformacionUsuario />
     <InformacionProducto />
+    <ListaUsuarios />
+    <ListaProductos />
+    <VistaVentas />
     
 </template>
   
@@ -12,6 +16,7 @@
     import ListaUsuarios from './ListaUsuarios.vue'
     import ListaProductos from './ListaProductos.vue'
     import InformacionProducto from './InformacionProducto.vue'
+    import VistaVentas from './VistaVentas.vue'
 </script>
   
 <style scoped>
