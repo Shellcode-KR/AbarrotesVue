@@ -41,7 +41,7 @@
 <script>
 </script>
 
-<style>
+<style scoped>
 h2 {
     padding: 1rem;
 }
