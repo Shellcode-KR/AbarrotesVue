@@ -52,8 +52,5 @@ body {
   text-align: center;
   display: flex;
   flex-wrap: wrap;
-  /*background-color: rgb(112, 210, 255);
-  
-  */
 }
 </style>
