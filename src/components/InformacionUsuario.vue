@@ -107,11 +107,12 @@ form {}
     padding: 1rem;
     margin: 1rem 0 0 70%;
 }
-.guardar img{
-    width: 1rem;
-}
+
 .guardar p{
     display: flex;
     margin: 1% 1rem;
+}
+.guardar img{
+    width: 1rem;
 }
 </style>

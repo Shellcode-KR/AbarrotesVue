@@ -41,14 +41,25 @@
 
             </tbody>
         </table>
-        <button class="guardar" type="submit">
+        <button class="guardar" type="submit" @click="navigateTo('usuarios')">
             <img src="https://cdn-icons-png.flaticon.com/512/2550/2550221.png " alt="">
-            <p>Guardar</p>
+            <p>Agregar</p>
         </button>
     </div>
 </template>
 
 <script>
+export default {
+  methods: {
+    navigateTo(route) {
+        // Implementa la lógica para navegar a la ruta correspondiente (por ejemplo, usando Vue Router).
+        localStorage.setItem('vista', route);
+        window.location.reload();
+        console.log(`Navegar a ${route}`);
+    },
+  }
+}
+
 </script>
 
 <style scoped>
@@ -94,6 +105,7 @@ button.btn-borrar {
     background-color: rgb(243, 68, 68);
     color: #fff;
 }
+
 .guardar {
     box-sizing: border-box;
     display: flex;
@@ -102,12 +114,13 @@ button.btn-borrar {
     padding: 1rem;
     margin: 1rem 0 0 70%;
 }
-.guardar img{
+
+.guardar img {
     width: 1rem;
 }
-.guardar p{
+
+.guardar p {
     display: flex;
     margin: 1% 1rem;
 }
-
 </style>

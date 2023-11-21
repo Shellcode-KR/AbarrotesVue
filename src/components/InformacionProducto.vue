@@ -1,6 +1,6 @@
 <template>
     <div class="contenidoPrincipal">
-        <h2>Informacion de Usuario</h2>
+        <h2>Informacion de Productos</h2>
         <form @submit.prevent="InfoProducto">
             <div class="campos">
                 <div class="ladoIzq">
@@ -87,5 +87,8 @@ form {}
 .guardar p {
     display: flex;
     margin: 1% 1rem;
+}
+.guardar img{
+    width: 1rem;
 }
 </style>
