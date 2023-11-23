@@ -25,32 +25,33 @@
   
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import axios from 'axios';
+
 export default defineComponent({
   name: 'LoginForm',
   data() {
     return {
       usuario: '',
       contrasena: '',
-      olvidarContrasenaLink: 'olvidar-contrasena.html' // Reemplaza con tu enlace real
+      olvidarContrasenaLink: 'olvidar-contrasena.html'
     };
   },
   methods: {
-    iniciarSesion() {
-      // Aquí puedes agregar la lógica para iniciar sesión, por ejemplo, una llamada a una API
-      if (this.usuario != '' && this.contrasena != '') {
-        alert('Se logeo con exito');
-        const user={
-          usuario:this.usuario,
-          pass:this.contrasena
-        }
-        console.log(user);
+    async iniciarSesion() {
+      try {
+        const response = await axios.post('http://localhost:3000/api/auth/login', {
+          username: this.usuario,
+          password: this.contrasena
+        });
+
+        const { token } = response.data;
         localStorage.setItem('varLogin', 'true');
+        localStorage.setItem('token', token);
         window.location.reload();
+      } catch (error) {
+        alert('Error en el inicio de sesión. Verifica tus credenciales.');
+        console.error('Error en el inicio de sesión:', error);
       }
-      else {
-        alert('Error login');
-      }
-      console.log('Iniciando sesión...', this.usuario, this.contrasena);
     }
   }
 });
