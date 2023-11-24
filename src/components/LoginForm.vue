@@ -25,6 +25,8 @@
   
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import { useRouter } from 'vue-router';
+
 import axios from 'axios';
 
 export default defineComponent({
@@ -37,7 +39,10 @@ export default defineComponent({
     };
   },
   methods: {
+    
     async iniciarSesion() {
+      const router = this.$router;
+
       try {
         const response = await axios.post('http://localhost:3000/api/auth/login', {
           username: this.usuario,
@@ -47,7 +52,10 @@ export default defineComponent({
         const { token } = response.data;
         localStorage.setItem('varLogin', 'true');
         localStorage.setItem('token', token);
-        window.location.reload();
+
+        // Redirige al usuario a la ruta 'paneladmin'
+       
+        router.push({ name: 'adminventas' });
       } catch (error) {
         alert('Error en el inicio de sesión. Verifica tus credenciales.');
         console.error('Error en el inicio de sesión:', error);

@@ -1,6 +1,5 @@
 <template>
-  <LoginForm v-if="!login" />
-  <PanelAdmin v-else />
+  <router-view/>
 </template>
 
 <script >
@@ -25,7 +24,7 @@ export default {
       }
     }
   },
-  components: { PanelAdmin, LoginForm }
+  
 }
 
 </script>
