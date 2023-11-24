@@ -1,11 +1,11 @@
 <template>
   <div class="sidebar">
-    <div class="sidebar-button" @click="navigateTo('usuarios')">
+    <div class="sidebar-button" @click="navigateTo('listaUsuarios')">
       <img src="https://cdn-icons-png.flaticon.com/512/1077/1077063.png " alt="">
       <i class="fas fa-user"></i>
       <span>Usuarios</span>
     </div>
-    <div class="sidebar-button" @click="navigateTo('productos')">
+    <div class="sidebar-button" @click="navigateTo('listaProductos')">
       <img src="https://cdn-icons-png.flaticon.com/512/1524/1524539.png " alt="">
       <i class="fas fa-box"></i>
       <span>Productos</span>
