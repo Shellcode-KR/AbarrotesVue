@@ -24,24 +24,14 @@
                         <label for="correo">Email:</label>
                         <input type="email" v-model="email" required>
                     </div>
-                    <div class="form-group">
-                        <label for="rol">Rol:</label>
-                        <select v-model="role" required>
-                            <option value="admin">Admin</option>
-                            <option value="employee" selected>Empleado</option>
-                            <option value="dev">Desarrollador</option>
-                        </select>
-                    </div>
+
                 </div>
                 <div class="ladoDerecho">
                     <div class="form-group">
                         <label for="telefono">Telefono:</label>
                         <input type="tel" v-model="phone" required>
                     </div>
-                    <div class="form-group">
-                        <label for="direccion">Direccion:</label>
-                        <input type="text" v-model="direccion" required>
-                    </div>
+
                     <div class="form-group">
                         <label for="rfc">RFC:</label>
                         <input type="text" v-model="rfc" required>
@@ -55,10 +45,11 @@
                         <input type="number" v-model="salary" required>
                     </div>
                     <div class="form-group">
-                        <label for="activo">Activo:</label>
-                        <select v-model="activo" required>
-                            <option value="value1">Si</option>
-                            <option value="value2" selected>No</option>
+                        <label for="rol">Rol:</label>
+                        <select v-model="role" required>
+                            <option value="admin">Admin</option>
+                            <option value="employee" selected>Empleado</option>
+                            <option value="dev">Desarrollador</option>
                         </select>
                     </div>
                 </div>
@@ -75,6 +66,7 @@
 export default {
     data() {
         return {
+            id: 0,
             curp: '',
             rfc: '',
             fullname: '',
@@ -85,19 +77,59 @@ export default {
             username: '',
             password: '',
             role: 'admin', // Valor predeterminado, ajusta según tus necesidades
+            edicion: 0,
         };
     },
     methods: {
         navigateTo(route) {
-            // Implementa la lógica para navegar a la ruta correspondiente (por ejemplo, usando Vue Router).
-            localStorage.setItem('vista', route);
-            window.location.reload();
+            // Utiliza el enrutador para cambiar la ruta
+            this.$router.push({ name: route });
             console.log(`Navegar a ${route}`);
+        },
+        async cargarUsuario() {
+            try {
+                const id = this.$route.params.id;
+                const token = localStorage.getItem('token');
+                const response = await this.$axios.get(`http://localhost:3000/api/users/${id}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+
+                const usuario = response.data;
+                // Asigna los datos del usuario a las propiedades del componente
+                this.curp = usuario.employee.curp;
+                this.rfc = usuario.employee.rfc;
+                this.fullname = usuario.employee.fullname;
+                // Divide el fullname en nombre y apellido
+                const partesNombreApellido = usuario.employee.fullname.split(' ');
+                if (partesNombreApellido.length >= 2) {
+                    this.nombre = partesNombreApellido[0];
+                    this.apellido = partesNombreApellido.slice(1).join(' '); // Join el resto en caso de que haya apellidos compuestos
+                } else {
+                    // Manejar el caso en que el fullname no tenga el formato esperado
+                    console.error('El fullname no tiene el formato esperado:', usuario.employee.fullname);
+                }
+                this.phone = usuario.employee.phone;
+                this.email = usuario.employee.email;
+                this.salary = usuario.employee.salary;
+                this.username = usuario.username;
+                this.password = ''; // Deja la contraseña en blanco por razones de seguridad
+                this.role = usuario.role;
+                this.id = usuario.id;
+                // ... asigna otras propiedades según sea necesario
+            } catch (error) {
+                console.error('Error al cargar el usuario:', error);
+                // Manejar errores, por ejemplo, mostrar un mensaje al usuario.
+            }
         },
         async crearUsuario() {
             try {
+                let response;
+
+                
                 // Construye el objeto con los datos del formulario
-                const nuevoUsuario = {
+                const usuarioActualizado = {
                     curp: this.curp,
                     rfc: this.rfc,
                     fullname: `${this.nombre} ${this.apellido}`,
@@ -111,23 +143,45 @@ export default {
                     },
                 };
 
-                // Haz la solicitud al backend
-                const response = await this.$axios.post('http://localhost:3000/api/auth/create-user', nuevoUsuario, {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`,
-                    },
-                });
+                if (this.id) {
+                    // Si hay un ID, realiza una solicitud PATCH para actualizar el usuario
+                    response = await this.$axios.patch(`http://localhost:3000/api/users/${this.id}`, usuarioActualizado, {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem('token')}`,
+                        },
+                    });
+                    // Muestra una alerta específica para la actualización exitosa
 
-                // Muestra un alerta con el resultado
-                alert('Usuario creado con éxito');
+                    alert('Usuario actualizado con éxito');
+                    this.edicion = 1;
+                } else {
+                    // Si no hay un ID, realiza una solicitud POST para crear un nuevo usuario
+                    response = await this.$axios.post('http://localhost:3000/api/auth/create-user', usuarioActualizado, {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem('token')}`,
+                        },
+                    });
+                    // Muestra una alerta específica para la creación exitosa
+
+                    alert('Usuario creado con éxito');
+                    this.edicion = 2;
+                }
 
                 // Redirige al usuario a la lista de usuarios
-                this.navigateTo('listaUsuarios');
+                this.navigateTo('adminlistaUsuarios');
             } catch (error) {
-                console.error('Error al crear usuario:', error);
-                alert('Error al crear usuario');
+                console.error('Error al crear/actualizar usuario:', error);
+                // Muestra una alerta específica para el error
+                alert('Error al crear/actualizar usuario. Verifica los datos y vuelve a intentarlo.');
+
             }
         },
+    },
+    mounted() {
+        // Llama a cargarUsuario al montar el componente si hay un parámetro id
+        if (this.$route.params.id) {
+            this.cargarUsuario();
+        }
     },
 };
 </script>

@@ -21,7 +21,7 @@
         </tr>
       </tbody>
     </table>
-    <button class="guardar" type="submit" @click="navigateTo('usuarios')">
+    <button class="guardar" type="submit" @click="navigateTo('admininfoUsuarios')">
       <img src="https://cdn-icons-png.flaticon.com/512/2550/2550221.png" alt="">
       <p>Agregar</p>
     </button>
@@ -54,27 +54,29 @@ export default {
         // Manejar errores, por ejemplo, mostrar un mensaje al usuario.
       }
     },
+    editarUsuario(usuario) {
+      this.$router.push({ name: 'adminineditUsuarios', params: { id: usuario.id } });
+    },
     async eliminarUsuario(usuario) {
-    try {
-      const token = localStorage.getItem('token');
-      await this.$axios.delete(`http://localhost:3000/api/users/${usuario.id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      try {
+        const token = localStorage.getItem('token');
+        await this.$axios.delete(`http://localhost:3000/api/users/${usuario.id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-      // Recarga la lista de usuarios después de eliminar
-      this.cargarUsuarios();
-      alert('Usuario eliminado con éxito');
-    } catch (error) {
-      console.error('Error al eliminar el usuario:', error);
-      // Manejar errores, por ejemplo, mostrar un mensaje al usuario.
-    }
-  },
+        // Recarga la lista de usuarios después de eliminar
+        this.cargarUsuarios();
+        alert('Usuario eliminado con éxito');
+      } catch (error) {
+        console.error('Error al eliminar el usuario:', error);
+        // Manejar errores, por ejemplo, mostrar un mensaje al usuario.
+      }
+    },
     navigateTo(route) {
-      // Implementa la lógica para navegar a la ruta correspondiente (por ejemplo, usando Vue Router).
-      localStorage.setItem('vista', route);
-      window.location.reload();
+      // Utiliza el enrutador para cambiar la ruta
+      this.$router.push({ name: route });
       console.log(`Navegar a ${route}`);
     },
   },

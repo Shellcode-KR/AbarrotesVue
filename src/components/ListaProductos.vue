@@ -42,7 +42,7 @@
                     <td><button class="btn-editar">Editar</button></td>
                     <td><button class="btn-borrar">Borrar</button></td>
                 </tr>
-               
+
 
             </tbody>
         </table>
@@ -55,14 +55,13 @@
 
 <script>
 export default {
-  methods: {
-    navigateTo(route) {
-        // Implementa la lógica para navegar a la ruta correspondiente (por ejemplo, usando Vue Router).
-        localStorage.setItem('vista', route);
-        window.location.reload();
-        console.log(`Navegar a ${route}`);
-    },
-  }
+    methods: {
+        navigateTo(route) {
+            // Utiliza el enrutador para cambiar la ruta
+            this.$router.push({ name: route });
+            console.log(`Navegar a ${route}`);
+        },
+    }
 }
 </script>
 
@@ -109,6 +108,7 @@ button.btn-borrar {
     background-color: rgb(243, 68, 68);
     color: #fff;
 }
+
 .guardar {
     box-sizing: border-box;
     display: flex;
@@ -117,12 +117,13 @@ button.btn-borrar {
     padding: 1rem;
     margin: 1rem 0 0 70%;
 }
-.guardar img{
+
+.guardar img {
     width: 1rem;
 }
-.guardar p{
+
+.guardar p {
     display: flex;
     margin: 1% 1rem;
 }
-
 </style>
