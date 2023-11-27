@@ -195,7 +195,6 @@ h2 {
     width: 80%;
 }
 
-form {}
 
 .campos {
     box-sizing: border-box;

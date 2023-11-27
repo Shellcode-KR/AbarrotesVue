@@ -1,9 +1,10 @@
 <template>
     <div class="contenidoPrincipal">
         <div class="barraBusqueda">
-            <input type="text" v-model="pbusqueda" required>
-            <a href="#">
-                <img src="https://cdn-icons-png.flaticon.com/512/5868/5868370.png " alt="">
+            <span>Búsqueda por ID</span>
+            <input type="text" v-model="productoId" required>
+            <a href="#" @click="buscarProductoPorId">
+                <img src="https://cdn-icons-png.flaticon.com/512/5868/5868370.png" alt="">
             </a>
         </div>
         <table>
@@ -16,38 +17,15 @@
                 <th>Acciones</th>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>CocaCola</td>
-                    <td>una coca bien fria</td>
-                    <td>30</td>
-                    <td>10</td>
-                    <td><button class="btn-editar">selecionar</button></td>
+                <tr v-for="producto in productosEncontrados" :key="producto.id">
+                    <td>{{ producto.name }}</td>
+                    <td>{{ producto.description }}</td>
+                    <td>{{ producto.salePrice }}</td>
+                    <td>{{ producto.stock }}</td>
+                    <td><button class="btn-editar" @click="agregarAlCarrito(producto)">Editar</button></td>
                 </tr>
-                <tr>
-                    <td>2</td>
-                    <td>CocaCola</td>
-                    <td>una coca bien fria</td>
-                    <td>30</td>
-                    <td>10</td>
-                    <td><button class="btn-editar">selecionar</button></td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>CocaCola</td>
-                    <td>una coca bien fria</td>
-                    <td>30</td>
-                    <td>10</td>
-                    <td><button class="btn-editar">selecionar</button></td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>CocaCola</td>
-                    <td>una coca bien fria</td>
-                    <td>30</td>
-                    <td>10</td>
-                    <td><button class="btn-editar">selecionar</button></td>
-                </tr>
+
+
             </tbody>
         </table>
         <div class="campos">
@@ -83,9 +61,9 @@
                 </div>
                 <div class="form-group">
                     <label for="cantidad">Cantidad:</label>
-                    <input type="text" v-model="cantidad" required>
+                    <input type="number" v-model="cantidad" required>
                 </div>
-                <button class="guardar" type="submit">
+                <button class="guardar" type="submit" @click="agregarAlCarrito(productosEncontrados[0])">
                     <img src="https://cdn-icons-png.flaticon.com/512/2550/2550221.png " alt="">
                     <p>Agregar al carrito</p>
                 </button>
@@ -102,38 +80,18 @@
                 <th>Acciones</th>
             </thead>
             <tbody>
-                <tr>
-                    <td>CocaCola</td>
-                    <td>una coca bien fria</td>
-                    <td>30</td>
-                    <td>10</td>
-                    <td><button class="btn-editar">selecionar</button></td>
+                <tr v-for="(item, index) in carrito" :key="index">
+                    <td>{{ item.nombre }}</td>
+                    <td>{{ item.descripcion }}</td>
+                    <td>{{ item.precio }}</td>
+                    <td>{{ item.existencia }}</td>
+                    <td><button class="btn-editar" @click="eliminarDelCarrito(index)">Eliminar del carrito</button></td>
                 </tr>
-                <tr>
-                    <td>CocaCola</td>
-                    <td>una coca bien fria</td>
-                    <td>30</td>
-                    <td>10</td>
-                    <td><button class="btn-editar">selecionar</button></td>
-                </tr>
-                <tr>
-                    <td>CocaCola</td>
-                    <td>una coca bien fria</td>
-                    <td>30</td>
-                    <td>10</td>
-                    <td><button class="btn-editar">selecionar</button></td>
-                </tr>
-                <tr>
-                    <td>CocaCola</td>
-                    <td>una coca bien fria</td>
-                    <td>30</td>
-                    <td>10</td>
-                    <td><button class="btn-editar">selecionar</button></td>
-                </tr>
+
             </tbody>
         </table>
-        <button class="pagar" type="submit">
-            <img src="https://cdn-icons-png.flaticon.com/512/2550/2550221.png " alt="">
+        <button class="pagar" type="submit" @click="realizarVenta">
+            <img src="https://cdn-icons-png.flaticon.com/512/2550/2550221.png" alt="">
             <p>Pagar</p>
         </button>
 
@@ -141,7 +99,70 @@
 </template>
 
 <script>
+export default {
+    data() {
+        return {
+            productoId: "",
+            productosEncontrados: [],
+            carrito: [],
+            cantidad: 1,
 
+        };
+    },
+    methods: {
+        async buscarProductoPorId() {
+            try {
+                // Hacer la solicitud al servidor para buscar productos por ID
+                const response = await this.$axios.get(`http://localhost:3000/api/products/${this.productoId}`);
+                this.productosEncontrados = [response.data]; // Coloca el resultado en el array
+            } catch (error) {
+                console.error('Error al buscar producto por ID:', error);
+            }
+        },
+        agregarAlCarrito(producto) {
+            // Asegúrate de que la cantidad sea un número mayor que cero
+            const cantidad = parseInt(this.cantidad, 10);
+            if (isNaN(cantidad) || cantidad <= 0) {
+                console.error('La cantidad debe ser un número mayor que cero');
+                return;
+            }
+
+            // Busca si el producto ya está en el carrito
+            const productoEnCarrito = this.carrito.find(item => item.id === producto.id);
+
+            if (productoEnCarrito) {
+                // Si ya está en el carrito, incrementa la cantidad
+                productoEnCarrito.cantidad += cantidad;
+            } else {
+                // Si no está en el carrito, agrégalo con la cantidad del formulario
+                this.carrito.push({ ...producto, cantidad });
+            }
+
+            console.log('Carrito actualizado:', this.carrito);
+        },
+        eliminarDelCarrito(index) {
+            // Implementa la lógica para eliminar un elemento del carrito
+            this.carrito.splice(index, 1);
+        },
+        async realizarVenta() {
+            try {
+                // Hacer la solicitud al servidor para realizar la venta
+                const response = await this.$axios.post('http://localhost:3000/api/sales', {
+                    // Envía la información necesaria, como el cliente y los productos en el carrito
+                    cliente: this.cliente,
+                    productos: this.carrito,
+                });
+
+                console.log('Venta realizada con éxito:', response.data);
+
+                // Limpia el carrito después de realizar la venta
+                this.carrito = [];
+            } catch (error) {
+                console.error('Error al realizar la venta:', error);
+            }
+        },
+    },
+};
 </script>
 
 <style scoped>
@@ -238,4 +259,5 @@ button.btn-borrar {
 .pagar p {
     display: flex;
     margin: 1% 1rem;
-}</style>
+}
+</style>
