@@ -68,6 +68,7 @@
 export default {
     data() {
         return {
+            id: 0,
             name: "",
             descripcion: "",
             imgurl: "",
@@ -78,7 +79,7 @@ export default {
             prov: 0,
             categoria: 0,
             barcode: 0,
-            editingProductId: null,
+            editingProductId: 0,
 
         };
     },
@@ -91,7 +92,7 @@ export default {
                 const token = localStorage.getItem('token');
                 const response = await this.$axios.get(`http://localhost:3000/api/products/search/${id}`, {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                        Authorization: `Bearer ${token}`,
                     },
                 });
 
@@ -147,7 +148,7 @@ export default {
     },
     mounted() {
         // Llama a cargarDatosProducto cuando el componente se crea, si estás editando un producto existente
-        if (this.editingProductId) {
+        if (this.$route.params.id) {
             this.cargarDatosProducto();
         }
     },

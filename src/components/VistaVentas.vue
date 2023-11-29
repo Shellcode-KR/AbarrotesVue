@@ -102,7 +102,7 @@
 export default {
     data() {
         return {
-            productoId: "",
+            productoId: 0,
             productosEncontrados: [],
             carrito: [],
             cantidad: 1,
