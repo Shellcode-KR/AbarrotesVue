@@ -33,7 +33,7 @@
                     </div>
                     <div class="form-group">
                         <label for="descripcion">Img Url:</label>
-                        <input type="text" v-model="imgurl" required>
+                        <input type="text" v-model="imgurl">
                     </div>
                     <div class="form-group">
                         <label for="stock">Existencia:</label>
@@ -101,7 +101,7 @@ export default {
                 this.precio = producto.salePrice;
                 this.stock = producto.stock;
                 this.brand = producto.brand;
-                this.imgurl = producto.imgUrl;
+                
                 this.prov = producto.providerId;
                 this.categoria = producto.categoryId;
 
@@ -120,7 +120,7 @@ export default {
                     salePrice: this.precio, // Puedes ajustar según tus necesidades
                     description: this.descripcion,
                     barCode: this.barcode, // Puedes ajustar según tus necesidades
-                    imgUrl: this.imgurl, // Puedes ajustar según tus necesidades
+                     // Puedes ajustar según tus necesidades
                     stock: this.stock,
                     brand: this.brand, // Puedes ajustar según tus necesidades
                     measureUnit: this.size, // Puedes ajustar según tus necesidades
@@ -135,7 +135,7 @@ export default {
                 });
                 console.log("Enviando producto al backend:", producto);
             } catch (error) {
-                console.error("Error al crear producto");
+                console.error("Error al crear producto",error);
                 alert('Error al crear usuario verifica los datos');
             }
 
