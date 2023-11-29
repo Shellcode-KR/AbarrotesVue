@@ -86,9 +86,10 @@ export default {
     methods: {
         async cargarDatosProducto() {
             try {
-                
+
                 const id = this.$route.params.id;
                 console.log(id);
+                this.editingProductId = id;
                 const token = localStorage.getItem('token');
                 const response = await this.$axios.get(`http://localhost:3000/api/products/search/${id}`, {
                     headers: {
@@ -105,7 +106,7 @@ export default {
                 this.precio = producto.salePrice;
                 this.stock = producto.stock;
                 this.brand = producto.brand;
-                
+
                 this.prov = producto.providerId;
                 this.categoria = producto.categoryId;
 
@@ -124,22 +125,35 @@ export default {
                     salePrice: this.precio, // Puedes ajustar según tus necesidades
                     description: this.descripcion,
                     barCode: this.barcode, // Puedes ajustar según tus necesidades
-                     // Puedes ajustar según tus necesidades
+                    // Puedes ajustar según tus necesidades
                     stock: this.stock,
                     brand: this.brand, // Puedes ajustar según tus necesidades
                     measureUnit: this.size, // Puedes ajustar según tus necesidades
                     providerId: this.prov, // Puedes ajustar según tus necesidades
                     categoryId: this.categoria, // Puedes ajustar según tus necesidades
                 };
+                if (this.$route.params.id) {
+                    response = await this.$axios.patch(`http://localhost:3000/api/products/${this.editingProductId}`, producto, {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem('token')}`,
+                        },
+                    });
 
-                response = await this.$axios.post(`http://localhost:3000/api/products/`, producto, {
+                    alert('Producto actualizado con éxito');
+                }
+                else{
+                    response = await this.$axios.post(`http://localhost:3000/api/products/`, producto, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`,
                     }
                 });
+                this.$router.push({ name: 'adminlistaProductos' });
                 console.log("Enviando producto al backend:", producto);
+                alert('Producto creado con éxito');
+                }
+                
             } catch (error) {
-                console.error("Error al crear producto",error);
+                console.error("Error al crear producto", error);
                 alert('Error al crear usuario verifica los datos');
             }
 
@@ -163,7 +177,6 @@ h2 {
     width: 80%;
 }
 
-form {}
 
 .campos {
     box-sizing: border-box;

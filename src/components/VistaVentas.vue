@@ -14,51 +14,30 @@
                 <th>Descipcion</th>
                 <th>Precio</th>
                 <th>Existencia</th>
-                <th>Acciones</th>
+                <!-- <th>Acciones</th> -->
             </thead>
             <tbody>
                 <tr v-for="producto in productosEncontrados" :key="producto.id">
+                    <td>{{ producto.id }}</td>
                     <td>{{ producto.name }}</td>
                     <td>{{ producto.description }}</td>
                     <td>{{ producto.salePrice }}</td>
                     <td>{{ producto.stock }}</td>
-                    <td><button class="btn-editar" @click="agregarAlCarrito(producto)">Editar</button></td>
+                    <!-- <td><button class="btn-editar" @click="agregarAlCarrito(producto)">Editar</button></td> -->
                 </tr>
 
 
             </tbody>
         </table>
         <div class="campos">
-            <div class="ladoIzq">
-                <div class="form-group">
-                    <label for="cliente">Cliente:</label>
-                    <input type="text" v-model="cliente" required>
-                </div>
-            </div>
+
 
         </div>
 
         <div class="campos">
-            <div class="ladoIzq">
-                <div class="form-group">
-                    <label for="id">Id:</label>
-                    <input type="text" v-model="id" required>
-                </div>
-                <div class="form-group">
-                    <label for="nombre">Nombre:</label>
-                    <input type="text" v-model="nombre" required>
-                </div>
-                <div class="form-group">
-                    <label for="descripcion">Descripcion:</label>
-                    <input type="text" v-model="descripcion" required>
-                </div>
 
-            </div>
             <div class="ladoDerecho">
-                <div class="form-group">
-                    <label for="precio">Precio:</label>
-                    <input type="numeric" v-model="precio" required>
-                </div>
+
                 <div class="form-group">
                     <label for="cantidad">Cantidad:</label>
                     <input type="number" v-model="cantidad" required>
@@ -73,23 +52,35 @@
         <h2>Carrito</h2>
         <table>
             <thead>
-                <th>Id</th>
+                <th></th>
                 <th>Nombre</th>
                 <th>Descripccion</th>
-                <th>Existencia</th>
+                <th>Precio U.</th>
+                <th>Cantidad</th>
+                <th>Subtotal</th>
+
                 <th>Acciones</th>
             </thead>
             <tbody>
                 <tr v-for="(item, index) in carrito" :key="index">
-                    <td>{{ item.nombre }}</td>
-                    <td>{{ item.descripcion }}</td>
-                    <td>{{ item.precio }}</td>
-                    <td>{{ item.existencia }}</td>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.description }}</td>
+                    <td>{{ item.salePrice }}</td>
+                    <td>{{ item.cantidad }}</td>
+                    <td>{{ item.salePrice * item.cantidad }}</td>
                     <td><button class="btn-editar" @click="eliminarDelCarrito(index)">Eliminar del carrito</button></td>
                 </tr>
 
             </tbody>
         </table>
+        <p>Total a pagar: ${{ calcularTotalVenta() }}</p>
+        <div class="form-group">
+            <label for="montoRecibido">Monto Recibido:</label>
+            <input type="number" v-model="montoRecibido" required>
+        </div>
+        <p>Cambio: ${{ calcularCambio() }}</p>
+
         <button class="pagar" type="submit" @click="realizarVenta">
             <img src="https://cdn-icons-png.flaticon.com/512/2550/2550221.png" alt="">
             <p>Pagar</p>
@@ -106,6 +97,7 @@ export default {
             productosEncontrados: [],
             carrito: [],
             cantidad: 1,
+            montoRecibido: 0,
 
         };
     },
@@ -146,20 +138,40 @@ export default {
         },
         async realizarVenta() {
             try {
-                // Hacer la solicitud al servidor para realizar la venta
-                const response = await this.$axios.post('http://localhost:3000/api/sales', {
-                    // Envía la información necesaria, como el cliente y los productos en el carrito
-                    cliente: this.cliente,
-                    productos: this.carrito,
-                });
 
-                console.log('Venta realizada con éxito:', response.data);
+                const responseVenta = await this.$axios.post('http://localhost:3000/api/sales', {
+                    employeeId: 1,
+                });
+                console.log('Venta creada con éxito:', responseVenta.data);
+                const ventaId = responseVenta.data.id;
+                const productosParaVenta = this.carrito.map(item => {
+                    return {
+                        saleId: ventaId,  // Puedes ajustar este valor según tus necesidades
+                        productId: item.id,  // ID del producto
+                        amount: item.cantidad  // Cantidad de productos a vender
+                    };
+                });
+                for (const productoParaVenta of productosParaVenta) {
+                    const responseAddItem = await this.$axios.post('http://localhost:3000/api/sales/add-item', productoParaVenta);
+
+                    console.log('Producto agregado a la venta:', responseAddItem.data);
+                }
+
+                alert("venta realizada con exito");
 
                 // Limpia el carrito después de realizar la venta
                 this.carrito = [];
             } catch (error) {
                 console.error('Error al realizar la venta:', error);
             }
+        },
+        calcularTotalVenta() {
+            // Calcular el total sumando los subtotales de cada elemento en el carrito
+            return this.carrito.reduce((total, item) => total + (item.salePrice * item.cantidad), 0);
+        },
+        calcularCambio() {
+            // Calcular el cambio restando el monto recibido del total de la venta
+            return this.montoRecibido - this.calcularTotalVenta();
         },
     },
 };

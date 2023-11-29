@@ -127,9 +127,9 @@ export default {
             try {
                 let response;
 
-                
+
                 // Construye el objeto con los datos del formulario
-                const usuarioActualizado = {
+                const usuarionuevo = {
                     curp: this.curp,
                     rfc: this.rfc,
                     fullname: `${this.nombre} ${this.apellido}`,
@@ -141,6 +141,12 @@ export default {
                         password: this.password,
                         role: this.role,
                     },
+                };
+                const usuarioActualizado = {
+                    username: this.username,
+                    password: this.password,
+                    role: this.role,
+
                 };
 
                 if (this.id) {
@@ -156,7 +162,7 @@ export default {
                     this.edicion = 1;
                 } else {
                     // Si no hay un ID, realiza una solicitud POST para crear un nuevo usuario
-                    response = await this.$axios.post('http://localhost:3000/api/auth/create-user', usuarioActualizado, {
+                    response = await this.$axios.post('http://localhost:3000/api/auth/create-user', usuarionuevo, {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem('token')}`,
                         },
