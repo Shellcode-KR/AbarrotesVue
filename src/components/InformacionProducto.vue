@@ -85,8 +85,11 @@ export default {
     methods: {
         async cargarDatosProducto() {
             try {
-                // Utiliza this.editingProductId para obtener el ID del producto a editar
-                const response = await this.$axios.get(`http://localhost:3000/api/products/${this.editingProductId}`, {
+                
+                const id = this.$route.params.id;
+                console.log(id);
+                const token = localStorage.getItem('token');
+                const response = await this.$axios.get(`http://localhost:3000/api/products/search/${id}`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`,
                     },
@@ -142,7 +145,7 @@ export default {
 
         },
     },
-    created() {
+    mounted() {
         // Llama a cargarDatosProducto cuando el componente se crea, si estás editando un producto existente
         if (this.editingProductId) {
             this.cargarDatosProducto();

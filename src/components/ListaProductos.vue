@@ -57,6 +57,7 @@ export default {
             }
         },
         editarProducto(producto) {
+            console.log(producto);
             this.$router.push({ name: 'admineditProductos', params: { id: producto.id } });
         },
         async eliminarProducto(producto) {

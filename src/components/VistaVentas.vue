@@ -113,7 +113,7 @@ export default {
         async buscarProductoPorId() {
             try {
                 // Hacer la solicitud al servidor para buscar productos por ID
-                const response = await this.$axios.get(`http://localhost:3000/api/products/${this.productoId}`);
+                const response = await this.$axios.get(`http://localhost:3000/api/products/search/${this.productoId}`);
                 this.productosEncontrados = [response.data]; // Coloca el resultado en el array
             } catch (error) {
                 console.error('Error al buscar producto por ID:', error);
