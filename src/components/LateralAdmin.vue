@@ -1,39 +1,36 @@
 <template>
   <div class="sidebar">
-    <router-link :to="{ name: 'adminlistaUsuarios' }">
+    <router-link class="link"   :to="{ name: 'adminlistaUsuarios' }">
       <div class="sidebar-button">
         <img src="https://cdn-icons-png.flaticon.com/512/1077/1077063.png " alt="">
-        <i class="fas fa-user"></i>
-        <span>Usuarios</span>
+        
+        <h3>Usuarios</h3>
       </div>
     </router-link>
 
-    <router-link :to="{ name: 'adminlistaProductos' }">
+    <router-link class="link" :to="{ name: 'adminlistaProductos' }">
       <div class="sidebar-button">
         <img src="https://cdn-icons-png.flaticon.com/512/1524/1524539.png " alt="">
-        <i class="fas fa-box"></i>
-        <span>Productos</span>
+        <h3>Productos</h3>
       </div>
     </router-link>
 
-    <router-link :to="{ name: 'adminventas' }">
+    <router-link class="link" :to="{ name: 'adminventas' }">
       <div class="sidebar-button">
         <img src="https://cdn-icons-png.flaticon.com/512/8064/8064534.png" alt="">
-        <i class="fas fa-dollar-sign"></i>
-        <span>Ventas</span>
+        <h3>Ventas</h3>
       </div>
     </router-link>
 
 
     <div class="sidebar-button">
       <img src="https://cdn-icons-png.flaticon.com/128/1188/1188576.png" alt="">
-      <i class="fas fa-chart-bar"></i>
-      <span>Reportes</span>
+      <h3>Reportes</h3>
     </div>
     <div class="sidebar-button" @click="cerrarSesion()">
       <img src="https://cdn-icons-png.flaticon.com/128/70/70226.png" alt="">
-      <i class="fas fa-sign-out-alt"></i>
-      <span>Cerrar Sesión</span>
+      
+      <h3>Cerrar Sesión</h3>
     </div>
   </div>
 </template>
@@ -69,27 +66,60 @@ export default {
 .sidebar-button {
   box-sizing: border-box;
   display: flex;
-  justify-content: space-around;
-  height: 18%;
-  width: 100%;
+  justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  height: 15%; /* Ajusta la altura según tus necesidades */
+  width: 100%;
+  margin-bottom: 4%;
+  margin-top: 4%;
+  padding-left: 0%;
+  padding-right: 25%;
+  text-align: left;
+  text-decoration: none !important; 
   cursor: pointer;
-  padding: 1rem;
+   /* Ajusta el relleno según tus necesidades */
+  background-color: #F9A95A; /* Color de fondo */
+  border: 1px solid #F9A95A; /* Borde y color de borde */
+  border-radius: 5px; /* Bordes redondeados */
+  color: white; /* Color del texto */
+  font-weight: bold; /* Texto en negrita */
+  transition: background-color 0.3s ease; /* Transición de color de fondo */
+}
+
+.sidebar-button:hover {
+  background-color: #E64A19; /* Color de fondo al pasar el ratón */
+  color: #FFF; /* Color del texto al pasar el ratón */
 }
 
 .sidebar-button i {
-  font-size: 20px;
-  margin-right: 10px;
+  font-size: 50%;
+  margin-right: 10%;
+}
+
+.sidebar-button h3 {
+  margin-right: 5%; /* Ajusta el margen derecho según tus necesidades */
+  /* Ajusta el tamaño de la letra según tus necesidades */
+  letter-spacing: 1px; /* Añade un espaciado entre letras para mejorar la legibilidad */
+  margin-right: auto;
+  text-align: right; /* Alinea el texto a la derecha */
+ margin-left: 8%;
+
 }
 
 .sidebar-button img {
   height: 60%;
+  padding-left: 8%;
+  padding-right: 3%;
 }
 
 .sidebar-button:hover {
-  background-color: aliceblue;
+  background-color:white;
   color: black;
 }
+
+.link{
+  text-decoration: none;
+}
 </style>
+
   

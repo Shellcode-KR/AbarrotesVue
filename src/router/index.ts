@@ -29,6 +29,11 @@ const routes: Array<RouteRecordRaw> = [
                 component: InformacionProducto
             },
             {
+                path: 'productos/info/:id',
+                name: 'admineditProductos',
+                component: InformacionProducto
+            },
+            {
                 path: 'usuarios',
                 name: 'adminlistaUsuarios',
                 component: ListaUsuarios

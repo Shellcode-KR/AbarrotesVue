@@ -5,18 +5,21 @@
       <thead>
         <th>Nombre Usuario</th>
         <th>Rol</th>
-        <th>Estado</th>
+       <!-- <th>Estado</th>--> 
         <th>Acciones</th>
-        <th></th>
+        
       </thead>
       <tbody>
         <!-- Utiliza v-for para iterar sobre la lista de usuarios -->
         <tr v-for="usuario in usuarios" :key="usuario.id">
           <td>{{ usuario.username }}</td>
           <td>{{ usuario.role }}</td>
-          <td>{{ usuario.estado }}</td>
-          <td><button class="btn-editar" @click="editarUsuario(usuario)">Editar</button></td>
-          <td><button class="btn-borrar" @click="eliminarUsuario(usuario)">Borrar</button></td>
+         
+          <td><button class="btn-editar" @click="editarUsuario(usuario)">Editar</button>
+            <button class="btn-borrar" @click="eliminarUsuario(usuario)">Borrar</button>
+          
+          </td>
+          
 
         </tr>
       </tbody>
@@ -121,14 +124,31 @@ button {
   font-weight: bold;
 }
 
-button.btn-editar {
-  background-color: rgb(236, 236, 94);
+.btn-editar {
+  background-color:rgb(73, 224, 73) ;
   color: #fff;
+   margin-left: 8%;
+  margin-right: 10%;
+  padding: 3% 9%;
+  
+}
+.btn-editar:hover {
+  background-color:rgb(19, 184, 19); /* Color de fondo al pasar el ratón */
+  color: black;
 }
 
-button.btn-borrar {
-  background-color: rgb(243, 68, 68);
+
+
+.btn-borrar {
+  background-color:rgb(243, 75, 75) ;
   color: #fff;
+ 
+  padding: 3% 9%;
+  
+}
+.btn-borrar:hover {
+  background-color:red; /* Color de fondo al pasar el ratón */
+  color: black;
 }
 
 .guardar {
@@ -136,16 +156,20 @@ button.btn-borrar {
   display: flex;
   border-radius: 0.9375rem;
   background: #21B7E7;
-  padding: 1rem;
-  margin: 1rem 0 0 70%;
+  margin: 1rem 0 0 69%;
+  padding: 2% 4%;
 }
 
 .guardar img {
-  width: 1rem;
+  height: 1rem;
+  padding: 0%;
+  margin: 0%;
+  padding-top: 0%;
 }
 
 .guardar p {
   display: flex;
   margin: 1% 1rem;
+  font-size: 14px;
 }
 </style>

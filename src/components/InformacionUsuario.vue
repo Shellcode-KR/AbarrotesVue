@@ -1,6 +1,6 @@
 <template>
     <div class="contenidoPrincipal">
-        <h2>Informacion de Usuario</h2>
+        <h2>Información de usuario</h2>
         <form @submit.prevent="crearUsuario">
             <div class="campos">
                 <div class="ladoIzq">
@@ -17,7 +17,7 @@
                         <input type="text" v-model="username" required>
                     </div>
                     <div class="form-group">
-                        <label for="correo">Contraseña:</label>
+                        <label class="text" for="correo">Contraseña:</label>
                         <input type="password" v-model="password" required>
                     </div>
                     <div class="form-group">
@@ -46,7 +46,7 @@
                     </div>
                     <div class="form-group">
                         <label for="rol">Rol:</label>
-                        <select v-model="role" required>
+                        <select  v-model="role" required>
                             <option value="admin">Admin</option>
                             <option value="employee" selected>Empleado</option>
                             <option value="dev">Desarrollador</option>
@@ -127,9 +127,9 @@ export default {
             try {
                 let response;
 
-                
+
                 // Construye el objeto con los datos del formulario
-                const usuarioActualizado = {
+                const usuarionuevo = {
                     curp: this.curp,
                     rfc: this.rfc,
                     fullname: `${this.nombre} ${this.apellido}`,
@@ -141,6 +141,12 @@ export default {
                         password: this.password,
                         role: this.role,
                     },
+                };
+                const usuarioActualizado = {
+                    username: this.username,
+                    password: this.password,
+                    role: this.role,
+
                 };
 
                 if (this.id) {
@@ -156,7 +162,7 @@ export default {
                     this.edicion = 1;
                 } else {
                     // Si no hay un ID, realiza una solicitud POST para crear un nuevo usuario
-                    response = await this.$axios.post('http://localhost:3000/api/auth/create-user', usuarioActualizado, {
+                    response = await this.$axios.post('http://localhost:3000/api/auth/create-user', usuarionuevo, {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem('token')}`,
                         },
@@ -191,11 +197,24 @@ h2 {
     padding: 1rem;
 }
 
+label{
+    margin-left: auto;
+    font-size: medium;
+    padding-right: 6px;
+
+}
+
+
+
 .contenidoPrincipal {
     width: 80%;
 }
 
-form {}
+input{
+padding-left: 1%;
+font-size: 83%;
+
+}
 
 .campos {
     box-sizing: border-box;
@@ -204,17 +223,21 @@ form {}
     background-color: #D9D9D9;
     padding: 2rem;
     margin: 0 15%;
+    
 }
 
 .ladoIzq,
 .ladoDerecho {
-    width: 50%;
+    width: 40%;
 }
 
 .form-group {
     display: flex;
     justify-content: space-between;
     margin: 0 3rem 1rem 3rem;
+    margin-right: auto;
+    
+   
 }
 
 .guardar {
