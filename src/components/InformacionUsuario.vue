@@ -1,6 +1,6 @@
 <template>
     <div class="contenidoPrincipal">
-        <h2>Informacion de Usuario</h2>
+        <h2>Información de usuario</h2>
         <form @submit.prevent="crearUsuario">
             <div class="campos">
                 <div class="ladoIzq">
@@ -17,7 +17,7 @@
                         <input type="text" v-model="username" required>
                     </div>
                     <div class="form-group">
-                        <label for="correo">Contraseña:</label>
+                        <label class="text" for="correo">Contraseña:</label>
                         <input type="password" v-model="password" required>
                     </div>
                     <div class="form-group">
@@ -46,7 +46,7 @@
                     </div>
                     <div class="form-group">
                         <label for="rol">Rol:</label>
-                        <select v-model="role" required>
+                        <select  v-model="role" required>
                             <option value="admin">Admin</option>
                             <option value="employee" selected>Empleado</option>
                             <option value="dev">Desarrollador</option>
@@ -197,10 +197,24 @@ h2 {
     padding: 1rem;
 }
 
+label{
+    margin-left: auto;
+    font-size: medium;
+    padding-right: 6px;
+
+}
+
+
+
 .contenidoPrincipal {
     width: 80%;
 }
 
+input{
+padding-left: 1%;
+font-size: 83%;
+
+}
 
 .campos {
     box-sizing: border-box;
@@ -209,17 +223,21 @@ h2 {
     background-color: #D9D9D9;
     padding: 2rem;
     margin: 0 15%;
+    
 }
 
 .ladoIzq,
 .ladoDerecho {
-    width: 50%;
+    width: 40%;
 }
 
 .form-group {
     display: flex;
     justify-content: space-between;
     margin: 0 3rem 1rem 3rem;
+    margin-right: auto;
+    
+   
 }
 
 .guardar {

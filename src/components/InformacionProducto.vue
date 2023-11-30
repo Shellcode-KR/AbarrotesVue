@@ -1,6 +1,6 @@
 <template>
     <div class="contenidoPrincipal">
-        <h2>Informacion de Productos</h2>
+        <h2>Información de producto</h2>
         <form @submit.prevent="enviarProducto">
             <div class="campos">
                 <div class="ladoIzq">
@@ -13,7 +13,7 @@
                         <input type="text" v-model="descripcion" required>
                     </div>
                     <div class="form-group">
-                        <label for="descripcion">Codifo de Barras:</label>
+                        <label for="descripcion">Codigo:</label>
                         <input type="numeric" v-model="barcode" required>
                     </div>
                     <div class="form-group">
@@ -21,7 +21,7 @@
                         <input type="text" v-model="size" required>
                     </div>
                     <div class="form-group">
-                        <label for="precio">Precio Uni. :</label>
+                        <label for="precio">Precio:</label>
                         <input type="numeric" v-model="precio" required>
                     </div>
 
@@ -32,7 +32,7 @@
                         <input type="text" v-model="brand" required>
                     </div>
                     <div class="form-group">
-                        <label for="descripcion">Img Url:</label>
+                        <label for="descripcion">Imagen:</label>
                         <input type="text" v-model="imgurl">
                     </div>
                     <div class="form-group">
@@ -173,29 +173,50 @@ h2 {
     padding: 1rem;
 }
 
+label{
+    margin-left: auto;
+    font-size: medium;
+    padding-right: 5px;
+
+}
+
+
+
 .contenidoPrincipal {
     width: 80%;
 }
 
+input{
+padding-left: 2%;
+font-size:medium;
+
+}
 
 .campos {
     box-sizing: border-box;
     display: flex;
     flex-wrap: wrap;
     background-color: #D9D9D9;
-    padding: 2rem 1rem;
-    margin: 0 5%;
+    padding: 2rem;
+    margin: 0 15%;
+    
+    
 }
 
 .ladoIzq,
 .ladoDerecho {
-    width: 50%;
+    width: 40%;
+    padding-left: 6%;
 }
 
 .form-group {
     display: flex;
     justify-content: space-between;
-    margin: 0 2rem 1rem 2rem;
+    margin: 0 5rem 1rem 3rem;
+    margin-right: auto;
+    margin-left: auto;
+    
+   
 }
 
 .guardar {
@@ -204,12 +225,7 @@ h2 {
     border-radius: 0.9375rem;
     background: #21B7E7;
     padding: 1rem;
-    margin: 1rem 0 0 70%;
-}
-
-.guardar input {
-    display: flex;
-    width: 1rem;
+    margin: 1rem 0 0 74%;
 }
 
 .guardar p {

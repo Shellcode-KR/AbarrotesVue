@@ -1,6 +1,6 @@
 <template>
     <div class="contenidoPrincipal">
-        <h2>Lista de Productos</h2>
+        <h2>Lista de productos</h2>
         <table>
             <thead>
                 <th>Nombre</th>
@@ -25,7 +25,7 @@
         </table>
         <button class="guardar" type="submit" @click="navigateTo('admininfoProductos')">
             <img src="https://cdn-icons-png.flaticon.com/512/2550/2550221.png " alt="">
-            <p>Agregar Prosucto</p>
+            <p>Agregar Producto</p>
         </button>
     </div>
 </template>
@@ -125,31 +125,50 @@ button {
     font-weight: bold;
 }
 
-button.btn-editar {
-    background-color: rgb(236, 236, 94);
+.btn-editar {
+    background-color:rgb(73, 224, 73) ;
     color: #fff;
-}
-
-button.btn-borrar {
-    background-color: rgb(243, 68, 68);
+     margin-left: 10%;
+    margin-right: 5%;
+    padding: 10% 20%;
+    
+  }
+  .btn-editar:hover {
+    background-color:rgb(19, 184, 19); /* Color de fondo al pasar el ratón */
+    color: black;
+  }
+  .btn-borrar {
+    background-color:rgb(243, 75, 75) ;
     color: #fff;
-}
-
-.guardar {
+    margin-left: 8%;
+    margin-right: 10%;
+    padding: 17% 22%;
+    
+  }
+  .btn-borrar:hover {
+    background-color:red; /* Color de fondo al pasar el ratón */
+    color: black;
+  }
+  
+  .guardar {
     box-sizing: border-box;
     display: flex;
     border-radius: 0.9375rem;
     background: #21B7E7;
-    padding: 1rem;
-    margin: 1rem 0 0 70%;
-}
-
-.guardar img {
-    width: 1rem;
-}
-
-.guardar p {
+    margin: 1rem 0 0 69%;
+    padding: 1% 1%;
+  }
+  
+  .guardar img {
+    height: 1rem;
+    padding: 0%;
+    margin: 0%;
+    padding-top: 0%;
+  }
+  
+  .guardar p {
     display: flex;
     margin: 1% 1rem;
-}
+    font-size: 14px;
+  }
 </style>

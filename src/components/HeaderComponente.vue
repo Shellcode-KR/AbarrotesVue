@@ -3,8 +3,8 @@
       <div class="logo">
         <img src="https://png.pngtree.com/png-clipart/20200701/original/pngtree-shopping-cart-png-image_5399025.jpg" alt="Logo de la Empresa">
 
-        <p class="nombre">Sistema Integral 
-          Abarrotes San Luis</p>
+        <div class="nombre">Sistema Integral 
+          Abarrotes San Luis</div>
       </div>
 
 
@@ -41,8 +41,19 @@
     }
   };
   </script>
-  
+
+    
   <style scoped>
+
+p{
+  padding-left: 1%;
+  padding-right: 2%;
+  font-size:118%;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  color: whitesmoke;
+ 
+}
+
   .app-header {
     box-sizing: border-box;
     width: 100%;
