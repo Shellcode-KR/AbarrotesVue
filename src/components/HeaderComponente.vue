@@ -2,7 +2,13 @@
     <header class="app-header">
       <div class="logo">
         <img src="https://png.pngtree.com/png-clipart/20200701/original/pngtree-shopping-cart-png-image_5399025.jpg" alt="Logo de la Empresa">
+
+        <p class="nombre">Sistema Integral 
+          Abarrotes San Luis</p>
       </div>
+
+
+
       <div class="info">
         <div class="top-info">
           <h2>PANEL DE ADMINISTRACION</h2>
@@ -48,17 +54,32 @@
     background-color: #F9A95A;
     color: white;
   }
+  .nombre{
+   
+  padding: 0%;
+  margin-top: 0%;
+  margin-bottom: 0%;
+  color: white;
+  font-size:105%;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  
+  }
   .logo, .bottom-info{
-    padding: 1rem;
+    
+    padding-top: 0.5rem;
+    padding-bottom: 0rem;
   }
   .logo{
     box-sizing: border-box;
     width: 20%;
     height: 100%;
-    background-color: #F9B572;
+    background-color:transparent;
+    margin-bottom: 0%;
+    padding-bottom: 0%;
   }
   .logo img {
-    width: 70%;
+    width: 45%;
   }
   
   .info {
