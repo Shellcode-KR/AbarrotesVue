@@ -1,52 +1,55 @@
 <template>
     <div class="contenidoPrincipal">
-        <h2>Información de usuario</h2>
+        <h2>Alta de Usuario</h2>
         <form @submit.prevent="crearUsuario">
             <div class="campos">
                 <div class="ladoIzq">
                     <div class="form-group">
-                        <label for="nombre">Nombre:</label>
-                        <input type="text" v-model="nombre" required>
-                    </div>
+  <label for="Nombre">Nombre<span class="campo-requerido">*</span>:</label>
+  <input type="text" v-model="nombre" required>
+</div>
                     <div class="form-group">
-                        <label for="apellido">Apellido:</label>
+                        <label for="apellido">Apellido<span class="campo-requerido">*</span>:</label>
                         <input type="text" v-model="apellido" required>
                     </div>
                     <div class="form-group">
-                        <label for="user">Usuario:</label>
+                        <label for="user">Usuario<span class="campo-requerido">*</span>:</label>
                         <input type="text" v-model="username" required>
                     </div>
+
+                    <div class="form-group" :class="{ 'valida-contrasena': contrasenaValida, 'invalida-contrasena': !contrasenaValida }">
+        <label for="correo">Contraseña<span class="campo-requerido">*</span>:</label>
+        <input type="password" v-model="password" @input="validarContrasena" required>
+        <span class="mensaje-validacion" v-show="mostrarMensajeContrasena">{{ mensajeContrasena }}</span>
+    </div>
+
                     <div class="form-group">
-                        <label class="text" for="correo">Contraseña:</label>
-                        <input type="password" v-model="password" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="correo">Email:</label>
+                        <label for="correo">Email<span class="campo-requerido">*</span>:</label>
                         <input type="email" v-model="email" required>
                     </div>
 
                 </div>
                 <div class="ladoDerecho">
                     <div class="form-group">
-                        <label for="telefono">Telefono:</label>
+                        <label for="telefono">Telefono<span class="campo-requerido">*</span>:</label>
                         <input type="tel" v-model="phone" required>
                     </div>
-
                     <div class="form-group">
-                        <label for="rfc">RFC:</label>
-                        <input type="text" v-model="rfc" required>
+                        <label for="curp">CURP<span class="campo-requerido">*</span>:</label>
+                        <input type="text" v-model="curp" @input="convertirAMayusculas('curp')" required>
                     </div>
                     <div class="form-group">
-                        <label for="curp">CURP:</label>
-                        <input type="text" v-model="curp" required>
+                        <label for="rfc">RFC<span class="campo-requerido">*</span>:</label>
+                        <input type="text" v-model="rfc" @input="convertirAMayusculas('rfc')" required>
                     </div>
+                    
                     <div class="form-group">
                         <label for="salario">Salario:</label>
                         <input type="number" v-model="salary" required>
                     </div>
                     <div class="form-group">
-                        <label for="rol">Rol:</label>
-                        <select  v-model="role" required>
+                        <label for="Rol">Rol<span class="campo-requerido">*</span>:</label>
+                        <select v-model="role" required>
                             <option value="admin">Admin</option>
                             <option value="employee" selected>Empleado</option>
                             <option value="dev">Desarrollador</option>
@@ -54,7 +57,7 @@
                     </div>
                 </div>
             </div>
-            <button class="guardar" type="submit">
+            <button class="guardar" type="submit" :disabled="!camposRequeridosCompletos">
                 <img src="https://cdn-icons-png.flaticon.com/512/2550/2550221.png " alt="">
                 <p>Guardar</p>
             </button>
@@ -78,9 +81,117 @@ export default {
             password: '',
             role: 'admin', // Valor predeterminado, ajusta según tus necesidades
             edicion: 0,
+
+            contrasenaValida: false,
+            mensajeContrasena: '',
+            mostrarMensajeContrasena: false,
+            camposRequeridosCompletos: true,
+            
+
         };
     },
+
+
+    watch: {
+    phone: function(newPhone) {
+        // Expresión regular para validar si el teléfono comienza con '+'
+        const regexTelefonoConPlus = /^\+/;
+
+        // Si comienza con '+', limitar la longitud a 13 caracteres
+        if (regexTelefonoConPlus.test(newPhone)) {
+            this.phone = newPhone.replace(/[^\d+]/g, '').slice(0, 13);
+        } else {
+            // Si no comienza con '+', limitar la longitud a 10 caracteres
+            this.phone = newPhone.replace(/[^\d]/g, '').slice(0, 10);
+        }
+    }
+},
+
     methods: {
+
+
+
+        convertirAMayusculas(propiedad) {
+    // Método para convertir la propiedad a mayúsculas
+    this[propiedad] = this[propiedad].toUpperCase();
+
+    if (propiedad === 'curp' && this[propiedad].length === 18) {
+        // Limitar la longitud de la CURP a 18 caracteres
+        this[propiedad] = this[propiedad].slice(0, 18);
+
+        // Expresión regular para validar la CURP
+        const regexCURP = /^[A-Z]{4}[0-9]{6}[A-Z]{6}[0-9]{2}$/;
+
+        // Validar la CURP
+        if (!regexCURP.test(this[propiedad])) {
+            alert('La CURP ingresada no es válida. Asegúrate de seguir el formato correcto.');
+            // Puedes agregar más lógica según tus necesidades, como restablecer el valor o deshabilitar el botón de guardar.
+        } else {
+            // Si la CURP es válida y tiene 18 caracteres, tomar los primeros 10 caracteres y asignarlos al RFC
+            this.rfc = this[propiedad].slice(0, 10);
+
+            // Limitar la longitud del RFC a 13 caracteres
+            this.rfc = this.rfc.slice(0, 13);
+        }
+    }
+
+    if (propiedad === 'rfc') {
+        // Limitar la longitud del RFC a 13 caracteres
+        this.rfc = this.rfc.slice(0, 13);
+    }
+
+    if (propiedad === 'phone') {
+        // Expresión regular para validar si el teléfono comienza con '+'
+        const regexTelefonoConPlus = /^\+/;
+
+        // Si comienza con '+', limitar la longitud a 13 caracteres
+        if (regexTelefonoConPlus.test(this[propiedad])) {
+            this[propiedad] = this[propiedad].replace(/[^\d+]/g, '').slice(0, 13);
+        } else {
+            // Si no comienza con '+', limitar la longitud a 10 caracteres
+            this[propiedad] = this[propiedad].replace(/[^\d]/g, '').slice(0, 10);
+        }
+    }
+},
+
+
+
+        validarContrasena() {
+       // Expresión regular para validar la contraseña
+       const regexContrasena = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!"#$%&'()]).{8,16}$/;
+
+// Truncar la contraseña si excede los 16 caracteres
+if (this.password.length > 16) {
+    this.password = this.password.slice(0, 16);
+}
+
+// Validar la longitud y formato de la contraseña
+this.contrasenaValida = regexContrasena.test(this.password) && this.password.length >= 8;
+
+
+      // Actualizar el mensaje de validación
+      if (this.password.length < 8) {
+        this.mensajeContrasena = 'La contraseña debe contener al menos 8 caracteres.';
+      } else if (this.password.length > 16) {
+        this.mensajeContrasena = 'La contraseña no debe tener maximo de 16 caracteres.';
+      } else if (!/[a-z]/.test(this.password)) {
+        this.mensajeContrasena = 'La contraseña debe contener al menos una letra minúscula.';
+      } else if (!/[A-Z]/.test(this.password)) {
+        this.mensajeContrasena = 'La contraseña debe contener al menos una letra mayúscula.';
+      } else if (!/\d/.test(this.password)) {
+        this.mensajeContrasena = 'La contraseña debe contener al menos un número.';
+      } else if (!/[!"#$%&'()]/.test(this.password)) {
+        this.mensajeContrasena = 'La contraseña debe contener al menos un carácter especial (!"#$%&\'()).';
+      } else {
+        this.mensajeContrasena = '';
+      }
+
+      // Mostrar o ocultar el mensaje según la validación
+      this.mostrarMensajeContrasena = !this.contrasenaValida || this.mensajeContrasena !== '';
+    },
+
+
+
         navigateTo(route) {
             // Utiliza el enrutador para cambiar la ruta
             this.$router.push({ name: route });
@@ -127,9 +238,9 @@ export default {
             try {
                 let response;
 
-
+                
                 // Construye el objeto con los datos del formulario
-                const usuarionuevo = {
+                const usuarioActualizado = {
                     curp: this.curp,
                     rfc: this.rfc,
                     fullname: `${this.nombre} ${this.apellido}`,
@@ -141,12 +252,6 @@ export default {
                         password: this.password,
                         role: this.role,
                     },
-                };
-                const usuarioActualizado = {
-                    username: this.username,
-                    password: this.password,
-                    role: this.role,
-
                 };
 
                 if (this.id) {
@@ -162,7 +267,7 @@ export default {
                     this.edicion = 1;
                 } else {
                     // Si no hay un ID, realiza una solicitud POST para crear un nuevo usuario
-                    response = await this.$axios.post('http://localhost:3000/api/auth/create-user', usuarionuevo, {
+                    response = await this.$axios.post('http://localhost:3000/api/auth/create-user', usuarioActualizado, {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem('token')}`,
                         },
@@ -193,28 +298,42 @@ export default {
 </script>
 
 <style scoped>
+
+
+
+.form-group label {
+    text-align: right;
+    width: 40%; /* Ajusta el ancho según tus necesidades */
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 60%; /* Ajusta el ancho según tus necesidades */
+  }
+
+.form-group.valida-contrasena {
+    color: green; /* Color para indicar que la contraseña es válida */
+}
+
+.form-group.invalida-contrasena {
+    color: red; /* Color para indicar que la contraseña no es válida */
+}
+
+.campo-requerido {
+  color: red;
+  margin-left: 5px;
+}
+
 h2 {
     padding: 1rem;
 }
-
-label{
-    margin-left: auto;
-    font-size: medium;
-    padding-right: 6px;
-
-}
-
-
 
 .contenidoPrincipal {
     width: 80%;
 }
 
-input{
-padding-left: 1%;
-font-size: 83%;
-
-}
+form {}
 
 .campos {
     box-sizing: border-box;
@@ -223,21 +342,17 @@ font-size: 83%;
     background-color: #D9D9D9;
     padding: 2rem;
     margin: 0 15%;
-    
 }
 
 .ladoIzq,
 .ladoDerecho {
-    width: 40%;
+    width: 50%;
 }
 
 .form-group {
     display: flex;
     justify-content: space-between;
     margin: 0 3rem 1rem 3rem;
-    margin-right: auto;
-    
-   
 }
 
 .guardar {
