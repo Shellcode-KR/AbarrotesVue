@@ -59,21 +59,19 @@
           </div>
 
           <div class="form-group">
-            <label>
-              Género:
-              <select name="whGenero" id="whGenero" v-model="whGenero" >
+            <label for="Rol">Genero<span class="campo-requerido">*</span>:</label>
+            <select name="whGenero" id="whGenero" v-model="whGenero" >
                 <option value="x">-Elige-</option>
                 <option value="F">FEMENINO</option>
                 <option value="M">MASCULINO</option>
               </select>
-              <span class="campo-requerido">*</span></label
-            >
           </div>
 
+
+
           <div class="form-group">
-            <p>
-              Nacionalidad:
-              <select name="whNacion" id="whNacion" v-model="whNacion">
+            <label for="Rol">Nacionalidad<span class="campo-requerido">*</span>:</label>
+            <select name="whNacion" id="whNacion" v-model="whNacion">
                 <option value="1">MÉXICO</option>
                 <option value="2">AFGANISTAN</option>
                 <option value="3">ALBANIA</option>
@@ -82,15 +80,17 @@
                 <option value="6">ANGOLA</option>
                 <option value="180">ANGUILA</option>
                 <option value="181">ANTÁRTICA</option>
+               
+                
                 <option value="0">OTRO</option>
               </select>
-            </p>
           </div>
 
+
+
           <div class="form-group">
-            <p>
-              Entidad de nacimiento:
-              <select name="whEntNac" id="whEntNac" v-model="whEntNac">
+            <label for="Rol">Estado de nacimiento<span class="campo-requerido">*</span>:</label>
+            <select name="whEntNac" id="whEntNac" v-model="whEntNac">
                 <option value="x">- Elige un Estado-</option>
                 <option value="0">CIUDAD DE MEXICO</option>
                 <option value="1">AGUASCALIENTES</option>
@@ -125,12 +125,20 @@
                 <option value="30">YUCATÁN</option>
                 <option value="31">ZACATECAS</option>
                 <option value="32">EXTRANJERO</option>	
-          
+
               </select>
-            </p>
           </div>
 
           
+
+
+
+
+            
+          
+
+         
+
         </div>
         <div class="ladoDerecho">
           <div class="form-group">
@@ -176,6 +184,8 @@
             >
             <input type="tel" v-model="phone" required />
           </div>
+          
+
           <div class="form-group">
             <p>
               <input
@@ -183,10 +193,15 @@
                 value="Pulsa para generar CURP"
                 @click="btGenCurp(this.form);"
               /><br /><br />
-              CURP: <input name="whCurp" id="whCurp"  type="text" v-model="whCurp"  @input="convertirAMayusculas('whCurp')"
-              required/>
+              CURP: <input name="whCurp" id="whCurp"  v-model="whCurp"
+              @input="convertirAMayusculas('whCurp')" required
+              maxlength="17"/>
             </p>
           </div>
+
+          
+
+
 
           <div class="form-group">
             <label for="rfc">RFC<span class="campo-requerido">*</span>:</label>
@@ -195,6 +210,7 @@
               v-model="rfc"
               @input="convertirAMayusculas('rfc')"
               required
+              maxlength="12"
             />
           </div>
 
@@ -681,7 +697,7 @@ validaNombre(cmp) {
 
         // Construye el objeto con los datos del formulario
         const usuarioActualizado = {
-          curp: this.whCurp,
+          curp: this.whCurpurp,
           rfc: this.rfc,
           fullname: `${this.whNombre} ${this.whPaterno}`,
           phone: this.phone,
@@ -788,12 +804,17 @@ form {
   flex-wrap: wrap;
   background-color: #d9d9d9;
   padding: 2rem;
-  margin: 0 15%;
+  margin: 0 5%;
+  width: 90%;
 }
 
-.ladoIzq,
+
+
+.ladoIzq{
+    width: 53%;
+}
 .ladoDerecho {
-  width: 50%;
+  width: 45%;
 }
 
 .form-group {
@@ -819,4 +840,50 @@ form {
 .guardar img {
   width: 1rem;
 }
+
+
+select{
+
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    background-color: #fff;
+    color: #333;
+    transition: border-color 0.3s;
+  }
+  
+  /* Estilo cuando el elemento de selección está enfocado */
+  select:focus {
+    border-color: #66afe9;
+    box-shadow: 0 0 5px rgba(102, 175, 233, 0.6);
+  }
+  
+  /* Estilo para las opciones dentro del elemento de selección */
+  select option {
+    background-color: #fff;
+    color: #333;
+  }
+  
+  /* Estilo para el ícono de despliegue (flecha) */
+  select::-ms-expand {
+    display: none;
+  }
+  
+  /* Estilo para el ícono de despliegue (flecha) en navegadores webkit */
+  
+  
+  /* Estilo para el ícono de despliegue (flecha) utilizando un pseudo-elemento */
+  select:after {
+    content: '\25BC'; /* Código Unicode para una flecha hacia abajo */
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #666;
+  }
+
 </style>
+
