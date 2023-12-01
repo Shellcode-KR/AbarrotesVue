@@ -14,7 +14,7 @@
                 <th>Descipcion</th>
                 <th>Precio</th>
                 <th>Existencia</th>
-                <!-- <th>Acciones</th> -->
+                <th>Acciones</th>
             </thead>
             <tbody>
                 <tr v-for="producto in productosEncontrados" :key="producto.id">
@@ -23,7 +23,7 @@
                     <td>{{ producto.description }}</td>
                     <td>{{ producto.salePrice }}</td>
                     <td>{{ producto.stock }}</td>
-                    <!-- <td><button class="btn-editar" @click="agregarAlCarrito(producto)">Editar</button></td> -->
+                    <td><button class="btn-editar" @click="agregarAlCarrito(producto)">Seleccionar</button></td>
                 </tr>
 
 
@@ -105,7 +105,7 @@ export default {
         async buscarProductoPorId() {
             try {
                 // Hacer la solicitud al servidor para buscar productos por ID
-                const response = await this.$axios.get(`http://localhost:3000/api/products/search/${this.productoId}`);
+                const response = await this.$axios.get(`http://localhost:3000/api/products/search2/${this.productoId}`);
                 console.log(response.data);
                 this.productosEncontrados = response.data; // Coloca el resultado en el array
             } catch (error) {
