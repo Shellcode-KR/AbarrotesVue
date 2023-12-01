@@ -23,7 +23,7 @@
 
             </tbody>
         </table>
-        <button class="guardar" type="submit" @click="navigateTo('admininfoProductos')">
+        <button class="guardar" type="submit" @click="navigateTo('AltaUsuario')">
             <img src="https://cdn-icons-png.flaticon.com/512/2550/2550221.png " alt="">
             <p>Agregar Producto</p>
         </button>

@@ -6,6 +6,7 @@ import ListaUsuarios from '../components/ListaUsuarios.vue'
 import InformacionProducto from '../components/InformacionProducto.vue'
 import InformacionUsuario from '../components/InformacionUsuario.vue'
 import VistaVentas from '../components/VistaVentas.vue'
+import AgregaUsuario from '../components/AgregarUsuario.vue'
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -42,6 +43,13 @@ const routes: Array<RouteRecordRaw> = [
                 path: 'usuarios/info',
                 name: 'admininfoUsuarios',
                 component: InformacionUsuario
+            },
+            {
+                
+                    path: 'AgregaUsuarios',
+                    name: 'AltaUsuario',
+                    component: AgregaUsuario
+                
             },
             {
                 path: 'usuarios/info/:id',

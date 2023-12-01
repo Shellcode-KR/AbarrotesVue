@@ -24,7 +24,7 @@
         </tr>
       </tbody>
     </table>
-    <button class="guardar" type="submit" @click="navigateTo('admininfoUsuarios')">
+    <button class="guardar" type="submit" @click="navigateTo('AltaUsuario')">
       <img src="https://cdn-icons-png.flaticon.com/512/2550/2550221.png" alt="">
       <p>Agregar</p>
     </button>
