@@ -82,8 +82,6 @@
                 <option value="6">ANGOLA</option>
                 <option value="180">ANGUILA</option>
                 <option value="181">ANTÁRTICA</option>
-               
-                
                 <option value="0">OTRO</option>
               </select>
             </p>
@@ -127,23 +125,12 @@
                 <option value="30">YUCATÁN</option>
                 <option value="31">ZACATECAS</option>
                 <option value="32">EXTRANJERO</option>	
-               
-                
-              
+          
               </select>
             </p>
           </div>
 
-          <div class="form-group">
-            <p>
-              <input
-                type="button"
-                value="Pulsa para generar CURP"
-                @click="btGenCurp(this.form);"
-              /><br /><br />
-              CURP: <input name="whCurp" id="whCurp"  type="text" v-model="whCurp"/>
-            </p>
-          </div>
+          
         </div>
         <div class="ladoDerecho">
           <div class="form-group">
@@ -190,16 +177,17 @@
             <input type="tel" v-model="phone" required />
           </div>
           <div class="form-group">
-            <label for="curp"
-              >CURP<span class="campo-requerido">*</span>:</label
-            >
-            <input
-              type="text"
-              v-model="curp"
-              @input="convertirAMayusculas('curp')"
-              required
-            />
+            <p>
+              <input
+                type="button"
+                value="Pulsa para generar CURP"
+                @click="btGenCurp(this.form);"
+              /><br /><br />
+              CURP: <input name="whCurp" id="whCurp"  type="text" v-model="whCurp"  @input="convertirAMayusculas('whCurp')"
+              required/>
+            </p>
           </div>
+
           <div class="form-group">
             <label for="rfc">RFC<span class="campo-requerido">*</span>:</label>
             <input
@@ -659,7 +647,7 @@ validaNombre(cmp) {
 
         const usuario = response.data;
         // Asigna los datos del usuario a las propiedades del componente
-        this.curp = usuario.employee.curp;
+        this.whCurp = usuario.employee.curp;
         this.rfc = usuario.employee.rfc;
         this.fullname = usuario.employee.fullname;
         // Divide el fullname en nombre y apellido
@@ -693,7 +681,7 @@ validaNombre(cmp) {
 
         // Construye el objeto con los datos del formulario
         const usuarioActualizado = {
-          curp: this.curp,
+          curp: this.whCurp,
           rfc: this.rfc,
           fullname: `${this.whNombre} ${this.whPaterno}`,
           phone: this.phone,
