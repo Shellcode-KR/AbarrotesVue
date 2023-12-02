@@ -1,16 +1,18 @@
 <template>
     <div class="contenidoPrincipal">
-        <h2>Alta de Usuario</h2>
+        <h2>Editar Usuario cd </h2>
         <form @submit.prevent="crearUsuario">
             <div class="campos">
                 <div class="ladoIzq">
                     <div class="form-group">
   <label for="Nombre">Nombre<span class="campo-requerido">*</span>:</label>
-  <input type="text" v-model="nombre" required>
+  <input type="text" v-model="nombre" required
+  @input="SoloLetrasN">
 </div>
                     <div class="form-group">
                         <label for="apellido">Apellido<span class="campo-requerido">*</span>:</label>
-                        <input type="text" v-model="apellido" required>
+                        <input type="text" v-model="apellido" required
+                        @input="SoloLetrasP">
                     </div>
                     <div class="form-group">
                         <label for="user">Usuario<span class="campo-requerido">*</span>:</label>
@@ -20,7 +22,7 @@
                     <div class="form-group" :class="{ 'valida-contrasena': contrasenaValida, 'invalida-contrasena': !contrasenaValida }">
         <label for="correo">Contraseña<span class="campo-requerido">*</span>:</label>
         <input type="password" v-model="password" @input="validarContrasena" required>
-        <span class="mensaje-validacion" v-show="mostrarMensajeContrasena">{{ mensajeContrasena }}</span>
+        <span class="mensaje-validacion" v-show="mostrarMensajeContrasena">{{ mensajeContrasena }} </span>
     </div>
 
                     <div class="form-group">
@@ -36,17 +38,17 @@
                     </div>
                     <div class="form-group">
                         <label for="curp">CURP<span class="campo-requerido">*</span>:</label>
-                        <input type="text" v-model="curp" @input="convertirAMayusculas('curp')" required>
+                        <input  v-model="curp" @input="convertirAMayusculas('curp')" required
+                        
+                        maxlength="18">
                     </div>
                     <div class="form-group">
                         <label for="rfc">RFC<span class="campo-requerido">*</span>:</label>
-                        <input type="text" v-model="rfc" @input="convertirAMayusculas('rfc')" required>
+                        <input type="text" v-model="rfc" @input="convertirAMayusculas('rfc')" required
+                          maxlength="13">
                     </div>
                     
-                    <div class="form-group">
-                        <label for="salario">Salario:</label>
-                        <input type="number" v-model="salary" required>
-                    </div>
+                    
                     <div class="form-group">
                         <label for="Rol">Rol<span class="campo-requerido">*</span>:</label>
                         <select v-model="role" required>
@@ -87,6 +89,10 @@ export default {
             mostrarMensajeContrasena: false,
             camposRequeridosCompletos: true,
             
+            nombre:'',
+            apellido:'',
+            numero:''
+            
 
         };
     },
@@ -109,15 +115,21 @@ export default {
 
     methods: {
 
-
-
+        SoloLetrasN() {
+      // Utiliza una expresión regular para permitir solo letras de la A a la Z
+      this.nombre = this.nombre.replace(/[^a-zA-Z]/g, '');
+    },
+    SoloLetrasP() {
+      // Utiliza una expresión regular para permitir solo letras de la A a la Z
+      this.apellido = this.apellido.replace(/[^a-zA-Z]/g, '');
+    },
         convertirAMayusculas(propiedad) {
     // Método para convertir la propiedad a mayúsculas
     this[propiedad] = this[propiedad].toUpperCase();
 
-    if (propiedad === 'curp' && this[propiedad].length === 18) {
+    if (propiedad === 'curp' && this[propiedad].length === 19) {
         // Limitar la longitud de la CURP a 18 caracteres
-        this[propiedad] = this[propiedad].slice(0, 18);
+        
 
         // Expresión regular para validar la CURP
         const regexCURP = /^[A-Z]{4}[0-9]{6}[A-Z]{6}[0-9]{2}$/;
@@ -135,10 +147,7 @@ export default {
         }
     }
 
-    if (propiedad === 'rfc') {
-        // Limitar la longitud del RFC a 13 caracteres
-        this.rfc = this.rfc.slice(0, 13);
-    }
+    
 
     if (propiedad === 'phone') {
         // Expresión regular para validar si el teléfono comienza con '+'
@@ -371,5 +380,9 @@ form {}
 
 .guardar img {
     width: 1rem;
+}
+
+.mensaje-validacion{
+    font-size: 85%;
 }
 </style>
