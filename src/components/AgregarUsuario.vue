@@ -13,6 +13,7 @@
               id="whNombre"
               type="text"
               v-model="whNombre"
+              @input="SoloLetrasN"
               required
             />
           </div>
@@ -25,6 +26,7 @@
               id="whPaterno"
               type="text"
               v-model="whPaterno"
+              @input="SoloLetrasP"
               required
             />
           </div>
@@ -38,6 +40,7 @@
               id="whMaterno"
               type="text"
               v-model="whMaterno"
+              @input="SoloLetrasM"
               required
             />
           </div>
@@ -54,7 +57,9 @@
               v-model="whFecNac"
               type="text"
               placeholder="dd/mm/aaaa"
-              size="10"
+              @input="SoloFecha"
+              maxlength="10"
+              size="12"
             />
           </div>
 
@@ -186,16 +191,22 @@
           </div>
           
 
-          <div class="form-group">
+          <div class="form-curp">
             <p>
-              <input
+              <input class="genera"
                 type="button"
                 value="Pulsa para generar CURP"
                 @click="btGenCurp(this.form);"
-              /><br /><br />
-              CURP: <input name="whCurp" id="whCurp"  v-model="whCurp"
+              />
+              
+              <br /><br />
+              CURP: <input class="input-whCurp" name="whCurp" id="whCurp"  v-model="whCurp"
               @input="convertirAMayusculas('whCurp')" required
-              maxlength="17"/>
+              maxlength="18"/>
+
+              <br /><br />
+
+              
             </p>
           </div>
 
@@ -208,9 +219,10 @@
             <input
               type="text"
               v-model="rfc"
+              @focus="actualizarRFC"
               @input="convertirAMayusculas('rfc')"
               required
-              maxlength="12"
+              maxlength="13"
             />
           </div>
 
@@ -248,7 +260,7 @@ function GeneraCURP(nom, pat, mat, fecha, genero, edo) {
   mat = mat.toUpperCase().replace(/^(DE |DEL |LO |LOS |LA |LAS )+/g, '');
   mat = mat === '' ? 'X' : mat;
 
-  const primerasLetras = pat.charAt(0) + buscaVocal(pat) + mat.charAt(0) ;
+  const primerasLetras = pat.charAt(0) + buscaVocal(pat) + mat.charAt(0) + nom.charAt(0) ;
   const letrasPaternas = buscaConsonante(pat) + buscaConsonante(mat) + buscaConsonante(nom);
   const anio = fecha.substring(8, 10);
   const mes = fecha.substring(3, 5);
@@ -372,7 +384,7 @@ export default {
      whEntNac: "",
      whCurp: "",
      whNacion: "",
-     
+     esFechaValida:true,
 
       contrasenaValida: false,
       mensajeContrasena: "",
@@ -403,6 +415,14 @@ export default {
 
   methods: {
    
+
+ actualizarRFC() {
+      // Actualizar el valor del RFC con el valor del otro input
+      this.rfc = this.whCurp.slice(0,10);
+      //this.rfc = this.otroInput.slice(0, 6);
+    
+    },
+
 
 // JavaScript Document
 //*************************************************************************************
@@ -541,12 +561,22 @@ validaNombre(cmp) {
 },
 
   
+SoloLetrasN() {
+      // Utiliza una expresión regular para permitir solo letras de la A a la Z
+      this.whNombre = this.whNombre.replace(/[^a-zA-Z]/g, '');
+    },
+    SoloLetrasP() {
+      // Utiliza una expresión regular para permitir solo letras de la A a la Z
+      this.whPaterno = this.whPaterno.replace(/[^a-zA-Z]/g, '');
+    },
+    SoloLetrasM() {
+      // Utiliza una expresión regular para permitir solo letras de la A a la Z
+      this.whMaterno = this.whMaterno.replace(/[^a-zA-Z]/g, '');
+    },
 
-  
- 
-
-
-
+    SoloFecha() {
+      this.whFecNac = this.whFecNac.replace(/[^0-9/]/g, '');
+    },
 
 
     convertirAMayusculas(propiedad) {
@@ -594,7 +624,7 @@ validaNombre(cmp) {
       }
     },
 
-
+    
 
 
 
@@ -697,7 +727,7 @@ validaNombre(cmp) {
 
         // Construye el objeto con los datos del formulario
         const usuarioActualizado = {
-          curp: this.whCurpurp,
+          curp: this.whCurp,
           rfc: this.rfc,
           fullname: `${this.whNombre} ${this.whPaterno}`,
           phone: this.phone,
@@ -793,10 +823,10 @@ h2 {
 
 .contenidoPrincipal {
   width: 80%;
+  
 }
 
-form {
-}
+
 
 .campos {
   box-sizing: border-box;
@@ -804,8 +834,13 @@ form {
   flex-wrap: wrap;
   background-color: #d9d9d9;
   padding: 2rem;
+  padding-top: 3%;
+  margin-bottom: 0%;
+  padding-bottom: 0%;
   margin: 0 5%;
   width: 90%;
+  border-radius: 10px; /* Puedes ajustar el valor según tus preferencias */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Puedes ajustar los valores según tus preferencias */
 }
 
 
@@ -823,6 +858,26 @@ form {
   margin: 0 3rem 1rem 3rem;
 }
 
+.form-curp{
+  
+  margin: 0% 0% 0rem 20%;
+  margin-top: 0%;
+  margin-bottom: 0%;
+
+  background-color: #d9d9d9;
+  
+ 
+  
+}
+
+.genera{
+ 
+    display: flex;
+    margin: 0 0% 0% 30%;
+    margin-top: 0%;
+    margin-bottom: 0%;
+  background-color: rgb(64, 255, 47);
+}
 .guardar {
   box-sizing: border-box;
   display: flex;
@@ -883,6 +938,13 @@ select{
     transform: translateY(-50%);
     pointer-events: none;
     color: #666;
+  }
+
+  .input-whCurp {
+    width: 60%; /* Ajusta el ancho según tus necesidades */
+    padding: 0%;
+    margin: 0%;
+    
   }
 
 </style>
