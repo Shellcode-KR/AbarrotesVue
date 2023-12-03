@@ -123,6 +123,7 @@ input {
   padding: 10px 0;
   border: 1px solid #ccc;
   border-radius: 5px;
+  font-size: 125%;
 }
 
 button {

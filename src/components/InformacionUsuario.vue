@@ -1,28 +1,45 @@
 <template>
     <div class="contenidoPrincipal">
-        <h2>Alta de Usuario</h2>
+        <h2>Información de usuario</h2>
         <form @submit.prevent="crearUsuario">
             <div class="campos">
                 <div class="ladoIzq">
                     <div class="form-group">
-  <label for="Nombre">Nombre<span class="campo-requerido">*</span>:</label>
-  <input type="text" v-model="nombre" required>
-</div>
-                    <div class="form-group">
-                        <label for="apellido">Apellido<span class="campo-requerido">*</span>:</label>
-                        <input type="text" v-model="apellido" required>
+                        <label for="nombre">Nombre:</label>
+                        <input type="text" v-model="nombre" required
+                        @input="SoloLetrasN">
                     </div>
                     <div class="form-group">
-                        <label for="user">Usuario<span class="campo-requerido">*</span>:</label>
+                        <label for="apellido">Apellido:</label>
+                        <input type="text" v-model="apellido" required
+                        @input="SoloLetrasP">
+                    </div>
+                    <div class="form-group">
+                        <label for="user">Usuario:</label>
                         <input type="text" v-model="username" required>
                     </div>
-
-                    <div class="form-group" :class="{ 'valida-contrasena': contrasenaValida, 'invalida-contrasena': !contrasenaValida }">
-        <label for="correo">Contraseña<span class="campo-requerido">*</span>:</label>
-        <input type="password" v-model="password" @input="validarContrasena" required>
-        <span class="mensaje-validacion" v-show="mostrarMensajeContrasena">{{ mensajeContrasena }}</span>
-    </div>
-
+                    <div
+                    class="form-group"
+                    :class="{
+                      'valida-contrasena': contrasenaValida,
+                      'invalida-contrasena': !contrasenaValida,
+                    }"
+                  >
+                    <label for="correo"
+                      >Contraseña<span class="campo-requerido">*</span>:</label
+                    >
+                    <input
+                      type="password"
+                      v-model="password"
+                      @input="validarContrasena"
+                      required
+                    />
+                    <span
+                      class="mensaje-validacion"
+                      v-show="mostrarMensajeContrasena"
+                      >{{ mensajeContrasena }}</span
+                    >
+                  </div>
                     <div class="form-group">
                         <label for="correo">Email<span class="campo-requerido">*</span>:</label>
                         <input type="email" v-model="email" required>
@@ -31,25 +48,27 @@
                 </div>
                 <div class="ladoDerecho">
                     <div class="form-group">
-                        <label for="telefono">Telefono<span class="campo-requerido">*</span>:</label>
+                        <label for="telefono">Telefono:</label>
                         <input type="tel" v-model="phone" required>
                     </div>
                     <div class="form-group">
-                        <label for="curp">CURP<span class="campo-requerido">*</span>:</label>
-                        <input type="text" v-model="curp" @input="convertirAMayusculas('curp')" required>
+                        <label for="curp">CURP:</label>
+                        <input type="text" v-model="curp" required
+                        @input="convertirAMayusculas('curp')"
+                        
+                        maxlength="18">
                     </div>
                     <div class="form-group">
-                        <label for="rfc">RFC<span class="campo-requerido">*</span>:</label>
-                        <input type="text" v-model="rfc" @input="convertirAMayusculas('rfc')" required>
+                        <label for="rfc">RFC:</label>
+                        <input type="text" v-model="rfc" required
+                        @input="convertirAMayusculas('rfc')"
+                        maxlength="13">
                     </div>
                     
+                  
                     <div class="form-group">
-                        <label for="salario">Salario:</label>
-                        <input type="number" v-model="salary" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="Rol">Rol<span class="campo-requerido">*</span>:</label>
-                        <select v-model="role" required>
+                        <label for="rol">Rol:</label>
+                        <select  v-model="role" required>
                             <option value="admin">Admin</option>
                             <option value="employee" selected>Empleado</option>
                             <option value="dev">Desarrollador</option>
@@ -57,7 +76,7 @@
                     </div>
                 </div>
             </div>
-            <button class="guardar" type="submit" :disabled="!camposRequeridosCompletos">
+            <button class="guardar" type="submit">
                 <img src="https://cdn-icons-png.flaticon.com/512/2550/2550221.png " alt="">
                 <p>Guardar</p>
             </button>
@@ -81,41 +100,67 @@ export default {
             password: '',
             role: 'admin', // Valor predeterminado, ajusta según tus necesidades
             edicion: 0,
-
+nombre:"",
+apellido:"",
             contrasenaValida: false,
-            mensajeContrasena: '',
-            mostrarMensajeContrasena: false,
-            camposRequeridosCompletos: true,
-            
+      mensajeContrasena: "",
+      mostrarMensajeContrasena: false,
+      camposRequeridosCompletos: true,
 
         };
     },
 
 
     watch: {
-    phone: function(newPhone) {
-        // Expresión regular para validar si el teléfono comienza con '+'
-        const regexTelefonoConPlus = /^\+/;
+        phone: function (newPhone) {
+      // Expresión regular para validar si el teléfono comienza con '+'
+      const regexTelefonoConPlus = /^\+/;
 
-        // Si comienza con '+', limitar la longitud a 13 caracteres
-        if (regexTelefonoConPlus.test(newPhone)) {
-            this.phone = newPhone.replace(/[^\d+]/g, '').slice(0, 13);
-        } else {
-            // Si no comienza con '+', limitar la longitud a 10 caracteres
-            this.phone = newPhone.replace(/[^\d]/g, '').slice(0, 10);
-        }
-    }
-},
+      // Si comienza con '+', limitar la longitud a 13 caracteres
+      if (regexTelefonoConPlus.test(newPhone)) {
+        this.phone = newPhone.replace(/[^\d+]/g, "").slice(0, 13);
+      } else {
+        // Si no comienza con '+', limitar la longitud a 10 caracteres
+        this.phone = newPhone.replace(/[^\d]/g, "").slice(0, 10);
+      }
+    },
+  },
+
+
+
+
 
     methods: {
+        navigateTo(route) {
+            // Utiliza el enrutador para cambiar la ruta
+            this.$router.push({ name: route });
+            console.log(`Navegar a ${route}`);
+        },
 
 
+        SoloLetrasN() {
+      // Utiliza una expresión regular para permitir solo letras de la A a la Z
+      this.nombre = this.nombre.replace(/[^a-zA-Z]/g, '');
+    },
+    SoloLetrasP() {
+      // Utiliza una expresión regular para permitir solo letras de la A a la Z
+      this.apellido = this.apellido.replace(/[^a-zA-Z]/g, '');
+    },
+    SoloLetrasM() {
+      // Utiliza una expresión regular para permitir solo letras de la A a la Z
+      this.whMaterno = this.whMaterno.replace(/[^a-zA-Z]/g, '');
+    },
 
-        convertirAMayusculas(propiedad) {
-    // Método para convertir la propiedad a mayúsculas
-    this[propiedad] = this[propiedad].toUpperCase();
+    SoloFecha() {
+      this.whFecNac = this.whFecNac.replace(/[^0-9/]/g, '');
+    },
 
-    if (propiedad === 'curp' && this[propiedad].length === 18) {
+    
+    convertirAMayusculas(propiedad) {
+      // Método para convertir la propiedad a mayúsculas
+      this[propiedad] = this[propiedad].toUpperCase();
+
+      if (propiedad === "curp" && this[propiedad].length === 18) {
         // Limitar la longitud de la CURP a 18 caracteres
         this[propiedad] = this[propiedad].slice(0, 18);
 
@@ -124,79 +169,86 @@ export default {
 
         // Validar la CURP
         if (!regexCURP.test(this[propiedad])) {
-            alert('La CURP ingresada no es válida. Asegúrate de seguir el formato correcto.');
-            // Puedes agregar más lógica según tus necesidades, como restablecer el valor o deshabilitar el botón de guardar.
+          alert(
+            "La CURP ingresada no es válida. Asegúrate de seguir el formato correcto."
+          );
+          // Puedes agregar más lógica según tus necesidades, como restablecer el valor o deshabilitar el botón de guardar.
         } else {
-            // Si la CURP es válida y tiene 18 caracteres, tomar los primeros 10 caracteres y asignarlos al RFC
-            this.rfc = this[propiedad].slice(0, 10);
+          // Si la CURP es válida y tiene 18 caracteres, tomar los primeros 10 caracteres y asignarlos al RFC
+          this.rfc = this[propiedad].slice(0, 10);
 
-            // Limitar la longitud del RFC a 13 caracteres
-            this.rfc = this.rfc.slice(0, 13);
+          // Limitar la longitud del RFC a 13 caracteres
+          this.rfc = this.rfc.slice(0, 13);
         }
-    }
+      }
 
-    if (propiedad === 'rfc') {
+      if (propiedad === "rfc") {
         // Limitar la longitud del RFC a 13 caracteres
         this.rfc = this.rfc.slice(0, 13);
-    }
+      }
 
-    if (propiedad === 'phone') {
+      if (propiedad === "phone") {
         // Expresión regular para validar si el teléfono comienza con '+'
         const regexTelefonoConPlus = /^\+/;
 
         // Si comienza con '+', limitar la longitud a 13 caracteres
         if (regexTelefonoConPlus.test(this[propiedad])) {
-            this[propiedad] = this[propiedad].replace(/[^\d+]/g, '').slice(0, 13);
+          this[propiedad] = this[propiedad].replace(/[^\d+]/g, "").slice(0, 13);
         } else {
-            // Si no comienza con '+', limitar la longitud a 10 caracteres
-            this[propiedad] = this[propiedad].replace(/[^\d]/g, '').slice(0, 10);
+          // Si no comienza con '+', limitar la longitud a 10 caracteres
+          this[propiedad] = this[propiedad].replace(/[^\d]/g, "").slice(0, 10);
         }
-    }
-},
+      }
+    },
 
 
+    
+    validarContrasena() {
+      // Expresión regular para validar la contraseña
+      const regexContrasena =
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!"#$%&'()]).{8,16}$/;
 
-        validarContrasena() {
-       // Expresión regular para validar la contraseña
-       const regexContrasena = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!"#$%&'()]).{8,16}$/;
+      // Truncar la contraseña si excede los 16 caracteres
+      if (this.password.length > 16) {
+        this.password = this.password.slice(0, 16);
+      }
 
-// Truncar la contraseña si excede los 16 caracteres
-if (this.password.length > 16) {
-    this.password = this.password.slice(0, 16);
-}
-
-// Validar la longitud y formato de la contraseña
-this.contrasenaValida = regexContrasena.test(this.password) && this.password.length >= 8;
-
+      // Validar la longitud y formato de la contraseña
+      this.contrasenaValida =
+        regexContrasena.test(this.password) && this.password.length >= 8;
 
       // Actualizar el mensaje de validación
       if (this.password.length < 8) {
-        this.mensajeContrasena = 'La contraseña debe contener al menos 8 caracteres.';
+        this.mensajeContrasena =
+          "La contraseña debe contener al menos 8 caracteres.";
       } else if (this.password.length > 16) {
-        this.mensajeContrasena = 'La contraseña no debe tener maximo de 16 caracteres.';
+        this.mensajeContrasena =
+          "La contraseña no debe tener maximo de 16 caracteres.";
       } else if (!/[a-z]/.test(this.password)) {
-        this.mensajeContrasena = 'La contraseña debe contener al menos una letra minúscula.';
+        this.mensajeContrasena =
+          "La contraseña debe contener al menos una letra minúscula.";
       } else if (!/[A-Z]/.test(this.password)) {
-        this.mensajeContrasena = 'La contraseña debe contener al menos una letra mayúscula.';
+        this.mensajeContrasena =
+          "La contraseña debe contener al menos una letra mayúscula.";
       } else if (!/\d/.test(this.password)) {
-        this.mensajeContrasena = 'La contraseña debe contener al menos un número.';
+        this.mensajeContrasena =
+          "La contraseña debe contener al menos un número.";
       } else if (!/[!"#$%&'()]/.test(this.password)) {
-        this.mensajeContrasena = 'La contraseña debe contener al menos un carácter especial (!"#$%&\'()).';
+        this.mensajeContrasena =
+          "La contraseña debe contener al menos un carácter especial (!\"#$%&'()).";
       } else {
-        this.mensajeContrasena = '';
+        this.mensajeContrasena = "";
       }
 
       // Mostrar o ocultar el mensaje según la validación
-      this.mostrarMensajeContrasena = !this.contrasenaValida || this.mensajeContrasena !== '';
+      this.mostrarMensajeContrasena =
+        !this.contrasenaValida || this.mensajeContrasena !== "";
     },
 
 
 
-        navigateTo(route) {
-            // Utiliza el enrutador para cambiar la ruta
-            this.$router.push({ name: route });
-            console.log(`Navegar a ${route}`);
-        },
+
+
         async cargarUsuario() {
             try {
                 const id = this.$route.params.id;
@@ -238,9 +290,9 @@ this.contrasenaValida = regexContrasena.test(this.password) && this.password.len
             try {
                 let response;
 
-                
+
                 // Construye el objeto con los datos del formulario
-                const usuarioActualizado = {
+                const usuarionuevo = {
                     curp: this.curp,
                     rfc: this.rfc,
                     fullname: `${this.nombre} ${this.apellido}`,
@@ -252,6 +304,12 @@ this.contrasenaValida = regexContrasena.test(this.password) && this.password.len
                         password: this.password,
                         role: this.role,
                     },
+                };
+                const usuarioActualizado = {
+                    username: this.username,
+                    password: this.password,
+                    role: this.role,
+
                 };
 
                 if (this.id) {
@@ -267,7 +325,7 @@ this.contrasenaValida = regexContrasena.test(this.password) && this.password.len
                     this.edicion = 1;
                 } else {
                     // Si no hay un ID, realiza una solicitud POST para crear un nuevo usuario
-                    response = await this.$axios.post('http://localhost:3000/api/auth/create-user', usuarioActualizado, {
+                    response = await this.$axios.post('http://localhost:3000/api/auth/create-user', usuarionuevo, {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem('token')}`,
                         },
@@ -298,26 +356,23 @@ this.contrasenaValida = regexContrasena.test(this.password) && this.password.len
 </script>
 
 <style scoped>
-
-
-
 .form-group label {
-    text-align: right;
-    width: 40%; /* Ajusta el ancho según tus necesidades */
-  }
+  text-align: right;
+  width: 40%; /* Ajusta el ancho según tus necesidades */
+}
 
-  .form-group input,
-  .form-group select,
-  .form-group textarea {
-    width: 60%; /* Ajusta el ancho según tus necesidades */
-  }
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 60%; /* Ajusta el ancho según tus necesidades */
+}
 
 .form-group.valida-contrasena {
-    color: green; /* Color para indicar que la contraseña es válida */
+  color: green; /* Color para indicar que la contraseña es válida */
 }
 
 .form-group.invalida-contrasena {
-    color: red; /* Color para indicar que la contraseña no es válida */
+  color: red; /* Color para indicar que la contraseña no es válida */
 }
 
 .campo-requerido {
@@ -326,50 +381,65 @@ this.contrasenaValida = regexContrasena.test(this.password) && this.password.len
 }
 
 h2 {
-    padding: 1rem;
+  padding: 1rem;
 }
 
 .contenidoPrincipal {
-    width: 80%;
+  width: 80%;
+  
 }
 
-form {}
+
 
 .campos {
-    box-sizing: border-box;
-    display: flex;
-    flex-wrap: wrap;
-    background-color: #D9D9D9;
-    padding: 2rem;
-    margin: 0 15%;
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #d9d9d9;
+  padding: 2rem;
+  padding-top: 3%;
+  margin-bottom: 0%;
+  padding-bottom: 0%;
+  margin: 0 5%;
+  width: 90%;
+  border-radius: 10px; /* Puedes ajustar el valor según tus preferencias */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Puedes ajustar los valores según tus preferencias */
 }
 
-.ladoIzq,
+
+
+.ladoIzq{
+    width: 53%;
+}
 .ladoDerecho {
-    width: 50%;
+  width: 45%;
 }
 
 .form-group {
-    display: flex;
-    justify-content: space-between;
-    margin: 0 3rem 1rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 3rem 1rem 3rem;
 }
 
+
+
 .guardar {
-    box-sizing: border-box;
-    display: flex;
-    border-radius: 0.9375rem;
-    background: #21B7E7;
-    padding: 1rem;
-    margin: 1rem 0 0 70%;
+  box-sizing: border-box;
+  display: flex;
+  border-radius: 0.9375rem;
+  background: #21b7e7;
+  padding: 1rem;
+  margin: 1rem 0 0 70%;
 }
 
 .guardar p {
-    display: flex;
-    margin: 1% 1rem;
+  display: flex;
+  margin: 1% 1rem;
 }
 
 .guardar img {
-    width: 1rem;
+  width: 1rem;
 }
+
+
 </style>

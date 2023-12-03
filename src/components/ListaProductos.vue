@@ -1,64 +1,32 @@
 <template>
     <div class="contenidoPrincipal">
-        <h2>Alta de Producto</h2>
-        <form @submit.prevent="enviarProducto">
-            <div class="campos">
-                <div class="ladoIzq">
-                    <div class="form-group">
-                        <label for="name">Nombre:<span class="required-marker">*</span></label>
-                        <input type="text" v-model="name" required tabindex="1">
-                    </div>
-                    <div class="form-group">
-                        <label for="descripcion">Descripción:<span class="required-marker">*</span></label>
-                        <input type="text" v-model="descripcion" required tabindex="2">
-                    </div>
-                    <div class="form-group">
-    <label for="size">Tamaño:<span class="required-marker">*</span></label>
-    <input type="text" v-model="size" required pattern="[0-9]+([.][0-9]+)?" tabindex="3" title="Ingrese un número válido" @input="validarTamaño">
-    <select v-model="tamaño" required tabindex="4">
-      <option value="1">L</option>
-      <option value="2" selected>ml</option>
-      <option value="3">Kg</option>
-      <option value="4">g</option>
-    </select>
-  </div>
-                    <div class="form-group">
-    <label for="precio">Precio:<span class="required-marker">*</span></label>
-    <input type="text" v-model="precio" required @input="validarPrecio" tabindex="5">
-  </div>
-                </div>
-                <div class="ladoDerecho">
-                    <div class="form-group">
-                        <label for="brand">Marca:<span class="required-marker">*</span></label>
-                        <input type="text" v-model="brand" required tabindex="6">
-                    </div>
-                    <div class="form-group">
-                        <label for="imgurl">Imagen:</label>
-                        <input type="text" v-model="imgurl">
-                    </div>
-                    <div class="form-group">
-                        <label for="stock">Existencia:<span class="required-marker">*</span></label>
-                        <input type="numeric" v-model="stock" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="prov">Proveedor:<span class="required-marker">*</span></label>
-                        <input type="numeric" v-model="prov" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="categoria">Categoría:<span class="required-marker">*</span></label>
-                        <select v-model="categoria" required>
-                            <option value="1">Bebidas</option>
-                            <option value="2" selected>Abarrotes</option>
-                            <option value="3">Comestibles</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <button class="guardar" type="submit">
-                <img src="https://cdn-icons-png.flaticon.com/512/2550/2550221.png" alt="">
-                <p>Guardar</p>
-            </button>
-        </form>
+        <h2>Lista de productos</h2>
+        <table>
+            <thead>
+                <th>Nombre</th>
+                <th>Descipcion</th>
+                <th>Precio</th>
+                <th>Existencia</th>
+                <th>Acciones</th>
+            </thead>
+            <tbody>
+
+                <tr v-for="producto in productos" :key="producto.id">
+                    <td>{{ producto.name }}</td>
+                    <td>{{ producto.description }}</td>
+                    <td>{{ producto.salePrice }}</td>
+                    <td>{{ producto.stock }}</td>
+                    <td><button class="btn-editar" @click="editarProducto(producto)">Editar</button></td>
+                    <td><button class="btn-borrar" @click="eliminarProducto(producto)">Borrar</button></td>
+                </tr>
+
+
+            </tbody>
+        </table>
+        <button class="guardar" type="submit" @click="navigateTo('AltaUsuario')">
+            <img src="https://cdn-icons-png.flaticon.com/512/2550/2550221.png " alt="">
+            <p>Agregar Producto</p>
+        </button>
     </div>
 </template>
 
@@ -66,129 +34,67 @@
 export default {
     data() {
         return {
-            id: 0,
-            name: "",
-            descripcion: "",
-            imgurl: "",
-           // size: "",
-            //precio: 0,
-            stock: 0,
-            brand: "",
-            prov: 0,
-            categoria: 0,
-            editingProductId: 0,
-
-
-            precio: "",
-            size: "",
-            tamaño: 0, 
+            productos: [], // Agrega la propiedad productos al estado del componente
         };
     },
     methods: {
-
-
-        
-        async cargarDatosProducto() {
+        async cargarProductos() {
             try {
-
-                const id = this.$route.params.id;
-                console.log(id);
-                this.editingProductId = id;
                 const token = localStorage.getItem('token');
-                const response = await this.$axios.get(`http://localhost:3000/api/products/search/${id}`, {
+                const response = await this.$axios.get('http://localhost:3000/api/products', {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
                 });
 
-                // Llena el formulario con los datos del producto existente
-                const producto = response.data;
-                this.name = producto.name;
-                this.descripcion = producto.description;
-                this.barcode = producto.barCode;
-                this.size = producto.measureUnit;
-                this.precio = producto.salePrice;
-                this.stock = producto.stock;
-                this.brand = producto.brand;
+                // Asigna la lista de productos a la propiedad productos
+                this.productos = response.data;
 
-                this.prov = producto.providerId;
-                this.categoria = producto.categoryId;
-
-                console.log('Datos del producto cargados para edición:', producto);
+                console.log('Lista de productos:', this.productos);
             } catch (error) {
-                console.error('Error al cargar los datos del producto para edición:', error);
+                console.error('Error al cargar la lista de productos:', error);
+                // Manejar errores, por ejemplo, mostrar un mensaje al usuario.
             }
         },
-        async enviarProducto() {
-            let response;
-
+        editarProducto(producto) {
+            console.log(producto);
+            this.$router.push({ name: 'admineditProductos', params: { id: producto.id } });
+        },
+        async eliminarProducto(producto) {
             try {
-                const producto = {
-                    name: this.name,
-                    purchasePrice: this.precio,
-                    salePrice: this.precio, // Puedes ajustar según tus necesidades
-                    description: this.descripcion,
-                    barCode: this.barcode, // Puedes ajustar según tus necesidades
-                    // Puedes ajustar según tus necesidades
-                    stock: this.stock,
-                    brand: this.brand, // Puedes ajustar según tus necesidades
-                    measureUnit: this.size, // Puedes ajustar según tus necesidades
-                    providerId: this.prov, // Puedes ajustar según tus necesidades
-                    categoryId: this.categoria, // Puedes ajustar según tus necesidades
-                };
-                if (this.$route.params.id) {
-                    response = await this.$axios.patch(`http://localhost:3000/api/products/${this.editingProductId}`, producto, {
-                        headers: {
-                            Authorization: `Bearer ${localStorage.getItem('token')}`,
-                        },
-                    });
-
-                    alert('Producto actualizado con éxito');
-                }
-                else{
-                    response = await this.$axios.post(`http://localhost:3000/api/products/`, producto, {
+                const token = localStorage.getItem('token');
+                await this.$axios.delete(`http://localhost:3000/api/products/${producto.id}`, {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`,
-                    }
+                        Authorization: `Bearer ${token}`,
+                    },
                 });
-                this.$router.push({ name: 'adminlistaProductos' });
-                console.log("Enviando producto al backend:", producto);
-                alert('Producto creado con éxito');
-                }
-                
+
+                // Recarga la lista de productos después de eliminar
+                this.cargarProductos();
+                alert('Producto eliminado con éxito');
             } catch (error) {
-                console.error("Error al crear producto", error);
-                alert('Error al crear usuario verifica los datos');
+                console.error('Error al eliminar el producto:', error);
+                // Manejar errores, por ejemplo, mostrar un mensaje al usuario.
             }
-            
-
-
         },
-
-        validarPrecio() {
-            // Filtra caracteres no numéricos y actualiza el valor del precio
-            this.precio = this.precio.replace(/[^0-9.]/g, '');
+        navigateTo(route) {
+            // Utiliza el enrutador para cambiar la ruta
+            this.$router.push({ name: route });
+            console.log(`Navegar a ${route}`);
         },
-        validarTamaño() {
-        // Filtra caracteres no numéricos y actualiza el valor del tamaño
-        this.size = this.size.replace(/[^0-9.]/g, '');
-        },
-
 
     },
     mounted() {
-        // Llama a cargarDatosProducto cuando el componente se crea, si estás editando un producto existente
-        if (this.$route.params.id) {
-            this.cargarDatosProducto();
-        }
+        // Llama a cargarProductos al montar el componente
+        this.cargarProductos();
     },
-};
+}
 </script>
 
 
 <style scoped>
 h2 {
-    padding: 1rem;
+  padding: 1rem;
 }
 
 .required-marker {
@@ -203,52 +109,78 @@ label {
 }
 
 .contenidoPrincipal {
-    width: 80%;
+  width: 80%;
 }
 
-input {
-    padding-left: 2%;
-    font-size: medium;
-}
-
-.campos {
-    box-sizing: border-box;
-    display: flex;
-    flex-wrap: wrap;
+table {
+    width: 70%;
     background-color: #D9D9D9;
     padding: 2rem;
     margin: 0 15%;
 }
 
-.ladoIzq,
-.ladoDerecho {
-    width: 40%;
-    padding-left: 6%;
+th,
+td {
+    padding: 8px;
+    text-align: left;
 }
 
-.form-group {
-    display: flex;
-    justify-content: space-between;
-    margin: 0 5rem 1rem 3rem;
-    margin-right: auto;
-    margin-left: auto;
+td {
+    background-color: aliceblue;
 }
 
-.guardar {
+button {
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-editar {
+    background-color:rgb(73, 224, 73) ;
+    color: #fff;
+     margin-left: 10%;
+    margin-right: 5%;
+    padding: 10% 20%;
+    
+  }
+  .btn-editar:hover {
+    background-color:rgb(19, 184, 19); /* Color de fondo al pasar el ratón */
+    color: black;
+  }
+  .btn-borrar {
+    background-color:rgb(243, 75, 75) ;
+    color: #fff;
+    margin-left: 8%;
+    margin-right: 10%;
+    padding: 17% 22%;
+    
+  }
+  .btn-borrar:hover {
+    background-color:red; /* Color de fondo al pasar el ratón */
+    color: black;
+  }
+  
+  .guardar {
     box-sizing: border-box;
     display: flex;
     border-radius: 0.9375rem;
     background: #21B7E7;
-    padding: 1rem;
-    margin: 1rem 0 0 74%;
-}
-
-.guardar p {
+    margin: 1rem 0 0 69%;
+    padding: 1% 1%;
+  }
+  
+  .guardar img {
+    height: 1rem;
+    padding: 0%;
+    margin: 0%;
+    padding-top: 0%;
+  }
+  
+  .guardar p {
     display: flex;
     margin: 1% 1rem;
-}
-
-.guardar img {
-    width: 1rem;
-}
+    font-size: 14px;
+  }
 </style>

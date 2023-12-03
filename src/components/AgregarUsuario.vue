@@ -13,6 +13,7 @@
               id="whNombre"
               type="text"
               v-model="whNombre"
+              @input="SoloLetrasN"
               required
             />
           </div>
@@ -25,6 +26,7 @@
               id="whPaterno"
               type="text"
               v-model="whPaterno"
+              @input="SoloLetrasP"
               required
             />
           </div>
@@ -38,6 +40,7 @@
               id="whMaterno"
               type="text"
               v-model="whMaterno"
+              @input="SoloLetrasM"
               required
             />
           </div>
@@ -48,97 +51,88 @@
               >:</label
             >
             <input
-            
               name="whFecNac"
               id="whFecNac"
               v-model="whFecNac"
               type="text"
               placeholder="dd/mm/aaaa"
-              size="10"
+              @input="SoloFecha"
+              maxlength="10"
+              size="12"
             />
           </div>
 
           <div class="form-group">
-            <label for="Rol">Genero<span class="campo-requerido">*</span>:</label>
-            <select name="whGenero" id="whGenero" v-model="whGenero" >
-                <option value="x">-Elige-</option>
-                <option value="F">FEMENINO</option>
-                <option value="M">MASCULINO</option>
-              </select>
+            <label for="Rol"
+              >Genero<span class="campo-requerido">*</span>:</label
+            >
+            <select name="whGenero" id="whGenero" v-model="whGenero">
+              <option value="x">-Elige-</option>
+              <option value="F">FEMENINO</option>
+              <option value="M">MASCULINO</option>
+            </select>
           </div>
 
-
-
           <div class="form-group">
-            <label for="Rol">Nacionalidad<span class="campo-requerido">*</span>:</label>
+            <label for="Rol"
+              >Nacionalidad<span class="campo-requerido">*</span>:</label
+            >
             <select name="whNacion" id="whNacion" v-model="whNacion">
-                <option value="1">MÉXICO</option>
-                <option value="2">AFGANISTAN</option>
-                <option value="3">ALBANIA</option>
-                <option value="4">ALEMANIA</option>
-                <option value="5">ANDORRA</option>
-                <option value="6">ANGOLA</option>
-                <option value="180">ANGUILA</option>
-                <option value="181">ANTÁRTICA</option>
-               
-                
-                <option value="0">OTRO</option>
-              </select>
+              <option value="1">MÉXICO</option>
+              <option value="2">AFGANISTAN</option>
+              <option value="3">ALBANIA</option>
+              <option value="4">ALEMANIA</option>
+              <option value="5">ANDORRA</option>
+              <option value="6">ANGOLA</option>
+              <option value="180">ANGUILA</option>
+              <option value="181">ANTÁRTICA</option>
+
+              <option value="0">OTRO</option>
+            </select>
           </div>
-
-
 
           <div class="form-group">
-            <label for="Rol">Estado de nacimiento<span class="campo-requerido">*</span>:</label>
+            <label for="Rol"
+              >Estado de nacimiento<span class="campo-requerido">*</span
+              >:</label
+            >
             <select name="whEntNac" id="whEntNac" v-model="whEntNac">
-                <option value="x">- Elige un Estado-</option>
-                <option value="0">CIUDAD DE MEXICO</option>
-                <option value="1">AGUASCALIENTES</option>
-                <option value="2">BAJA CALIFORNIA NORTE</option>
-                <option value="3">BAJA CALIFORNIA SUR</option>
-                <option value="4">CAMPECHE</option>
-                <option value="5">COAHUILA</option>
-                <option value="6">COLIMA</option>
-                <option value="7">CHIAPAS</option>
-                <option value="8">CHIHUAHUA</option>
-                <option value="9">DURANGO</option>
-                <option value="10">GUANAJUATO</option>
-                <option value="11">GUERRERO</option>
-                <option value="12">HIDALGO</option>
-                <option value="13">JALISCO</option>
-                <option value="14">ESTADO DE MÉXICO</option>
-                <option value="15">MICHOACÁN</option>
-                <option value="16">MORELOS</option>
-                <option value="17">NAYARIT</option>
-                <option value="18">NUEVO LEÓN</option>
-                <option value=19>OAXACA</option>
-                <option value="20">PUEBLA </option>
-                <option value="21">QUERÉTARO</option>
-                <option value="22">QUINTANA ROO</option>
-                <option value="23">SAN LUIS POTOSÍ</option>
-                <option value="24">SINALOA</option>
-                <option value="25">SONORA</option>
-                <option value="26">TABASCO</option>
-                <option value="27">TAMAULIPAS</option>
-                <option value="28">TLAXCALA</option>
-                <option value="29">VERACRUZ </option>
-                <option value="30">YUCATÁN</option>
-                <option value="31">ZACATECAS</option>
-                <option value="32">EXTRANJERO</option>	
-
-              </select>
+              <option value="x">- Elige un Estado-</option>
+              <option value="0">CIUDAD DE MEXICO</option>
+              <option value="1">AGUASCALIENTES</option>
+              <option value="2">BAJA CALIFORNIA NORTE</option>
+              <option value="3">BAJA CALIFORNIA SUR</option>
+              <option value="4">CAMPECHE</option>
+              <option value="5">COAHUILA</option>
+              <option value="6">COLIMA</option>
+              <option value="7">CHIAPAS</option>
+              <option value="8">CHIHUAHUA</option>
+              <option value="9">DURANGO</option>
+              <option value="10">GUANAJUATO</option>
+              <option value="11">GUERRERO</option>
+              <option value="12">HIDALGO</option>
+              <option value="13">JALISCO</option>
+              <option value="14">ESTADO DE MÉXICO</option>
+              <option value="15">MICHOACÁN</option>
+              <option value="16">MORELOS</option>
+              <option value="17">NAYARIT</option>
+              <option value="18">NUEVO LEÓN</option>
+              <option value="19">OAXACA</option>
+              <option value="20">PUEBLA</option>
+              <option value="21">QUERÉTARO</option>
+              <option value="22">QUINTANA ROO</option>
+              <option value="23">SAN LUIS POTOSÍ</option>
+              <option value="24">SINALOA</option>
+              <option value="25">SONORA</option>
+              <option value="26">TABASCO</option>
+              <option value="27">TAMAULIPAS</option>
+              <option value="28">TLAXCALA</option>
+              <option value="29">VERACRUZ</option>
+              <option value="30">YUCATÁN</option>
+              <option value="31">ZACATECAS</option>
+              <option value="32">EXTRANJERO</option>
+            </select>
           </div>
-
-          
-
-
-
-
-            
-          
-
-         
-
         </div>
         <div class="ladoDerecho">
           <div class="form-group">
@@ -184,33 +178,41 @@
             >
             <input type="tel" v-model="phone" required />
           </div>
-          
 
-          <div class="form-group">
+          <div class="form-curp">
             <p>
               <input
+                class="genera"
                 type="button"
                 value="Pulsa para generar CURP"
-                @click="btGenCurp(this.form);"
-              /><br /><br />
-              CURP: <input name="whCurp" id="whCurp"  v-model="whCurp"
-              @input="convertirAMayusculas('whCurp')" required
-              maxlength="17"/>
+                @click="btGenCurp(this.form)"
+              />
+
+              <br /><br />
+              CURP:
+              <input
+                class="input-whCurp"
+                name="whCurp"
+                id="whCurp"
+                v-model="whCurp"
+                @input="convertirAMayusculas('whCurp')"
+                required
+                maxlength="18"
+              />
+
+              <br /><br />
             </p>
           </div>
-
-          
-
-
 
           <div class="form-group">
             <label for="rfc">RFC<span class="campo-requerido">*</span>:</label>
             <input
               type="text"
               v-model="rfc"
+              @focus="actualizarRFC"
               @input="convertirAMayusculas('rfc')"
               required
-              maxlength="12"
+              maxlength="13"
             />
           </div>
 
@@ -240,112 +242,141 @@
 </template>
 
 <script>
-
 function GeneraCURP(nom, pat, mat, fecha, genero, edo) {
-    
-  nom = nom.toUpperCase().replace(/^(DE |DEL |LO |LOS |LA |LAS |MARIA |JOSE )+/g, '');
-  pat = pat.toUpperCase().replace(/^(DE |DEL |LO |LOS |LA |LAS )+/g, '');
-  mat = mat.toUpperCase().replace(/^(DE |DEL |LO |LOS |LA |LAS )+/g, '');
-  mat = mat === '' ? 'X' : mat;
+  nom = nom
+    .toUpperCase()
+    .replace(/^(DE |DEL |LO |LOS |LA |LAS |MARIA |JOSE )+/g, "");
+  pat = pat.toUpperCase().replace(/^(DE |DEL |LO |LOS |LA |LAS )+/g, "");
+  mat = mat.toUpperCase().replace(/^(DE |DEL |LO |LOS |LA |LAS )+/g, "");
+  mat = mat === "" ? "X" : mat;
 
-  const primerasLetras = pat.charAt(0) + buscaVocal(pat) + mat.charAt(0) ;
-  const letrasPaternas = buscaConsonante(pat) + buscaConsonante(mat) + buscaConsonante(nom);
+  const primerasLetras =
+    pat.charAt(0) + buscaVocal(pat) + mat.charAt(0) + nom.charAt(0);
+  const letrasPaternas =
+    buscaConsonante(pat) + buscaConsonante(mat) + buscaConsonante(nom);
   const anio = fecha.substring(8, 10);
   const mes = fecha.substring(3, 5);
   const dia = fecha.substring(0, 2);
-  const generoLetra = genero === 'M' ? 'H' : 'M';
+  const generoLetra = genero === "M" ? "H" : "M";
   const estadoLetras = estado(edo);
-  const digitoVerificador = ultdig(primerasLetras + anio + mes + dia + generoLetra );
+  const digitoVerificador = ultdig(
+    primerasLetras + anio + mes + dia + generoLetra
+  );
 
-  return primerasLetras + anio + mes + dia + generoLetra + estadoLetras + letrasPaternas
-
-
-  
-  
+  return (
+    primerasLetras +
+    anio +
+    mes +
+    dia +
+    generoLetra +
+    estadoLetras +
+    letrasPaternas
+  );
 }
 
-
-    function buscaVocal( str )
-{var vocales='AEIOU';
-var i, c;
-	for(i=1; i<str.length; i++)	{
-		c=str.charAt(i);
-		if ( vocales.indexOf(c)>=0 ){
-			return c;
-		}		
-	}
-	return 'X';
+function buscaVocal(str) {
+  var vocales = "AEIOU";
+  var i, c;
+  for (i = 1; i < str.length; i++) {
+    c = str.charAt(i);
+    if (vocales.indexOf(c) >= 0) {
+      return c;
+    }
+  }
+  return "X";
 }
-
 
 function buscaConsonante(str) {
-    var vocales = 'AEIOU ��.';
-    var i, c;
-    for (i = 1; i < str.length; i++) {
-      c = str.charAt(i);
-      if (vocales.indexOf(c) < 0) {
-        return c;
-      }
+  var vocales = "AEIOU ��.";
+  var i, c;
+  for (i = 1; i < str.length; i++) {
+    c = str.charAt(i);
+    if (vocales.indexOf(c) < 0) {
+      return c;
     }
-    return 'X';
   }
+  return "X";
+}
 
-  function tabla(i, x) {
-    if (i >= '0' && i <= '9') return x - 48;
-    else if (i >= 'A' && i <= 'N') return x - 55;
-    else if (i >= 'O' && i <= 'Z') return x - 54;
-    else return 0;
-  }
-
-
-
-
-
+function tabla(i, x) {
+  if (i >= "0" && i <= "9") return x - 48;
+  else if (i >= "A" && i <= "N") return x - 55;
+  else if (i >= "O" && i <= "Z") return x - 54;
+  else return 0;
+}
 
 function cambiaPalabra(str) {
-    var pal1 = new RegExp(/BUEI|BUEY|CACA|CACO|CAGA|CAGO|CAKA|CAKO|COGE|COJA|COJE|COJI|COJO|CULO|FETO|GUEY/);
-    var pal2 = new RegExp(/JOTO|KACA|KACO|KAGA|KAGO|KOGE|KOJO|KAKA|KULO|LOCA|LOCO|MAME|MAMO|MEAR|MEAS|MEON/);
-    var pal3 = new RegExp(/MION|MOCO|MULA|PEDA|PEDO|PENE|PUTA|PUTO|QULO|RATA|RUIN/);
-    var val;
+  var pal1 = new RegExp(
+    /BUEI|BUEY|CACA|CACO|CAGA|CAGO|CAKA|CAKO|COGE|COJA|COJE|COJI|COJO|CULO|FETO|GUEY/
+  );
+  var pal2 = new RegExp(
+    /JOTO|KACA|KACO|KAGA|KAGO|KOGE|KOJO|KAKA|KULO|LOCA|LOCO|MAME|MAMO|MEAR|MEAS|MEON/
+  );
+  var pal3 = new RegExp(
+    /MION|MOCO|MULA|PEDA|PEDO|PENE|PUTA|PUTO|QULO|RATA|RUIN/
+  );
+  var val;
 
-    str = str.substring(0, 4);
+  str = str.substring(0, 4);
 
-    val = pal1.test(str) || pal2.test(str);
-    val = pal3.test(str) || val;
+  val = pal1.test(str) || pal2.test(str);
+  val = pal3.test(str) || val;
 
-    if (val) return str.substring(0, 1) + 'X' + str.substring(2, 4);
+  if (val) return str.substring(0, 1) + "X" + str.substring(2, 4);
 
-    return str;
-  }
+  return str;
+}
 
-  function estado(edo) {
-  var vestado = ['DF', 'AS', 'BC', 'BS', 'CC', 'CL', 'CM', 'CS', 'CH', 'DG', 'GT', 'GR', 'HG', 'JC', 'MC', 'MN',
-    'MS', 'NT', 'NL', 'OC', 'PL', 'QT', 'QR', 'SP', 'SL', 'SR', 'TC', 'TS', 'TL', 'VZ', 'YN', 'ZS', 'NE'
+function estado(edo) {
+  var vestado = [
+    "DF",
+    "AS",
+    "BC",
+    "BS",
+    "CC",
+    "CL",
+    "CM",
+    "CS",
+    "CH",
+    "DG",
+    "GT",
+    "GR",
+    "HG",
+    "JC",
+    "MC",
+    "MN",
+    "MS",
+    "NT",
+    "NL",
+    "OC",
+    "PL",
+    "QT",
+    "QR",
+    "SP",
+    "SL",
+    "SR",
+    "TC",
+    "TS",
+    "TL",
+    "VZ",
+    "YN",
+    "ZS",
+    "NE",
   ];
   return vestado[edo];
 }
 
-
-
-
-
-
-  function ultdig(curp) {
-    var i, c, dv = 0;
-    for (i = 0; i < curp.length; i++) {
-      c = tabla(curp.charAt(i), curp.charCodeAt(i));
-      dv += c * (18 - i);
-    }
-    dv %= 10;
-    return dv == 0 ? 0 : 10 - dv;
+function ultdig(curp) {
+  var i,
+    c,
+    dv = 0;
+  for (i = 0; i < curp.length; i++) {
+    c = tabla(curp.charAt(i), curp.charCodeAt(i));
+    dv += c * (18 - i);
   }
-
-
-
-
-
-
-
+  dv %= 10;
+  return dv == 0 ? 0 : 10 - dv;
+}
 
 export default {
   data() {
@@ -364,15 +395,15 @@ export default {
       edicion: 0,
 
       //curp
-     whNombre: "",
-     whPaterno: "",
-     whMaterno: "",
-     whGenero: "",
-     whFecNac: "",
-     whEntNac: "",
-     whCurp: "",
-     whNacion: "",
-     
+      whNombre: "",
+      whPaterno: "",
+      whMaterno: "",
+      whGenero: "",
+      whFecNac: "",
+      whEntNac: "",
+      whCurp: "",
+      whNacion: "",
+      esFechaValida: true,
 
       contrasenaValida: false,
       mensajeContrasena: "",
@@ -380,11 +411,6 @@ export default {
       camposRequeridosCompletos: true,
     };
   },
-
-
-
-
-  
 
   watch: {
     phone: function (newPhone) {
@@ -402,152 +428,174 @@ export default {
   },
 
   methods: {
-   
+    actualizarRFC() {
+      // Actualizar el valor del RFC con el valor del otro input
+      this.rfc = this.whCurp.slice(0, 10);
+      //this.rfc = this.otroInput.slice(0, 6);
+    },
 
-// JavaScript Document
-//*************************************************************************************
-btGenCurp() {
-  if (!this.validaNombrePaternoMaterno() || !this.validaFechaGeneroEstado()) {
-    return;
-  }
-  
-  const curp = GeneraCURP(
-    this.whNombre,
-    this.whPaterno,
-    this.whMaterno,
-    this.whFecNac,
-    this.whGenero,
-    this.whEntNac
-  );
-  
-  if (curp !== 'x') {
-    this.whCurp = curp;
-    // Puedes mostrar mensajes o realizar otras acciones según sea necesario
-  }
-},
+    // JavaScript Document
+    //*************************************************************************************
+    btGenCurp() {
+      if (
+        !this.validaNombrePaternoMaterno() ||
+        !this.validaFechaGeneroEstado()
+      ) {
+        return;
+      }
 
-calcularCurp() {
-  // Obtén el valor de whCurp directamente desde tu modelo de datos en lugar de usar jQuery
-  var Vcurp = this.whCurp;
-  
-  // Asigna el valor de whCurp a la propiedad curp en el modelo de datos de Vue
-  this.curp = Vcurp;
+      const curp = GeneraCURP(
+        this.whNombre,
+        this.whPaterno,
+        this.whMaterno,
+        this.whFecNac,
+        this.whGenero,
+        this.whEntNac
+      );
 
-  var VFecha = this.whFecNac;
-  this.birth = VFecha;
+      if (curp !== "x") {
+        this.whCurp = curp;
+        // Puedes mostrar mensajes o realizar otras acciones según sea necesario
+      }
+    },
 
-},
+    calcularCurp() {
+      // Obtén el valor de whCurp directamente desde tu modelo de datos en lugar de usar jQuery
+      var Vcurp = this.whCurp;
 
+      // Asigna el valor de whCurp a la propiedad curp en el modelo de datos de Vue
+      this.curp = Vcurp;
 
-validaNombrePaternoMaterno(tipoAsp) {
-  // Utiliza this.whNombre directamente desde el modelo de datos de Vue
-  this.whNombre = this.whNombre.trim();
+      var VFecha = this.whFecNac;
+      this.birth = VFecha;
+    },
 
-  // Utiliza this.whPaterno directamente desde el modelo de datos de Vue
-  this.whPaterno = this.whPaterno.trim();
+    validaNombrePaternoMaterno(tipoAsp) {
+      // Utiliza this.whNombre directamente desde el modelo de datos de Vue
+      this.whNombre = this.whNombre.trim();
 
-  // Utiliza this.whMaterno directamente desde el modelo de datos de Vue
-  this.whMaterno = this.whMaterno.trim();
+      // Utiliza this.whPaterno directamente desde el modelo de datos de Vue
+      this.whPaterno = this.whPaterno.trim();
 
-  if (tipoAsp !== '3') {
-    return true;
-  }
+      // Utiliza this.whMaterno directamente desde el modelo de datos de Vue
+      this.whMaterno = this.whMaterno.trim();
 
-  if (!this.validaNombre(this.whNombre)) {
-    if (this.whNombre === '') {
-      alert('Escribe tu nombre por favor');
-    } else {
-      alert('El campo nombre solo acepta letras (A-Z), el espacio y el punto.\nNo se aceptan caracteres acentuados ni diéresis.');
-    }
-    // En Vue, evita usar this.whNombre.focus(), ya que Vue maneja el DOM de manera reactiva
-    return false;
-  }
-
-  if (!this.validaNombre(this.whPaterno)) {
-    if (this.whPaterno === '') {
-      alert('Escribe tu apellido paterno por favor.\nSi solo tienes un apellido, escríbelo aquí.');
-    } else {
-      alert('El campo de apellido paterno solo acepta letras (A-Z), el espacio y el punto.\nNo se aceptan caracteres acentuados ni diéresis.');
-    }
-    // En Vue, evita usar this.whPaterno.focus()
-    return false;
-  }
-
-  if (!this.validaNombre(this.whMaterno)) {
-    if (this.whMaterno === '') {
-      if (confirm('¿Deseas dejar el campo de apellido materno en blanco?')) {
+      if (tipoAsp !== "3") {
         return true;
       }
-    } else {
-      alert('El campo apellido materno solo acepta letras (A-Z), el espacio y el punto.\nNo se aceptan caracteres acentuados ni diéresis.');
-    }
-    // En Vue, evita usar this.whMaterno.focus()
-    return false;
-  }
 
-  // En Vue, no es necesario utilizar focus y blur directamente
-  return true;
-},
+      if (!this.validaNombre(this.whNombre)) {
+        if (this.whNombre === "") {
+          alert("Escribe tu nombre por favor");
+        } else {
+          alert(
+            "El campo nombre solo acepta letras (A-Z), el espacio y el punto.\nNo se aceptan caracteres acentuados ni diéresis."
+          );
+        }
+        // En Vue, evita usar this.whNombre.focus(), ya que Vue maneja el DOM de manera reactiva
+        return false;
+      }
 
-//*************************************************************************************
-//*************************************************************************************
-validaFechaGeneroEstado(tipoAsp) {
-  // Utiliza this.whFecNac directamente desde el modelo de datos de Vue
-  this.whFecNac = this.whFecNac.trim();
+      if (!this.validaNombre(this.whPaterno)) {
+        if (this.whPaterno === "") {
+          alert(
+            "Escribe tu apellido paterno por favor.\nSi solo tienes un apellido, escríbelo aquí."
+          );
+        } else {
+          alert(
+            "El campo de apellido paterno solo acepta letras (A-Z), el espacio y el punto.\nNo se aceptan caracteres acentuados ni diéresis."
+          );
+        }
+        // En Vue, evita usar this.whPaterno.focus()
+        return false;
+      }
 
-  if (this.whFecNac === '') {
-    alert('Debes elegir tu fecha de nacimiento.');
-    // En Vue, evita usar this.whFecNac.focus()
-    return false;
-  }
+      if (!this.validaNombre(this.whMaterno)) {
+        if (this.whMaterno === "") {
+          if (
+            confirm("¿Deseas dejar el campo de apellido materno en blanco?")
+          ) {
+            return true;
+          }
+        } else {
+          alert(
+            "El campo apellido materno solo acepta letras (A-Z), el espacio y el punto.\nNo se aceptan caracteres acentuados ni diéresis."
+          );
+        }
+        // En Vue, evita usar this.whMaterno.focus()
+        return false;
+      }
 
-  if (this.whFecNac.length !== 10) {
-    alert('La fecha de nacimiento debe estar en formato dd/mm/aaaa.');
-    // En Vue, evita usar this.whFecNac.focus()
-    return false;
-  }
+      // En Vue, no es necesario utilizar focus y blur directamente
+      return true;
+    },
 
-  if (this.whGenero === '' || this.whGenero === 'x') {
-    alert('Selecciona tu género.');
-    // En Vue, evita usar this.whGenero.focus()
-    return false;
-  }
+    //*************************************************************************************
+    //*************************************************************************************
+    validaFechaGeneroEstado(tipoAsp) {
+      // Utiliza this.whFecNac directamente desde el modelo de datos de Vue
+      this.whFecNac = this.whFecNac.trim();
 
-  if (this.whEntNac === '' || this.whEntNac === 'x') {
-    alert('Elige tu lugar de nacimiento.');
-    // En Vue, evita usar this.whEntNac.focus()
-    return false;
-  }
+      if (this.whFecNac === "") {
+        alert("Debes elegir tu fecha de nacimiento.");
+        // En Vue, evita usar this.whFecNac.focus()
+        return false;
+      }
 
-  // En Vue, no es necesario utilizar focus y blur directamente
-  return true;
-},
+      if (this.whFecNac.length !== 10) {
+        alert("La fecha de nacimiento debe estar en formato dd/mm/aaaa.");
+        // En Vue, evita usar this.whFecNac.focus()
+        return false;
+      }
 
-validaNombre(cmp) {
-  cmp = cmp.trim();
-  if (cmp.length === 0) {
-    return false;
-  }
-  
-  for (let i = 0; i < cmp.length; i++) {
-    const c = cmp.charAt(i);
-    if (!((('A' <= c && c <= 'Z') || c === 'Ñ' || c === '.' || c === ' '))) {
-      return false;
-    }
-  }
+      if (this.whGenero === "" || this.whGenero === "x") {
+        alert("Selecciona tu género.");
+        // En Vue, evita usar this.whGenero.focus()
+        return false;
+      }
 
-  return true;
+      if (this.whEntNac === "" || this.whEntNac === "x") {
+        alert("Elige tu lugar de nacimiento.");
+        // En Vue, evita usar this.whEntNac.focus()
+        return false;
+      }
 
-},
+      // En Vue, no es necesario utilizar focus y blur directamente
+      return true;
+    },
 
-  
+    validaNombre(cmp) {
+      cmp = cmp.trim();
+      if (cmp.length === 0) {
+        return false;
+      }
 
-  
- 
+      for (let i = 0; i < cmp.length; i++) {
+        const c = cmp.charAt(i);
+        if (!(("A" <= c && c <= "Z") || c === "Ñ" || c === "." || c === " ")) {
+          return false;
+        }
+      }
 
+      return true;
+    },
 
+    SoloLetrasN() {
+      // Utiliza una expresión regular para permitir solo letras de la A a la Z
+      this.whNombre = this.whNombre.replace(/[^a-zA-Z]/g, "");
+    },
+    SoloLetrasP() {
+      // Utiliza una expresión regular para permitir solo letras de la A a la Z
+      this.whPaterno = this.whPaterno.replace(/[^a-zA-Z]/g, "");
+    },
+    SoloLetrasM() {
+      // Utiliza una expresión regular para permitir solo letras de la A a la Z
+      this.whMaterno = this.whMaterno.replace(/[^a-zA-Z]/g, "");
+    },
 
-
+    SoloFecha() {
+      this.whFecNac = this.whFecNac.replace(/[^0-9/]/g, "");
+    },
 
     convertirAMayusculas(propiedad) {
       // Método para convertir la propiedad a mayúsculas
@@ -593,13 +641,6 @@ validaNombre(cmp) {
         }
       }
     },
-
-
-
-
-
-
-
 
     validarContrasena() {
       // Expresión regular para validar la contraseña
@@ -697,7 +738,7 @@ validaNombre(cmp) {
 
         // Construye el objeto con los datos del formulario
         const usuarioActualizado = {
-          curp: this.whCurpurp,
+          curp: this.whCurp,
           rfc: this.rfc,
           fullname: `${this.whNombre} ${this.whPaterno}`,
           phone: this.phone,
@@ -795,23 +836,23 @@ h2 {
   width: 80%;
 }
 
-form {
-}
-
 .campos {
   box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;
   background-color: #d9d9d9;
   padding: 2rem;
+  padding-top: 3%;
+  margin-bottom: 0%;
+  padding-bottom: 0%;
   margin: 0 5%;
   width: 90%;
+  border-radius: 10px; /* Puedes ajustar el valor según tus preferencias */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Puedes ajustar los valores según tus preferencias */
 }
 
-
-
-.ladoIzq{
-    width: 53%;
+.ladoIzq {
+  width: 53%;
 }
 .ladoDerecho {
   width: 45%;
@@ -823,6 +864,21 @@ form {
   margin: 0 3rem 1rem 3rem;
 }
 
+.form-curp {
+  margin: 0% 0% 0rem 20%;
+  margin-top: 0%;
+  margin-bottom: 0%;
+
+  background-color: #d9d9d9;
+}
+
+.genera {
+  display: flex;
+  margin: 0 0% 0% 30%;
+  margin-top: 0%;
+  margin-bottom: 0%;
+  background-color: rgb(64, 255, 47);
+}
 .guardar {
   box-sizing: border-box;
   display: flex;
@@ -841,49 +897,50 @@ form {
   width: 1rem;
 }
 
+select {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  background-color: #fff;
+  color: #333;
+  transition: border-color 0.3s;
+}
 
-select{
+/* Estilo cuando el elemento de selección está enfocado */
+select:focus {
+  border-color: #66afe9;
+  box-shadow: 0 0 5px rgba(102, 175, 233, 0.6);
+}
 
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    outline: none;
-    background-color: #fff;
-    color: #333;
-    transition: border-color 0.3s;
-  }
-  
-  /* Estilo cuando el elemento de selección está enfocado */
-  select:focus {
-    border-color: #66afe9;
-    box-shadow: 0 0 5px rgba(102, 175, 233, 0.6);
-  }
-  
-  /* Estilo para las opciones dentro del elemento de selección */
-  select option {
-    background-color: #fff;
-    color: #333;
-  }
-  
-  /* Estilo para el ícono de despliegue (flecha) */
-  select::-ms-expand {
-    display: none;
-  }
-  
-  /* Estilo para el ícono de despliegue (flecha) en navegadores webkit */
-  
-  
-  /* Estilo para el ícono de despliegue (flecha) utilizando un pseudo-elemento */
-  select:after {
-    content: '\25BC'; /* Código Unicode para una flecha hacia abajo */
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-    pointer-events: none;
-    color: #666;
-  }
+/* Estilo para las opciones dentro del elemento de selección */
+select option {
+  background-color: #fff;
+  color: #333;
+}
 
+/* Estilo para el ícono de despliegue (flecha) */
+select::-ms-expand {
+  display: none;
+}
+
+/* Estilo para el ícono de despliegue (flecha) en navegadores webkit */
+
+/* Estilo para el ícono de despliegue (flecha) utilizando un pseudo-elemento */
+select:after {
+  content: "\25BC"; /* Código Unicode para una flecha hacia abajo */
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #666;
+}
+
+.input-whCurp {
+  width: 60%; /* Ajusta el ancho según tus necesidades */
+  padding: 0%;
+  margin: 0%;
+}
 </style>
-
