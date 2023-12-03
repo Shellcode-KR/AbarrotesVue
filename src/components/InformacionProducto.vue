@@ -1,6 +1,6 @@
 <template>
     <div class="contenidoPrincipal">
-        <h2>Información de producto</h2>
+        <h2>Alta de Producto</h2>
         <form @submit.prevent="enviarProducto">
             <div class="campos">
                 <div class="ladoIzq">
