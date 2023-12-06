@@ -17,12 +17,12 @@
             <td>{{ prov.salePrice }}</td>
             <td>{{ prov.stock }}</td>
             <td>
-              <button class="btn-editar" @click="editarProveedor(producto)">
+              <button class="btn-editar" @click="editarProveedor(prov)">
                 Editar
               </button>
             </td>
             <td>
-              <button class="btn-borrar" @click="eliminarProv(producto)">
+              <button class="btn-borrar" @click="eliminarProv(prov)">
                 Borrar
               </button>
             </td>
