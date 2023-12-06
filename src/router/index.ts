@@ -7,6 +7,8 @@ import InformacionProducto from '../components/InformacionProducto.vue'
 import InformacionUsuario from '../components/InformacionUsuario.vue'
 import VistaVentas from '../components/VistaVentas.vue'
 import AgregaUsuario from '../components/AgregarUsuario.vue'
+import InformacionProveedores from '../components/InformacionProveedores.vue'
+import ListaProovedores from '../components/ListaProveedores.vue'
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -19,6 +21,16 @@ const routes: Array<RouteRecordRaw> = [
         name: 'paneladmin',
         component: PanelAdmin,
         children: [
+            {
+                path: 'proveedores',
+                name: 'listaProveedores',
+                component: ListaProovedores
+            },
+            {
+                path: 'proveedores/info',
+                name: 'proveedoresInfo',
+                component: InformacionProveedores
+            },
             {
                 path: 'productos',
                 name: 'adminlistaProductos',
