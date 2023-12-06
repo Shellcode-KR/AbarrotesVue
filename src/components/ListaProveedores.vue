@@ -17,12 +17,12 @@
             <td>{{ prov.salePrice }}</td>
             <td>{{ prov.stock }}</td>
             <td>
-              <button class="btn-editar" @click="editarProducto(producto)">
+              <button class="btn-editar" @click="editarProveedor(producto)">
                 Editar
               </button>
             </td>
             <td>
-              <button class="btn-borrar" @click="eliminarProducto(producto)">
+              <button class="btn-borrar" @click="eliminarProv(producto)">
                 Borrar
               </button>
             </td>
@@ -77,7 +77,7 @@
           params: { id: prov.id },
         });
       },
-      async eliminarProducto(prov) {
+      async eliminarProv(prov) {
         try {
           const token = localStorage.getItem("token");
           await this.$axios.delete(
