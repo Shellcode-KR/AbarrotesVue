@@ -33,12 +33,11 @@
                       v-model="password"
                       @input="validarContrasena"
                       required
+                      title="Debe contener 8 caracteres, 1 mayuscula, 1 minuscula, 1 numero y 1 caracter especial (# $ % &)"
+
                     />
-                    <span
-                      class="mensaje-validacion"
-                      v-show="mostrarMensajeContrasena"
-                      >{{ mensajeContrasena }}</span
-                    >
+                    
+                    
                   </div>
                     <div class="form-group">
                         <label for="correo">Email<span class="campo-requerido">*</span>:</label>
