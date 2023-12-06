@@ -19,7 +19,7 @@
           </div>
           <div class="form-group">
             <label for="paterno"
-              >Apellido paterno<span class="campo-requerido">*</span>:</label
+              >Primer Apellido<span class="campo-requerido">*</span>:</label
             >
             <input
               name="whPaterno"
@@ -28,12 +28,13 @@
               v-model="whPaterno"
               @input="SoloLetrasP"
               required
+              :disabled="campo1Vacio"
             />
           </div>
 
           <div class="form-group">
             <label for="materno"
-              >Apellido materno<span class="campo-requerido">*</span>:</label
+              >Segundo apellido<span class="campo-requerido">*</span>:</label
             >
             <input
               name="whMaterno"
@@ -42,6 +43,7 @@
               v-model="whMaterno"
               @input="SoloLetrasM"
               required
+              :disabled="campo2Vacio"
             />
           </div>
 
@@ -51,14 +53,14 @@
               >:</label
             >
             <input
+              type="date"
               name="whFecNac"
               id="whFecNac"
               v-model="whFecNac"
-              type="text"
               placeholder="dd/mm/aaaa"
-              @input="SoloFecha"
-              maxlength="10"
-              size="12"
+              min="1993-01-01"
+              max="2005-12-31"
+              :disabled="campo3Vacio"
             />
           </div>
 
@@ -70,24 +72,6 @@
               <option value="x">-Elige-</option>
               <option value="F">FEMENINO</option>
               <option value="M">MASCULINO</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="Rol"
-              >Nacionalidad<span class="campo-requerido">*</span>:</label
-            >
-            <select name="whNacion" id="whNacion" v-model="whNacion">
-              <option value="1">MÉXICO</option>
-              <option value="2">AFGANISTAN</option>
-              <option value="3">ALBANIA</option>
-              <option value="4">ALEMANIA</option>
-              <option value="5">ANDORRA</option>
-              <option value="6">ANGOLA</option>
-              <option value="180">ANGUILA</option>
-              <option value="181">ANTÁRTICA</option>
-
-              <option value="0">OTRO</option>
             </select>
           </div>
 
@@ -139,7 +123,12 @@
             <label for="user"
               >Usuario<span class="campo-requerido">*</span>:</label
             >
-            <input type="text" v-model="username" required />
+            <input
+              type="text"
+              v-model="username"
+              required
+              :disabled="campo4Vacio"
+            />
           </div>
 
           <div
@@ -156,6 +145,8 @@
               type="password"
               v-model="password"
               @input="validarContrasena"
+              title="Debe contener 8 caracteres, 1 mayuscula, 1 minuscula, 1 numero y 1 caracter especial (# $ % &)"
+              :disabled="campo5Vacio"
               required
             />
             <span
@@ -169,18 +160,28 @@
             <label for="correo"
               >Email<span class="campo-requerido">*</span>:</label
             >
-            <input type="email" v-model="email" required />
+            <input
+              type="email"
+              v-model="email"
+              :disabled="campo6Vacio"
+              required
+            />
           </div>
 
           <div class="form-group">
             <label for="telefono"
               >Telefono<span class="campo-requerido">*</span>:</label
             >
-            <input type="tel" v-model="phone" required />
+            <input
+              type="tel"
+              v-model="phone"
+              :disabled="campo7Vacio"
+              required
+            />
           </div>
 
           <div class="form-curp">
-            <p>
+            <p class="region">
               <input
                 class="genera"
                 type="button"
@@ -189,31 +190,59 @@
               />
 
               <br /><br />
-              CURP:
+              CURP:<span class="campo-requerido">*</span>:
               <input
                 class="input-whCurp"
                 name="whCurp"
                 id="whCurp"
                 v-model="whCurp"
-                @input="convertirAMayusculas('whCurp')"
                 required
-                maxlength="18"
+                maxlength="16"
+                :disabled="campo8Vacio"
               />
-
-              <br /><br />
+              clave: <span class="campo-requerido">*</span>:
+              <input
+                type="text"
+                class="input-whClave"
+                name="whClave"
+                id="whClave"
+                v-model="clave"
+                @input="convertirAMayusculas('clave')"
+                required
+                maxlength="2"
+                :disabled="campo9Vacio"
+              />
             </p>
           </div>
 
-          <div class="form-group">
-            <label for="rfc">RFC<span class="campo-requerido">*</span>:</label>
-            <input
-              type="text"
-              v-model="rfc"
-              @focus="actualizarRFC"
-              @input="convertirAMayusculas('rfc')"
-              required
-              maxlength="13"
-            />
+          <div class="form-curp">
+            <p>
+              <label for="rfc"
+                >RFC<span class="campo-requerido">*</span>:</label
+              >
+              <input
+                class="input-whCurp"
+                type="text"
+                v-model="rfc"
+                @focus="actualizarRFC"
+                @input="convertirAMayusculas('rfc')"
+                required
+                maxlength="10"
+                :disabled="campo10Vacio"
+              />
+              clave: <span class="campo-requerido">*</span>:
+              <input
+                type="text"
+                class="input-whHomo"
+                name="whHomo"
+                id="whHomo"
+                v-model="homo"
+                @input="convertirAMayusculas('homo')"
+                :disabled="campo11Vacio"
+                required
+                maxlength="3"
+              />
+            </p>
           </div>
 
           <div class="form-group">
@@ -254,9 +283,9 @@ function GeneraCURP(nom, pat, mat, fecha, genero, edo) {
     pat.charAt(0) + buscaVocal(pat) + mat.charAt(0) + nom.charAt(0);
   const letrasPaternas =
     buscaConsonante(pat) + buscaConsonante(mat) + buscaConsonante(nom);
-  const anio = fecha.substring(8, 10);
-  const mes = fecha.substring(3, 5);
-  const dia = fecha.substring(0, 2);
+  const anio = fecha.substring(1, 3);
+  const mes = fecha.substring(5, 7);
+  const dia = fecha.substring(8, 10);
   const generoLetra = genero === "M" ? "H" : "M";
   const estadoLetras = estado(edo);
   const digitoVerificador = ultdig(
@@ -402,7 +431,9 @@ export default {
       whFecNac: "",
       whEntNac: "",
       whCurp: "",
-      whNacion: "",
+      clave: "",
+      homo: "",
+
       esFechaValida: true,
 
       contrasenaValida: false,
@@ -424,6 +455,43 @@ export default {
         // Si no comienza con '+', limitar la longitud a 10 caracteres
         this.phone = newPhone.replace(/[^\d]/g, "").slice(0, 10);
       }
+    },
+  },
+
+  computed: {
+    campo1Vacio() {
+      return this.whNombre.trim() === ""; // Verifica si campo1 está vacío o solo contiene espacios en blanco
+    },
+    campo2Vacio() {
+      return this.whPaterno.trim() === ""; // Verifica si campo1 está vacío o solo contiene espacios en blanco
+    },
+    campo3Vacio() {
+      return this.whMaterno.trim() === ""; // Verifica si campo1 está vacío o solo contiene espacios en blanco
+    },
+    campo4Vacio() {
+      return this.whFecNac.trim() === ""; // Verifica si campo1 está vacío o solo contiene espacios en blanco
+    },
+
+    campo5Vacio() {
+      return this.username.trim() === ""; // Verifica si campo1 está vacío o solo contiene espacios en blanco
+    },
+    campo6Vacio() {
+      return this.password.trim() === ""; // Verifica si campo1 está vacío o solo contiene espacios en blanco
+    },
+    campo7Vacio() {
+      return this.email.trim() === ""; // Verifica si campo1 está vacío o solo contiene espacios en blanco
+    },
+    campo8Vacio() {
+      return this.phone.trim() === ""; // Verifica si campo1 está vacío o solo contiene espacios en blanco
+    },
+    campo9Vacio() {
+      return this.phone.trim() === ""; // Verifica si campo1 está vacío o solo contiene espacios en blanco
+    },
+    campo10Vacio() {
+      return this.phone.trim() === ""; // Verifica si campo1 está vacío o solo contiene espacios en blanco
+    },
+    campo11Vacio() {
+      return this.phone.trim() === ""; // Verifica si campo1 está vacío o solo contiene espacios en blanco
     },
   },
 
@@ -738,8 +806,8 @@ export default {
 
         // Construye el objeto con los datos del formulario
         const usuarioActualizado = {
-          curp: this.whCurp,
-          rfc: this.rfc,
+          curp: this.whCurp + this.clave,
+          rfc: this.rfc + this.homo,
           fullname: `${this.whNombre} ${this.whPaterno}`,
           phone: this.phone,
           email: this.email,
@@ -939,8 +1007,42 @@ select:after {
 }
 
 .input-whCurp {
-  width: 60%; /* Ajusta el ancho según tus necesidades */
+  width: 40%; /* Ajusta el ancho según tus necesidades */
   padding: 0%;
   margin: 0%;
+}
+.input-whClave {
+  width: 8%; /* Ajusta el ancho según tus necesidades */
+  padding: 0%;
+  margin: 0%;
+}
+
+.input-whHomo {
+  width: 10%; /* Ajusta el ancho según tus necesidades */
+  padding: 0%;
+  margin: 0%;
+  margin-top: 0%;
+}
+
+.region {
+  padding: 0%;
+  margin: 0%;
+}
+
+.mensaje-validacion {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 200px; /* Ajusta el ancho según tus necesidades */
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: none;
+}
+
+.password-container input:focus + .mensaje-validacion {
+  display: block;
 }
 </style>
