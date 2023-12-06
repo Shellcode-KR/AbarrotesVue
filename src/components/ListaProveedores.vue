@@ -13,9 +13,8 @@
           <tr v-for="prov in proveedores" :key="prov.id">
             <td>{{ prov.id }}</td>
             <td>{{ prov.name }}</td>
-            <td>{{ prov.description }}</td>
-            <td>{{ prov.salePrice }}</td>
-            <td>{{ prov.stock }}</td>
+            <td>{{ prov.phone }}</td>
+            <td>{{ prov.email }}</td>
             <td>
               <button class="btn-editar" @click="editarProveedor(prov)">
                 Editar
@@ -71,9 +70,9 @@
         }
       },
       editarProveedor(prov) {
-        console.log(prov);
+        console.log("Cargando prov",prov);
         this.$router.push({
-          name: "proveedoresInfo",
+          name: "proveedoresInfo2",
           params: { id: prov.id },
         });
       },

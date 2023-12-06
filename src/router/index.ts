@@ -27,6 +27,11 @@ const routes: Array<RouteRecordRaw> = [
                 component: ListaProovedores
             },
             {
+                path: '/proveedores/:id',
+                name: 'proveedoresInfo2',
+                component: InformacionProveedores,
+            },
+            {
                 path: 'proveedores/info',
                 name: 'proveedoresInfo',
                 component: InformacionProveedores

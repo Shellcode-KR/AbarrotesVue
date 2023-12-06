@@ -20,7 +20,7 @@
                         <label for="email">Email:</label>
                         <input type="text" v-model="email">
                     </div>
-                    
+
                 </div>
 
 
@@ -42,15 +42,14 @@ export default {
             phone: "",
             email: "",
             editingProvId: 0,
-            
+
 
         };
     },
     methods: {
         async cargarDatosProveedor() {
             try {
-
-                const id = this.$route.params.id;
+                const id = this.$route.params.id;  // Cambiado de provid a id
                 console.log(id);
                 this.editingProvId = id;
                 const token = localStorage.getItem('token');
@@ -66,18 +65,19 @@ export default {
                 this.email = prov.email;
                 this.phone = prov.phone;
 
-                console.log('Datos del producto cargados para edición:', prov);
+                console.log('Datos del proveedor cargados para edición:', prov);
             } catch (error) {
-                console.error('Error al cargar los datos del producto para edición:', error);
+                console.error('Error al cargar los datos del proveedor para edición:', error);
             }
         },
-        async enviarProveedores(){
+
+        async enviarProveedores() {
             let response;
-            try{
+            try {
                 const proveedor = {
-                    name : this.name,
-                    phone : this.phone,
-                    email : this.email,
+                    name: this.name,
+                    phone: this.phone,
+                    email: this.email,
                 };
                 if (this.$route.params.id) {
                     response = await this.$axios.patch(`http://localhost:3000/api/providers/${this.editingProvId}`, proveedor, {
@@ -88,18 +88,18 @@ export default {
 
                     alert('Producto actualizado con éxito');
                 }
-                else{
+                else {
                     response = await this.$axios.post(`http://localhost:3000/api/providers/`, proveedor, {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`,
-                    }
-                });
-                this.$router.push({ name: 'listaProveedores' });
-                console.log("Enviando producto al backend:", proveedor);
-                alert('Producto creado con éxito');
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem('token')}`,
+                        }
+                    });
+                    this.$router.push({ name: 'listaProveedores' });
+                    console.log("Enviando producto al backend:", proveedor);
+                    alert('Producto creado con éxito');
                 }
 
-            }catch (error) {
+            } catch (error) {
                 console.error("Error al crear proveedor", error);
                 alert('Error al crear proveedor, verifica los datos');
             }
@@ -107,6 +107,9 @@ export default {
     },
     mounted() {
         // Llama a cargarDatosProducto cuando el componente se crea, si estás editando un producto existente
+        console.log(this.$route.params.id);
+        console.log("cargando prov");
+        
         if (this.$route.params.id) {
             this.cargarDatosProveedor();
         }
