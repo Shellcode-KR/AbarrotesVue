@@ -81,6 +81,7 @@ export default {
     async eliminarProducto(producto) {
       try {
         const token = localStorage.getItem("token");
+        console.log("Se esta eliminando el producto",producto);
         await this.$axios.delete(
           `http://localhost:3000/api/products/${producto.id}`,
           {

@@ -1,67 +1,77 @@
 <template>
     <div class="contenidoPrincipal">
-        <h2>Información de producto</h2>
-        <form @submit.prevent="enviarProducto">
-            <div class="campos">
-                <div class="ladoIzq">
-                    <div class="form-group">
-                        <label for="name">Nombre:</label>
-                        <input type="text" v-model="name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="descripcion">Descripcion:</label>
-                        <input type="text" v-model="descripcion" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="descripcion">Codigo:</label>
-                        <input type="numeric" v-model="barcode" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="size">Tamaño:</label>
-                        <input type="text" v-model="size" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="precio">Precio:</label>
-                        <input type="numeric" v-model="precio" required>
-                    </div>
-
-                </div>
-                <div class="ladoDerecho">
-                    <div class="form-group">
-                        <label for="descripcion">Marca:</label>
-                        <input type="text" v-model="brand" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="descripcion">Imagen:</label>
-                        <input type="text" v-model="imgurl">
-                    </div>
-                    <div class="form-group">
-                        <label for="stock">Existencia:</label>
-                        <input type="numeric" v-model="stock" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="prov">Proveedor:</label>
-                        <input type="numeric" v-model="prov" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="categoria">Categoria:</label>
-                        <select v-model="categoria" required>
-                            <option value="1">Bebidas</option>
-                            <option value="2" selected>Abarrotes</option>
-                            <option value="3">Comestibles</option>
-                        </select>
-                    </div>
-                </div>
-
-
+      <h2>Información de producto</h2>
+      <form @submit.prevent="enviarProducto">
+        <div class="campos">
+          <div class="ladoIzq">
+            <div class="form-group">
+              <label for="name">Nombre:</label>
+              <input type="text" v-model="name" required>
+              <span class="required">*</span>
             </div>
-            <button class="guardar" type="submit">
-                <img src="https://cdn-icons-png.flaticon.com/512/2550/2550221.png " alt="">
-                <p>Guardar</p>
-            </button>
-        </form>
+            <div class="form-group">
+              <label for="descripcion">Descripción:</label>
+              <input type="text" v-model="descripcion" required>
+              <span class="required">*</span>
+            </div>
+            <div class="form-group">
+              <label for="descripcion">Código:</label>
+              <input type="numeric" v-model="barcode" required>
+              <span class="required">*</span>
+            </div>
+            <div class="form-group">
+              <label for="size">Tamaño:</label>
+              <input type="text" v-model="size" required>
+              <span class="required">*</span>
+            </div>
+            <div class="form-group">
+              <label for="precio">Precio:</label>
+              <input type="numeric" v-model="precio" required>
+              <span class="required">*</span>
+            </div>
+          </div>
+          <div class="ladoDerecho">
+            <div class="form-group">
+              <label for="descripcion">Marca:</label>
+              <input type="text" v-model="brand" required>
+              <span class="required">*</span>
+            </div>
+            <div class="form-group">
+              <label for="descripcion">Imagen:</label>
+              <input type="text" v-model="imgurl">
+            </div>
+            <div class="form-group">
+              <label for="stock">Existencia:</label>
+              <input type="numeric" v-model="stock" required>
+              <span class="required">*</span>
+            </div>
+            <div class="form-group">
+    <label for="prov">Proveedor:</label>
+    <select v-model="prov" required>
+      <option v-for="proveedor in listaProveedores" :key="proveedor.id" :value="proveedor.id">
+        {{ proveedor.name }}
+      </option>
+    </select>
+    <span class="required">*</span>
+  </div>
+            <div class="form-group">
+              <label for="categoria">Categoría:</label>
+              <select v-model="categoria" required>
+                <option value="1">Bebidas</option>
+                <option value="2" selected>Abarrotes</option>
+                <option value="3">Comestibles</option>
+              </select>
+              <span class="required">*</span>
+            </div>
+          </div>
+        </div>
+        <button class="guardar" type="submit">
+          <img src="https://cdn-icons-png.flaticon.com/512/2550/2550221.png" alt="">
+          <p>Guardar</p>
+        </button>
+      </form>
     </div>
-</template>
+  </template>
 
 
 <script>
@@ -80,10 +90,29 @@ export default {
             categoria: 0,
             barcode: 0,
             editingProductId: 0,
+            listaProveedores: [],
 
         };
     },
     methods: {
+        async cargarListaProveedores() {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await this.$axios.get(
+          "http://localhost:3000/api/providers/",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        this.listaProveedores = response.data;
+
+        console.log("Lista de proveedores para el formulario:", this.listaProveedores);
+      } catch (error) {
+        console.error("Error al cargar la lista de proveedores:", error);
+      }
+    },
         async cargarDatosProducto() {
             try {
 
@@ -138,7 +167,7 @@ export default {
                             Authorization: `Bearer ${localStorage.getItem('token')}`,
                         },
                     });
-
+                    this.$router.push({ name: 'adminlistaProductos' });
                     alert('Producto actualizado con éxito');
                 }
                 else{
@@ -159,8 +188,13 @@ export default {
 
 
         },
+
+        
     },
     mounted() {
+        // Llama a cargarProductos al montar el componente
+    //this.cargarProveedores();
+    this.cargarListaProveedores();
         // Llama a cargarDatosProducto cuando el componente se crea, si estás editando un producto existente
         if (this.$route.params.id) {
             this.cargarDatosProducto();
@@ -169,6 +203,11 @@ export default {
 };
 </script>
 <style scoped>
+
+.required {
+  color: red;
+  margin-left: 5px;
+}
 h2 {
     padding: 1rem;
 }
