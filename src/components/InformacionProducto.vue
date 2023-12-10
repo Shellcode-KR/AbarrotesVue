@@ -1,6 +1,6 @@
 <template>
     <div class="contenidoPrincipal">
-      <h2>Información de producto</h2>
+      <h2>Alta de productos</h2>
       <form @submit.prevent="enviarProducto">
         <div class="campos">
           <div class="ladoIzq">
@@ -15,20 +15,21 @@
               <span class="required">*</span>
             </div>
             <div class="form-group">
-              <label for="descripcion">Código:</label>
-              <input type="numeric" v-model="barcode" required>
-              <span class="required">*</span>
-            </div>
-            <div class="form-group">
-              <label for="size">Tamaño:</label>
-              <input type="text" v-model="size" required>
-              <span class="required">*</span>
-            </div>
-            <div class="form-group">
-              <label for="precio">Precio:</label>
-              <input type="numeric" v-model="precio" required>
-              <span class="required">*</span>
-            </div>
+    <label for="codigo">Código:</label>
+    <input type="number" v-model="barcode" required @input="validarNumero" />
+    <span class="required">*</span>
+  </div>
+  
+  <div class="form-group">
+    <label for="size">Tamaño:</label>
+    <input type="text" v-model="size" required @input="validarNumeroDecimal" />
+    <span class="required">*</span>
+  </div>
+  <div class="form-group">
+    <label for="precio">Precio MXN$:</label>
+    <input type="numeric" v-model="precio" required @input="validarNumeroDecimal" />
+    <span class="required">*</span>
+  </div>
           </div>
           <div class="ladoDerecho">
             <div class="form-group">
@@ -41,10 +42,10 @@
               <input type="text" v-model="imgurl">
             </div>
             <div class="form-group">
-              <label for="stock">Existencia:</label>
-              <input type="numeric" v-model="stock" required>
-              <span class="required">*</span>
-            </div>
+    <label for="stock">Existencia:</label>
+    <input type="number" v-model="stock" required @input="validarNumero" />
+    <span class="required">*</span>
+  </div>
             <div class="form-group">
     <label for="prov">Proveedor:</label>
     <select v-model="prov" required>
@@ -72,6 +73,7 @@
       </form>
     </div>
   </template>
+  </template>
 
 
 <script>
@@ -95,6 +97,23 @@ export default {
         };
     },
     methods: {
+        validarNumeroDecimal(event) {
+      const inputValue = event.target.value;
+
+      // Reemplazar cualquier caracter no numérico o no un punto por una cadena vacía
+      const numero = inputValue.replace(/[^0-9.]/g, '');
+
+      // Actualizar el valor del campo con el número validado
+      event.target.value = numero;
+    },
+        validarNumero(event) {
+      // Este método se ejecutará cada vez que el usuario escriba en el campo
+      const inputValue = event.target.value;
+      // Reemplazar cualquier caracter no numérico por una cadena vacía
+      const numero = inputValue.replace(/[^0-9]/g, '');
+      // Actualizar el valor del campo con el número validado
+      event.target.value = numero;
+    },
         async cargarListaProveedores() {
       try {
         const token = localStorage.getItem("token");
