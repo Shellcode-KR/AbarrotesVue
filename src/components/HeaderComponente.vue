@@ -1,34 +1,34 @@
 <template>
-    <header class="app-header">
-      <div class="logo">
-        <img src="https://png.pngtree.com/png-clipart/20200701/original/pngtree-shopping-cart-png-image_5399025.jpg" alt="Logo de la Empresa">
+  <header class="app-header">
+    <div class="logo">
+      <img src="https://png.pngtree.com/png-clipart/20200701/original/pngtree-shopping-cart-png-image_5399025.jpg" alt="Logo de la Empresa">
 
-        <div class="nombre">Sistema Integral 
-          Abarrotes San Luis</div>
+      <div class="nombre">Sistema Integral 
+        Abarrotes San Luis</div>
+    </div>
+
+
+
+    <div class="info">
+      <div class="top-info">
+        <h2>PANEL DE ADMINISTRACION</h2>
       </div>
-
-
-
-      <div class="info">
-        <div class="top-info">
-          <h2>PANEL DE ADMINISTRACION</h2>
+      <div class="bottom-info">
+        <div class="info-row">
+          <p>Sesión iniciada</p><p>Fecha y hora del sistema</p>
         </div>
-        <div class="bottom-info">
-          <div class="info-row">
-            <p>Sesión iniciada</p><p>Fecha y hora del sistema</p>
-          </div>
-          <div class="info-row">
-            <p>Nombre: {{ nombreUsuario }}</p><p>{{ fecha }}</p>
-          </div>
-          <div class="info-row">
-            <p>Rol: {{ rol }} </p><p>{{ hora }}</p>
-          </div>
+        <div class="info-row">
+          <p>Nombre: {{ nombreUsuario }}</p><p>{{ fecha }}</p>
+        </div>
+        <div class="info-row">
+          <p>Rol: {{ rol }} </p><p>{{ hora }}</p>
         </div>
       </div>
-    </header>
+    </div>
+  </header>
   </template>
   
-  <script lang="ts">
+  <script>
   export default {
     data() {
       return {
@@ -38,9 +38,16 @@
         rol: 'Administrador',
         hora: new Date().toLocaleTimeString()
       };
+    },
+    mounted() {
+      // Actualizar la hora cada segundo
+      setInterval(() => {
+        this.hora = new Date().toLocaleTimeString();
+      }, 1000);
     }
   };
   </script>
+
 
     
   <style scoped>

@@ -5,22 +5,41 @@
       <thead>
         <th>Nombre</th>
         <th>Descipcion</th>
-        <th>Precio</th>
+        <th>Precio compra</th>
+        <th>Precio venta</th>
         <th>Existencia</th>
+        <th>Marca</th>
+        <th>Categoria</th>
+
+
+        
         <th>Acciones</th>
       </thead>
       <tbody>
         <tr v-for="producto in productos" :key="producto.id">
           <td>{{ producto.name }}</td>
           <td>{{ producto.description }}</td>
-          <td>{{ producto.salePrice }}</td>
+          <td>{{ producto.purchasePrice }}</td>
+          <td>{{ producto.salePrice }}</td>  
           <td>{{ producto.stock }}</td>
+          <td>{{ producto.brand }}</td>  
+          <td>
+            <span v-if="producto.categoryId === 1">Bebidas</span>
+            <span v-else-if="producto.categoryId === 2">Abarrotes</span>
+            <span v-else-if="producto.categoryId === 3">Alimentos</span>
+            <span v-else-if="producto.categoryId === 4">Hogar</span>
+            <span v-else-if="producto.categoryId === 5">Higiene</span>
+
+          </td>
+
+          
+
           <td>
             <button class="btn-editar" @click="editarProducto(producto)">
               Editar
             </button>
           </td>
-          <td>
+          <td class="espa">
             <button class="btn-borrar" @click="eliminarProducto(producto)">
               Borrar
             </button>
@@ -46,7 +65,7 @@
 export default {
   data() {
     return {
-      productos: [], // Agrega la propiedad productos al estado del componente
+      productos: [], // Inicializa la propiedad productos
     };
   },
   methods: {
@@ -78,11 +97,14 @@ export default {
         params: { id: producto.id },
       });
     },
-    async eliminarProducto(producto) {
+
+    async eliminarProducto(prod) {
+      console.log("Producto a eliminar:", prod);
+
       try {
         const token = localStorage.getItem("token");
         await this.$axios.delete(
-          `http://localhost:3000/api/products/${producto.id}`,
+          `http://localhost:3000/api/products/${prod.id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -97,11 +119,6 @@ export default {
         console.error("Error al eliminar el producto:", error);
         // Manejar errores, por ejemplo, mostrar un mensaje al usuario.
       }
-    },
-    navigateTo(route) {
-      // Utiliza el enrutador para cambiar la ruta
-      this.$router.push({ name: route });
-      console.log(`Navegar a ${route}`);
     },
   },
   mounted() {
@@ -118,19 +135,21 @@ h2 {
 
 .contenidoPrincipal {
   width: 80%;
+  
 }
 
 table {
-  width: 70%;
+  width: 95%;
   background-color: #d9d9d9;
-  padding: 2rem;
-  margin: 0 15%;
+  padding: 1%;
+  margin: 0 2%;
 }
 
 th,
 td {
-  padding: 8px;
+  padding: 1%;
   text-align: left;
+  width: 8%;
 }
 
 td {
@@ -150,7 +169,7 @@ button {
   color: #fff;
   margin-left: 10%;
   margin-right: 5%;
-  padding: 10% 20%;
+  padding: 10% 15%;
 }
 .btn-editar:hover {
   background-color: rgb(19, 184, 19); /* Color de fondo al pasar el ratón */
@@ -159,9 +178,9 @@ button {
 .btn-borrar {
   background-color: rgb(243, 75, 75);
   color: #fff;
-  margin-left: 8%;
-  margin-right: 10%;
-  padding: 17% 22%;
+  margin-left: 0%;
+  margin-right: 0%;
+  padding: 10% 15%;
 }
 .btn-borrar:hover {
   background-color: red; /* Color de fondo al pasar el ratón */
@@ -188,5 +207,8 @@ button {
   display: flex;
   margin: 1% 1rem;
   font-size: 14px;
+}
+
+.espa{
 }
 </style>
