@@ -65,7 +65,7 @@
 export default {
   data() {
     return {
-      productos: [], // Inicializa la propiedad productos
+      productos: [], // Agrega la propiedad productos al estado del componente
     };
   },
   methods: {
@@ -97,14 +97,11 @@ export default {
         params: { id: producto.id },
       });
     },
-
-    async eliminarProducto(prod) {
-      console.log("Producto a eliminar:", prod);
-
+    async eliminarProducto(producto) {
       try {
         const token = localStorage.getItem("token");
         await this.$axios.delete(
-          `http://localhost:3000/api/products/${prod.id}`,
+          `http://localhost:3000/api/products/${producto.id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -120,6 +117,11 @@ export default {
         // Manejar errores, por ejemplo, mostrar un mensaje al usuario.
       }
     },
+    navigateTo(route) {
+      // Utiliza el enrutador para cambiar la ruta
+      this.$router.push({ name: route });
+      console.log(`Navegar a ${route}`);
+    },
   },
   mounted() {
     // Llama a cargarProductos al montar el componente
@@ -127,7 +129,6 @@ export default {
   },
 };
 </script>
-
 <style scoped>
 h2 {
   padding: 1rem;

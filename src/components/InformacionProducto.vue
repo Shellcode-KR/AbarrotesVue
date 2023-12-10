@@ -115,10 +115,12 @@ export default {
                 // Llena el formulario con los datos del producto existente
                 const producto = response.data;
                 this.name = producto.name;
-                this.descripcion = producto.description;
+                this.descripcion = producto.name;
                 this.barcode = producto.barCode;
-                this.size = producto.measureUnit;
-                this.precio = producto.salePrice;
+                this.size = producto.size;
+                this.precioVenta = producto.salePrice;
+                this.precioCompra = producto.purchasePrice;
+
                 this.stock = producto.stock;
                 this.brand = producto.brand;
 

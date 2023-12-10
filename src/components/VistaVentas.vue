@@ -1,13 +1,13 @@
 <template>
     <div class="contenidoPrincipal">
         <div class="barraBusqueda">
-            <span>Búsqueda por ID</span>
-            <input type="text" v-model="productoId" required>
-            <a href="#" @click="buscarProductoPorId">
-                <img src="https://cdn-icons-png.flaticon.com/512/5868/5868370.png" alt="">
+            <span class="busqueda" >Búsqueda por nombre</span>
+            <input class="chido-input" type="text" v-model="productoId" required>
+            <a class="icono" href="#" @click="buscarProductoPorId">
+                <img class="lupa" src="https://cdn-icons-png.flaticon.com/512/5868/5868370.png" alt="">
             </a>
         </div>
-        <table>
+        <table class="produ">
             <thead>
                 <th>ID</th>
                 <th>Nombre</th>
@@ -16,7 +16,7 @@
                 <th>Existencia</th>
                 <th>Acciones</th>
             </thead>
-            <tbody>
+            <tbody class="produ" >
                 <tr v-for="producto in productosEncontrados" :key="producto.id">
                     <td>{{ producto.id }}</td>
                     <td>{{ producto.name }}</td>
@@ -29,20 +29,14 @@
 
             </tbody>
         </table>
-        <div class="campos">
-
-
-        </div>
 
         <div class="campos">
 
             <div class="ladoDerecho">
 
-                <div class="form-group">
                     <label for="cantidad">Cantidad:</label>
-                    <input type="number" v-model="cantidad" required>
-                </div>
-                <button class="guardar" type="submit" @click="agregarAlCarrito(productosEncontrados[0])">
+                    <input class="canti" type="number" v-model="cantidad" required>
+                <button class="agregar" type="submit" @click="agregarAlCarrito(productosEncontrados[0])">
                     <img src="https://cdn-icons-png.flaticon.com/512/2550/2550221.png " alt="">
                     <p>Agregar al carrito</p>
                 </button>
@@ -204,6 +198,8 @@ img {
 .ladoIzq,
 .ladoDerecho {
     width: 50%;
+    margin-left: 26%;
+    height: 30%;
 }
 
 .form-group {
@@ -217,7 +213,9 @@ img {
     display: flex;
     box-sizing: border-box;
     display: flex;
-    margin: 1rem 0 1rem 70%;
+    margin: 1rem 0 1rem 50%;
+    width: 35%;
+    
 }
 
 table {
@@ -226,6 +224,15 @@ table {
     padding: 2rem;
     margin: 0 15%;
 }
+
+.produ {
+    width: 70%;
+    background-color: #D9D9D9;
+    padding: 2rem;
+    margin: 0 15%;
+    border-radius: 10px; /* Ajusta según tus preferencias */
+    box-shadow: 1 4px 8px rgba(0, 0, 0, 0.1); /* Ajusta según tus preferencias */
+  }
 
 th,
 td {
@@ -237,17 +244,27 @@ td {
     background-color: aliceblue;
 }
 
-button {
+.agregar {
     border: none;
     border-radius: 5px;
-    padding: 5px 10px;
+    padding: 10px 20px; /* Aumenté el espacio para hacerlo más llamativo */
     cursor: pointer;
     font-weight: bold;
-}
+    background-color: #4CAF50; /* Color de fondo */
+    color: #fff; /* Color del texto */
+    transition: background-color 0.3s ease; /* Efecto de transición en el cambio de color de fondo */
+  
+    /* Agregamos sombra para dar profundidad */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .agregar:hover {
+    background-color: #45a049; /* Cambio de color al pasar el ratón */
+  }
 
 button.btn-editar {
     background-color: rgb(236, 236, 94);
-    color: #fff;
+    color:black;
 }
 
 button.btn-borrar {
@@ -273,4 +290,38 @@ button.btn-borrar {
     display: flex;
     margin: 1% 1rem;
 }
+.chido-input {
+    width: 110%;
+    padding: 10px;
+    font-size: medium;
+    border: 2px solid #3498db;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  .chido-input:focus {
+    border-color: #e74c3c;
+    box-shadow: 0 0 5px rgba(231, 76, 60, 0.5);
+  }
+  .icono{
+    background-color: #34db4a;
+    border: 2px solid black;
+    border-radius: 5px;
+    width: 30%;
+  }
+.lupa{
+    margin-top: 15%;
+}
+.busqueda{
+    margin-top: 3%;
+    width: 130%;
+    
+}
+.canti{
+    width: 10%;
+    font-size: large;
+    margin-right: 30%;
+    margin-top: 0%;
+}
+
 </style>
