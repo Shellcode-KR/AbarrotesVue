@@ -162,7 +162,7 @@ export default {
                 const producto = response.data;
                 this.name = producto.name;
                 this.descripcion = producto.description;
-                this.barcode = producto.barCode;
+                this.barcode = parseInt(producto.barCode);
                 this.size = producto.measureUnit;
                 this.precio = producto.salePrice;
                 this.stock = producto.stock;

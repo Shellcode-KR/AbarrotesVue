@@ -58,7 +58,7 @@
             <div class="conteiner">
                 <!-- Número total de ventas -->
                 <h3>Total de Ventas</h3>
-                <p>{{ totalVentas }}</p>
+                <p>$ {{ totalVentas }}</p>
             </div>
 
 
@@ -90,9 +90,46 @@ export default {
         };
     },
     methods: {
+        calcularTotalVentas() {
+            // Suma los totales de ventas de todos los elementos en respuestareporte
+            this.totalVentas = this.respuestareporte.reduce((total, reporte) => {
+                // Suma el total de cada objeto al total acumulado
+                return total + reporte.total;
+            }, 0);
+        },
         ordenarProductosPorExistencia() {
             this.productosOrdenados = [...this.productos]; // Clona el array para no modificar el original
             this.productosOrdenados.sort((a, b) => a.stock - b.stock);
+        },
+        obtenerProductosMasVendidos() {
+            // Crea un objeto para almacenar las ventas por producto
+            const ventasPorProducto = {};
+
+            // Itera sobre cada informe en respuestareporte
+            this.respuestareporte.forEach((reporte) => {
+                // Itera sobre cada item en el informe
+                reporte.items.forEach((item) => {
+                    // Verifica si el producto ya existe en el objeto ventasPorProducto
+                    if (ventasPorProducto[item.name]) {
+                        // Si existe, suma la cantidad vendida
+                        ventasPorProducto[item.name] += 1;
+                    } else {
+                        // Si no existe, inicializa la cantidad vendida en 1
+                        ventasPorProducto[item.name] = 1;
+                    }
+                });
+            });
+
+            // Convierte el objeto ventasPorProducto en un array de objetos
+            const productosMasVendidos = Object.entries(ventasPorProducto).map(
+                ([name, ventas]) => ({ name, ventas })
+            );
+
+            // Ordena el array por la cantidad de ventas en orden descendente
+            productosMasVendidos.sort((a, b) => b.ventas - a.ventas);
+
+            // Actualiza la propiedad productosMasVendidos con el resultado
+            this.productosMasVendidos = productosMasVendidos;
         },
         async cargarProductos() {
             try {
@@ -132,45 +169,34 @@ export default {
                 const year = new Date().getFullYear();
 
                 // Determina la URL y el cuerpo de la solicitud según la vista seleccionada
-                let url, params;
-                let options;
+                let url, data;
                 if (this.vistaActual === 'mensual') {
-
-                     options = {
-                        method: 'get', 
-                        url: 'http://localhost:3000/api/reports/month',
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        }, 
-                        data: {
-                            "year": year.toString(),
-                            "month": this.mesSeleccionado.toString(),
-                        }, 
+                    url = 'http://localhost:3000/api/reports/month';
+                    data = {
+                        "year": year.toString(),
+                        "month": this.mesSeleccionado.toString(),
                     };
-
                 } else {
-
-                     options = {
-                        method: 'get', 
-                        url: 'http://localhost:3000/api/reports/day',
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        }, 
-                        data: {
-                            "year": year.toString(),
-                            "month": this.mesSeleccionado.toString(),
-                            "day": this.diaSeleccionado.toString(),
-                        }, 
+                    url = 'http://localhost:3000/api/reports/day';
+                    data = {
+                        "year": year.toString(),
+                        "month": this.mesSeleccionado.toString(),
+                        "day": this.diaSeleccionado.toString(),
                     };
-
-                    
                 }
 
                 // Realiza la solicitud HTTP
-                const response = await this.$axios.request(options);
+                const response = await this.$axios.post(url, data, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
 
                 // Guarda la respuesta en respuestareporte
                 this.respuestareporte = response.data;
+                this.calcularTotalVentas();
+                this.obtenerProductosMasVendidos();
+
 
                 console.log("Respuesta del reporte:", this.respuestareporte);
             } catch (error) {
@@ -178,6 +204,7 @@ export default {
                 // Manejar errores, por ejemplo, mostrar un mensaje al usuario.
             }
         },
+
 
 
     },
