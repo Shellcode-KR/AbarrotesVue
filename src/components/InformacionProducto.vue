@@ -1,84 +1,98 @@
 <template>
     <div class="contenidoPrincipal">
-      <h2>Alta de productos</h2>
-      <form @submit.prevent="enviarProducto">
-        <div class="campos">
-          <div class="ladoIzq">
-            <div class="form-group">
-              <label for="name">Nombre:</label>
-              <input type="text" v-model="name" required>
-              <span class="required">*</span>
+        <h2>Alta de productos</h2>
+        <form @submit.prevent="enviarProducto">
+            <div class="campos">
+                <div class="ladoIzq">
+                    <div class="form-group">
+                        <label for="name">Nombre:</label>
+                        <input type="text" v-model="name" required>
+                        <span class="required">*</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="descripcion">Descripción:</label>
+                        <input type="text" v-model="descripcion" required>
+                        <span class="required">*</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="codigo">Código:</label>
+                        <input type="number" v-model="barcode" required @input="validarNumero" />
+                        <span class="required">*</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="size">Tamaño:</label>
+                        <input type="text" v-model="size" required @input="validarNumeroDecimal" />
+                        <span class="required">*</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="unidad">Unidad:</label>
+                        <select v-model="unidad" required>
+                            <option value="Kg">Kg</option>
+                            <option value="g">g</option>
+                            <option value="L">L</option>
+                            <option value="ml">ml</option>
+                            <option value="Bulto">Bulto</option>
+                        </select>
+                        <span class="required">*</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="precio">Precio MXN$:</label>
+                        <input type="numeric" v-model="precio" required @input="validarNumeroDecimal" />
+                        <span class="required">*</span>
+                    </div>
+                </div>
+                <div class="ladoDerecho">
+                    <div class="form-group">
+                        <label for="descripcion">Marca:</label>
+                        <input type="text" v-model="brand" required>
+                        <span class="required">*</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="descripcion">Imagen:</label>
+                        <input type="text" v-model="imgurl">
+                    </div>
+                    <div class="form-group">
+                        <label for="stock">Existencia:</label>
+                        <input type="number" v-model="stock" required @input="validarNumero" />
+                        <span class="required">*</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="prov">Proveedor:</label>
+                        <select v-model="prov" required>
+                            <option v-for="proveedor in listaProveedores" :key="proveedor.id" :value="proveedor.id">
+                                {{ proveedor.name }}
+                            </option>
+                        </select>
+                        <span class="required">*</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="categoria">Categoría:</label>
+                        <select v-model="categoria" required>
+                            <option value="1">Bebidas</option>
+                            <option value="2" selected>Abarrotes</option>
+                            <option value="3">Comestibles</option>
+                        </select>
+                        <span class="required">*</span>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-              <label for="descripcion">Descripción:</label>
-              <input type="text" v-model="descripcion" required>
-              <span class="required">*</span>
-            </div>
-            <div class="form-group">
-    <label for="codigo">Código:</label>
-    <input type="number" v-model="barcode" required @input="validarNumero" />
-    <span class="required">*</span>
-  </div>
-  
-  <div class="form-group">
-    <label for="size">Tamaño:</label>
-    <input type="text" v-model="size" required @input="validarNumeroDecimal" />
-    <span class="required">*</span>
-  </div>
-  <div class="form-group">
-    <label for="precio">Precio MXN$:</label>
-    <input type="numeric" v-model="precio" required @input="validarNumeroDecimal" />
-    <span class="required">*</span>
-  </div>
-          </div>
-          <div class="ladoDerecho">
-            <div class="form-group">
-              <label for="descripcion">Marca:</label>
-              <input type="text" v-model="brand" required>
-              <span class="required">*</span>
-            </div>
-            <div class="form-group">
-              <label for="descripcion">Imagen:</label>
-              <input type="text" v-model="imgurl">
-            </div>
-            <div class="form-group">
-    <label for="stock">Existencia:</label>
-    <input type="number" v-model="stock" required @input="validarNumero" />
-    <span class="required">*</span>
-  </div>
-            <div class="form-group">
-    <label for="prov">Proveedor:</label>
-    <select v-model="prov" required>
-      <option v-for="proveedor in listaProveedores" :key="proveedor.id" :value="proveedor.id">
-        {{ proveedor.name }}
-      </option>
-    </select>
-    <span class="required">*</span>
-  </div>
-            <div class="form-group">
-              <label for="categoria">Categoría:</label>
-              <select v-model="categoria" required>
-                <option value="1">Bebidas</option>
-                <option value="2" selected>Abarrotes</option>
-                <option value="3">Comestibles</option>
-              </select>
-              <span class="required">*</span>
-            </div>
-          </div>
-        </div>
-        <button class="guardar" type="submit">
-          <img src="https://cdn-icons-png.flaticon.com/512/2550/2550221.png" alt="">
-          <p>Guardar</p>
-        </button>
-      </form>
+            <button class="guardar" type="submit">
+                <img src="https://cdn-icons-png.flaticon.com/512/2550/2550221.png" alt="">
+                <p>Guardar</p>
+            </button>
+        </form>
     </div>
-  </template>
+</template>
 
 
 <script>
 export default {
     data() {
         return {
+            unidad: "",
             id: 0,
             name: "",
             descripcion: "",
@@ -89,7 +103,7 @@ export default {
             brand: "",
             prov: 0,
             categoria: 0,
-            barcode: 0,
+            barcode: "",
             editingProductId: 0,
             listaProveedores: [],
 
@@ -97,40 +111,40 @@ export default {
     },
     methods: {
         validarNumeroDecimal(event) {
-      const inputValue = event.target.value;
+            const inputValue = event.target.value;
 
-      // Reemplazar cualquier caracter no numérico o no un punto por una cadena vacía
-      const numero = inputValue.replace(/[^0-9.]/g, '');
+            // Reemplazar cualquier caracter no numérico o no un punto por una cadena vacía
+            const numero = inputValue.replace(/[^0-9.]/g, '');
 
-      // Actualizar el valor del campo con el número validado
-      event.target.value = numero;
-    },
+            // Actualizar el valor del campo con el número validado
+            event.target.value = numero;
+        },
         validarNumero(event) {
-      // Este método se ejecutará cada vez que el usuario escriba en el campo
-      const inputValue = event.target.value;
-      // Reemplazar cualquier caracter no numérico por una cadena vacía
-      const numero = inputValue.replace(/[^0-9]/g, '');
-      // Actualizar el valor del campo con el número validado
-      event.target.value = numero;
-    },
+            // Este método se ejecutará cada vez que el usuario escriba en el campo
+            const inputValue = event.target.value;
+            // Reemplazar cualquier caracter no numérico por una cadena vacía
+            const numero = inputValue.replace(/[^0-9]/g, '');
+            // Actualizar el valor del campo con el número validado
+            event.target.value = numero;
+        },
         async cargarListaProveedores() {
-      try {
-        const token = localStorage.getItem("token");
-        const response = await this.$axios.get(
-          "http://localhost:3000/api/providers/",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        this.listaProveedores = response.data;
+            try {
+                const token = localStorage.getItem("token");
+                const response = await this.$axios.get(
+                    "http://localhost:3000/api/providers/",
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+                this.listaProveedores = response.data;
 
-        console.log("Lista de proveedores para el formulario:", this.listaProveedores);
-      } catch (error) {
-        console.error("Error al cargar la lista de proveedores:", error);
-      }
-    },
+                console.log("Lista de proveedores para el formulario:", this.listaProveedores);
+            } catch (error) {
+                console.error("Error al cargar la lista de proveedores:", error);
+            }
+        },
         async cargarDatosProducto() {
             try {
 
@@ -167,15 +181,15 @@ export default {
 
             try {
                 const producto = {
+
                     name: this.name,
                     purchasePrice: this.precio,
                     salePrice: this.precio, // Puedes ajustar según tus necesidades
                     description: this.descripcion,
-                    barCode: this.barcode, // Puedes ajustar según tus necesidades
-                    // Puedes ajustar según tus necesidades
+                    barCode: `${this.barcode} `, // Puedes ajustar según tus necesidades
                     stock: this.stock,
                     brand: this.brand, // Puedes ajustar según tus necesidades
-                    measureUnit: this.size, // Puedes ajustar según tus necesidades
+                    measureUnit: `${this.size} ${this.unidad}`, // Puedes ajustar según tus necesidades
                     providerId: this.prov, // Puedes ajustar según tus necesidades
                     categoryId: this.categoria, // Puedes ajustar según tus necesidades
                 };
@@ -188,17 +202,17 @@ export default {
                     this.$router.push({ name: 'adminlistaProductos' });
                     alert('Producto actualizado con éxito');
                 }
-                else{
+                else {
                     response = await this.$axios.post(`http://localhost:3000/api/products/`, producto, {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`,
-                    }
-                });
-                this.$router.push({ name: 'adminlistaProductos' });
-                console.log("Enviando producto al backend:", producto);
-                alert('Producto creado con éxito');
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem('token')}`,
+                        }
+                    });
+                    this.$router.push({ name: 'adminlistaProductos' });
+                    console.log("Enviando producto al backend:", producto);
+                    alert('Producto creado con éxito');
                 }
-                
+
             } catch (error) {
                 console.error("Error al crear producto", error);
                 alert('Error al crear usuario verifica los datos');
@@ -207,12 +221,12 @@ export default {
 
         },
 
-        
+
     },
     mounted() {
         // Llama a cargarProductos al montar el componente
-    //this.cargarProveedores();
-    this.cargarListaProveedores();
+        //this.cargarProveedores();
+        this.cargarListaProveedores();
         // Llama a cargarDatosProducto cuando el componente se crea, si estás editando un producto existente
         if (this.$route.params.id) {
             this.cargarDatosProducto();
@@ -221,16 +235,16 @@ export default {
 };
 </script>
 <style scoped>
-
 .required {
-  color: red;
-  margin-left: 5px;
+    color: red;
+    margin-left: 5px;
 }
+
 h2 {
     padding: 1rem;
 }
 
-label{
+label {
     margin-left: auto;
     font-size: medium;
     padding-right: 5px;
@@ -243,9 +257,9 @@ label{
     width: 80%;
 }
 
-input{
-padding-left: 2%;
-font-size:medium;
+input {
+    padding-left: 2%;
+    font-size: medium;
 
 }
 
@@ -256,8 +270,8 @@ font-size:medium;
     background-color: #D9D9D9;
     padding: 2rem;
     margin: 0 15%;
-    
-    
+
+
 }
 
 .ladoIzq,
@@ -272,8 +286,8 @@ font-size:medium;
     margin: 0 5rem 1rem 3rem;
     margin-right: auto;
     margin-left: auto;
-    
-   
+
+
 }
 
 .guardar {
