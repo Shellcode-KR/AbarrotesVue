@@ -9,6 +9,7 @@ import VistaVentas from '../components/VistaVentas.vue'
 import AgregaUsuario from '../components/AgregarUsuario.vue'
 import InformacionProveedores from '../components/InformacionProveedores.vue'
 import ListaProovedores from '../components/ListaProveedores.vue'
+import VistaReportes from '../components/VistaReportes.vue'
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -78,6 +79,11 @@ const routes: Array<RouteRecordRaw> = [
                 path: 'ventas',
                 name: 'adminventas',
                 component: VistaVentas
+            },
+            {
+                path: 'reportes',
+                name: 'reportesvista',
+                component: VistaReportes
             },
         ]
 

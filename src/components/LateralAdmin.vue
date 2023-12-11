@@ -29,11 +29,13 @@
       </div>
     </router-link>
 
-
-    <div class="sidebar-button">
-      <img src="https://cdn-icons-png.flaticon.com/128/1188/1188576.png" alt="">
-      <h3>Reportes</h3>
-    </div>
+    <router-link class="link" :to="{ name: 'reportesvista' }">
+      <div class="sidebar-button">
+        <img src="https://cdn-icons-png.flaticon.com/128/1188/1188576.png" alt="">
+        <h3>Reportes</h3>
+      </div>
+    </router-link>
+    
     <div class="sidebar-button" @click="cerrarSesion()">
       <img src="https://cdn-icons-png.flaticon.com/128/70/70226.png" alt="">
       
