@@ -83,6 +83,7 @@ export default {
             ],
             diasDelMes: [...Array(31).keys()].map(dia => dia + 1),
             productos: [], // Tu lista de productos
+            respuestareporte: [],
             totalVentas: 0, // Calcula esto según la vista seleccionada
             productosOrdenados: [], // Ordena tus productos por existencia
             productosMasVendidos: [] // Calcula esto según la vista seleccionada
@@ -123,11 +124,62 @@ export default {
             this.vistaActual = 'mensual';
             this.mostrarFiltro = true;
         },
-        generarReporte() {
-            // Implementa la lógica para generar el reporte según la vista y selecciones
-            // Puedes acceder a this.mesSeleccionado, this.diaSeleccionado, etc.
-            // Actualiza this.productosOrdenados, this.totalVentas, this.productosMasVendidos
-        }
+        async generarReporte() {
+            try {
+                const token = localStorage.getItem("token");
+
+                // Obtiene el año actual
+                const year = new Date().getFullYear();
+
+                // Determina la URL y el cuerpo de la solicitud según la vista seleccionada
+                let url, params;
+                let options;
+                if (this.vistaActual === 'mensual') {
+
+                     options = {
+                        method: 'get', 
+                        url: 'http://localhost:3000/api/reports/month',
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        }, 
+                        data: {
+                            "year": year.toString(),
+                            "month": this.mesSeleccionado.toString(),
+                        }, 
+                    };
+
+                } else {
+
+                     options = {
+                        method: 'get', 
+                        url: 'http://localhost:3000/api/reports/day',
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        }, 
+                        data: {
+                            "year": year.toString(),
+                            "month": this.mesSeleccionado.toString(),
+                            "day": this.diaSeleccionado.toString(),
+                        }, 
+                    };
+
+                    
+                }
+
+                // Realiza la solicitud HTTP
+                const response = await this.$axios.request(options);
+
+                // Guarda la respuesta en respuestareporte
+                this.respuestareporte = response.data;
+
+                console.log("Respuesta del reporte:", this.respuestareporte);
+            } catch (error) {
+                console.error("Error al generar el reporte:", error);
+                // Manejar errores, por ejemplo, mostrar un mensaje al usuario.
+            }
+        },
+
+
     },
     mounted() {
         this.cargarProductos();
