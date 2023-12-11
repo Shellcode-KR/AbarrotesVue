@@ -13,6 +13,7 @@
                 <th>Nombre</th>
                 <th>Descipcion</th>
                 <th>Precio</th>
+                <th>Marca</th>
                 <th>Existencia</th>
                 <th>Acciones</th>
             </thead>
@@ -22,6 +23,8 @@
                     <td>{{ producto.name }}</td>
                     <td>{{ producto.description }}</td>
                     <td>{{ producto.salePrice }}</td>
+                    <td>{{ producto.brand }}</td>
+
                     <td>{{ producto.stock }}</td>
                     <td><button class="btn-editar" @click="agregarAlCarrito(producto)">Seleccionar</button></td>
                 </tr>
@@ -44,12 +47,11 @@
 
         </div>
         <h2>Carrito</h2>
-        <table>
+        <table class="produ">
             <thead>
-                <th></th>
                 <th>Nombre</th>
                 <th>Descripccion</th>
-                <th>Precio U.</th>
+                <th>Precio Unitario</th>
                 <th>Cantidad</th>
                 <th>Subtotal</th>
 
@@ -57,7 +59,6 @@
             </thead>
             <tbody>
                 <tr v-for="(item, index) in carrito" :key="index">
-                    <td>{{ item.id }}</td>
                     <td>{{ item.name }}</td>
                     <td>{{ item.description }}</td>
                     <td>{{ item.salePrice }}</td>
@@ -68,18 +69,20 @@
 
             </tbody>
         </table>
-        <p>Total a pagar: ${{ calcularTotalVenta() }}</p>
+        <div class="conte">
+        <p class="form-group1">Total a pagar: ${{ calcularTotalVenta() }}</p>
         <div class="form-group">
-            <label for="montoRecibido">Monto Recibido:</label>
-            <input type="number" v-model="montoRecibido" required>
-        </div>
-        <p>Cambio: ${{ calcularCambio() }}</p>
-
+            <label for="montoRecibido">Monto Recibido: $</label>
+            <input class="input-grande" type="number" v-model="montoRecibido" required>
+        
+        <p class="cambio" >Cambio: ${{ calcularCambio() }}</p>
+    
         <button class="pagar" type="submit" @click="realizarVenta">
             <img src="https://cdn-icons-png.flaticon.com/512/2550/2550221.png" alt="">
             <p>Pagar</p>
         </button>
-
+    </div>
+    </div>
     </div>
 </template>
 
@@ -202,11 +205,22 @@ img {
     height: 30%;
 }
 
+
 .form-group {
-    display: flex;
-    justify-content: space-between;
-    margin: 0 3rem 1rem 3rem;
+    
+margin-left: 0%;
+margin-right: 41%;
+font-size: 130%;
+margin-bottom: 4%;
+
 }
+.form-group1 {
+    
+    margin-left: 0%;
+    margin-right: 54%;
+    font-size: 130%;
+    
+    }
 
 .barraBusqueda {
     background-color: #d9d9d9;
@@ -323,5 +337,51 @@ button.btn-borrar {
     margin-right: 30%;
     margin-top: 0%;
 }
+
+.monto{
+margin-left: 20%;
+}
+
+.pagar {
+    display: flex;
+    align-items: center;
+    margin-left: 110%; /* Ajusta el margen izquierdo según sea necesario */
+    margin-top: -10%; /* Puedes ajustar el margen superior negativo para mover hacia arriba */
+    padding: 10px 20px; /* Ajusta el relleno según sea necesario */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    background-color: rgb(9, 117, 189); /* Color de fondo */
+    color: #fff; /* Color del texto */
+    transition: background-color 0.3s ease; /* Efecto de transición en el cambio de color de fondo */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidad */
+  
+  }
+  
+  .pagar img {
+    width: 1.5rem;
+    margin-right: 0.5rem;
+  }
+  
+  .pagar:hover {
+    background-color: #6098ec; /* Cambio de color al pasar el ratón */
+  }
+
+.cambio{
+    margin-left: 85%;
+    margin-right: 0%;
+    margin-top: -10%; 
+    margin-bottom: 0%;
+    padding-top: 0%;
+    font-size: 130%;
+}
+
+.input-grande {
+    font-size: 100%; /* Ajusta el tamaño de fuente según tus preferencias */
+    padding: 0%; /* Ajusta el relleno según tus preferencias */
+    width: 20%;
+    /* Otros estilos si es necesario */
+  }
 
 </style>

@@ -1,12 +1,12 @@
 <template>
     <div class="contenidoPrincipal">
-        <h2>Información de producto</h2>
+        <h2>Información de proveedor</h2>
         <form @submit.prevent="enviarProveedores">
             <div class="campos">
                 <div class="ladoIzq">
                     <div class="form-group">
                         <label for="name">Nombre del proveedor:</label>
-                        <input type="text" v-model="name" required>
+                        <input  type="text" v-model="name" @input="sinNumeros" maxlength="10" required>
                     </div>
 
 
@@ -14,11 +14,11 @@
                 <div class="ladoDerecho">
                     <div class="form-group">
                         <label for="phone">Telefono:</label>
-                        <input type="text" v-model="phone" required>
+                        <input type="text" v-model="phone" @input="soloNumeros" required>
                     </div>
                     <div class="form-group">
                         <label for="email">Email:</label>
-                        <input type="text" v-model="email">
+                        <input type="email" v-model="email">
                     </div>
 
                 </div>
@@ -47,6 +47,20 @@ export default {
         };
     },
     methods: {
+
+        sinNumeros() {
+      // Filtrar el texto para evitar números
+      this.name = this.name.replace(/[0-9]/g, '');
+    },
+soloNumeros(){
+    this.phone = this.phone.replace(/\D/g, '');
+    // Limitar la longitud a 10 caracteres
+    if (this.phone.length > 10) {
+        this.phone = this.phone.slice(0, 10);
+      }
+
+},
+
         async cargarDatosProveedor() {
             try {
                 const id = this.$route.params.id;  // Cambiado de provid a id
@@ -87,6 +101,7 @@ export default {
                     });
 
                     alert('Producto actualizado con éxito');
+
                 }
                 else {
                     response = await this.$axios.post(`http://localhost:3000/api/providers/`, proveedor, {

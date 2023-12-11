@@ -6,7 +6,7 @@
                 <div class="ladoIzq">
                     <div class="form-group">
                         <label for="name">Nombre:</label>
-                        <input type="text" v-model="name" required>
+                        <input type="text" v-model="name" @input="convertirAMinusculas" required>
                     </div>
                     <div class="form-group">
                         <label for="descripcion">Descripcion:</label>
@@ -18,10 +18,12 @@
                         <label class="uni" for="categoria">Unidad:</label>
                         
                         <select class="uni" v-model="Unidad" required>
-                            <option value="Kilogramo">Kilogramo</option>
-                            <option value="Gramos" >Gramo</option>
-                            <option value="Litros">Litro</option>
-                            <option value="Mililitros">Mililitro</option>
+                            <option value="Kilogramos">Kilogramos</option>
+                            <option value="Gramos" >Gramos</option>
+                            <option value="Litros">Litros</option>
+                            <option value="Mililitros">Mililitros</option>
+                            <option value="Pieza">Pieza</option>
+
 
                         </select>
                        
@@ -46,11 +48,15 @@
                     </div>
                     <div class="form-group">
                         <label for="descripcion">Marca:</label>
-                        <input type="text" v-model="brand" required>
+                        <input type="text" v-model="brand" @input="sinNumeros" required>
                     </div>
                     <div class="form-group">
-                        <label for="prov">Proveedor:</label>
-                        <input type="numeric" v-model="prov" required>
+                        <label class="cate" for="prov">Proveedor:</label>
+                        <select class="case" v-model="prov" required>
+                            <option v-for="proveedor in listaProveedores" :key="proveedor.id" :value="proveedor.id">
+                              {{ proveedor.name }}
+                            </option>
+                          </select>
                     </div>
                     <div class="form-group">
                         <label  class="cate" for="categoria">Categoria:</label>
@@ -95,6 +101,8 @@ export default {
             categoria: 0,
             barcode: "0",
             editingProductId: 0,
+            listaProveedores: [],
+
 
         };
     },
@@ -132,6 +140,17 @@ export default {
                 console.error('Error al cargar los datos del producto para edición:', error);
             }
         },
+
+        convertirAMinusculas() {
+    
+      this.name = this.name.replace(/[^a-z]/g, '');
+      this.name = this.name.toLowerCase();
+    },
+    sinNumeros() {
+      // Filtrar el texto para evitar números
+      this.brand = this.brand.replace(/[0-9]/g, '');
+    },
+
         async enviarProducto() {
             let response;
 
@@ -177,8 +196,29 @@ export default {
 
 
         },
+        async cargarListaProveedores() {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await this.$axios.get(
+          "http://localhost:3000/api/providers/",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        this.listaProveedores = response.data;
+
+        console.log("Lista de proveedores para el formulario:", this.listaProveedores);
+      } catch (error) {
+        console.error("Error al cargar la lista de proveedores:", error);
+      }
+    },
     },
     mounted() {
+        // Llama a cargarProductos al montar el componente
+    //this.cargarProveedores();
+    this.cargarListaProveedores();
         // Llama a cargarDatosProducto cuando el componente se crea, si estás editando un producto existente
         if (this.$route.params.id) {
             this.cargarDatosProducto();

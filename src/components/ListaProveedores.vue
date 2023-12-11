@@ -37,7 +37,7 @@
           src="https://cdn-icons-png.flaticon.com/512/2550/2550221.png "
           alt=""
         />
-        <p>Agregar Producto</p>
+        <p>Agregar Proveedor</p>
       </button>
     </div>
   </template>
