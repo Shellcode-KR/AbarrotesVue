@@ -9,11 +9,11 @@
       <form @submit.prevent="iniciarSesion">
         <div class="form-group">
           <label for="usuario">Usuario:</label>
-          <input type="text" v-model="Usuario" required>
+          <input type="text" v-model="usuario" required>
         </div>
         <div class="form-group">
           <label for="contrasena">Contraseña:</label>
-          <input type="password" v-model="Contrasena" required>
+          <input type="password" v-model="contrasena" required>
         </div>
         <button type="submit" >Iniciar Sesión</button>
       </form>

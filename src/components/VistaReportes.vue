@@ -89,6 +89,32 @@ export default {
         };
     },
     methods: {
+        ordenarProductosPorExistencia() {
+            this.productosOrdenados = [...this.productos]; // Clona el array para no modificar el original
+            this.productosOrdenados.sort((a, b) => a.stock - b.stock);
+        },
+        async cargarProductos() {
+            try {
+                const token = localStorage.getItem("token");
+                const response = await this.$axios.get(
+                    "http://localhost:3000/api/products",
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+
+                // Asigna la lista de productos a la propiedad productos
+                this.productos = response.data;
+                this.ordenarProductosPorExistencia();
+
+                console.log("Lista de productos:", this.productos);
+            } catch (error) {
+                console.error("Error al cargar la lista de productos:", error);
+                // Manejar errores, por ejemplo, mostrar un mensaje al usuario.
+            }
+        },
         vistaDiaria() {
             this.vistaActual = 'diaria';
             this.mostrarFiltro = true;
@@ -102,6 +128,9 @@ export default {
             // Puedes acceder a this.mesSeleccionado, this.diaSeleccionado, etc.
             // Actualiza this.productosOrdenados, this.totalVentas, this.productosMasVendidos
         }
+    },
+    mounted() {
+        this.cargarProductos();
     }
 };
 </script>
@@ -146,7 +175,8 @@ export default {
     display: flex;
     margin: 3%;
 }
-.conteiner{
+
+.conteiner {
     width: 30%;
 }
 
