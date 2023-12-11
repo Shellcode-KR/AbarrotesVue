@@ -1,7 +1,9 @@
 <template>
   <div class="contenidoPrincipal">
+    
     <h2>Lista de productos</h2>
-    <table>
+    <div class="table-container" >
+    <table >
       <thead>
         <th>Nombre</th>
         <th>Descipcion</th>
@@ -9,10 +11,7 @@
         <th>Precio venta</th>
         <th>Existencia</th>
         <th>Marca</th>
-        <th>Categoria</th>
-
-
-        
+        <th>Categoria</th> 
         <th>Acciones</th>
       </thead>
       <tbody>
@@ -47,6 +46,7 @@
         </tr>
       </tbody>
     </table>
+  </div>
     <button
       class="guardar"
       type="submit"
@@ -136,6 +136,8 @@ h2 {
 
 .contenidoPrincipal {
   width: 80%;
+ 
+  
   
 }
 
@@ -210,6 +212,23 @@ button {
   font-size: 14px;
 }
 
-.espa{
+.table-container {
+  max-height: 55%;
+  overflow-y: auto;
+  margin-bottom: 0%; /* Espacio entre la tabla y el scroll */
+}
+
+.table-container::-webkit-scrollbar {
+  width: 12px; /* Ancho del scrollbar */
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background-color: #888; /* Color del thumb del scrollbar */
+  border-radius: 6px; /* Borde redondeado del thumb */
+}
+
+.table-container::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Color del track del scrollbar */
+  border-radius: 8px; /* Borde redondeado del track */
 }
 </style>
