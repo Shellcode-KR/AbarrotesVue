@@ -1,33 +1,45 @@
 <template>
-    <div class="contenidoPrincipal">
-        <h2>Lista de productos</h2>
-        <table>
-            <thead>
-                <th>Nombre</th>
-                <th>Descipcion</th>
-                <th>Precio</th>
-                <th>Existencia</th>
-                <th>Acciones</th>
-            </thead>
-            <tbody>
-
-                <tr v-for="producto in productos" :key="producto.id">
-                    <td>{{ producto.name }}</td>
-                    <td>{{ producto.description }}</td>
-                    <td>{{ producto.salePrice }}</td>
-                    <td>{{ producto.stock }}</td>
-                    <td><button class="btn-editar" @click="editarProducto(producto)">Editar</button></td>
-                    <td><button class="btn-borrar" @click="eliminarProducto(producto)">Borrar</button></td>
-                </tr>
-
-
-            </tbody>
-        </table>
-        <button class="guardar" type="submit" @click="navigateTo('AltaUsuario')">
-            <img src="https://cdn-icons-png.flaticon.com/512/2550/2550221.png " alt="">
-            <p>Agregar Producto</p>
-        </button>
-    </div>
+  <div class="contenidoPrincipal">
+    <h2>Lista de productos</h2>
+    <table>
+      <thead>
+        <th>Nombre</th>
+        <th>Descipcion</th>
+        <th>Precio</th>
+        <th>Existencia</th>
+        <th>Acciones</th>
+      </thead>
+      <tbody>
+        <tr v-for="producto in productos" :key="producto.id">
+          <td>{{ producto.name }}</td>
+          <td>{{ producto.description }}</td>
+          <td>{{ producto.salePrice }}</td>
+          <td>{{ producto.stock }}</td>
+          <td>
+            <button class="btn-editar" @click="editarProducto(producto)">
+              Editar
+            </button>
+          </td>
+          <td>
+            <button class="btn-borrar" @click="eliminarProducto(producto)">
+              Borrar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <button
+      class="guardar"
+      type="submit"
+      @click="navigateTo('admininfoProductos')"
+    >
+      <img
+        src="https://cdn-icons-png.flaticon.com/512/2550/2550221.png "
+        alt=""
+      />
+      <p>Agregar Producto</p>
+    </button>
+  </div>
 </template>
 
 <script>
@@ -91,7 +103,6 @@ export default {
 }
 </script>
 
-
 <style scoped>
 h2 {
   padding: 1rem;
@@ -110,19 +121,20 @@ label {
 
 .contenidoPrincipal {
   width: 80%;
+  
 }
 
 table {
-    width: 70%;
-    background-color: #D9D9D9;
-    padding: 2rem;
-    margin: 0 15%;
+  width: 70%;
+  background-color: #d9d9d9;
+  padding: 2rem;
+  margin: 0 15%;
 }
 
 th,
 td {
-    padding: 8px;
-    text-align: left;
+  padding: 8px;
+  text-align: left;
 }
 
 td {
@@ -138,49 +150,47 @@ button {
 }
 
 .btn-editar {
-    background-color:rgb(73, 224, 73) ;
-    color: #fff;
-     margin-left: 10%;
-    margin-right: 5%;
-    padding: 10% 20%;
-    
-  }
-  .btn-editar:hover {
-    background-color:rgb(19, 184, 19); /* Color de fondo al pasar el ratón */
-    color: black;
-  }
-  .btn-borrar {
-    background-color:rgb(243, 75, 75) ;
-    color: #fff;
-    margin-left: 8%;
-    margin-right: 10%;
-    padding: 17% 22%;
-    
-  }
-  .btn-borrar:hover {
-    background-color:red; /* Color de fondo al pasar el ratón */
-    color: black;
-  }
-  
-  .guardar {
-    box-sizing: border-box;
-    display: flex;
-    border-radius: 0.9375rem;
-    background: #21B7E7;
-    margin: 1rem 0 0 69%;
-    padding: 1% 1%;
-  }
-  
-  .guardar img {
-    height: 1rem;
-    padding: 0%;
-    margin: 0%;
-    padding-top: 0%;
-  }
-  
-  .guardar p {
-    display: flex;
-    margin: 1% 1rem;
-    font-size: 14px;
-  }
+  background-color: rgb(73, 224, 73);
+  color: #fff;
+  margin-left: 10%;
+  margin-right: 5%;
+  padding: 10% 20%;
+}
+.btn-editar:hover {
+  background-color: rgb(19, 184, 19); /* Color de fondo al pasar el ratón */
+  color: black;
+}
+.btn-borrar {
+  background-color: rgb(243, 75, 75);
+  color: #fff;
+  margin-left: 8%;
+  margin-right: 10%;
+  padding: 17% 22%;
+}
+.btn-borrar:hover {
+  background-color: red; /* Color de fondo al pasar el ratón */
+  color: black;
+}
+
+.guardar {
+  box-sizing: border-box;
+  display: flex;
+  border-radius: 0.9375rem;
+  background: #21b7e7;
+  margin: 1rem 0 0 69%;
+  padding: 1% 1%;
+}
+
+.guardar img {
+  height: 1rem;
+  padding: 0%;
+  margin: 0%;
+  padding-top: 0%;
+}
+
+.guardar p {
+  display: flex;
+  margin: 1% 1rem;
+  font-size: 14px;
+}
 </style>

@@ -6,49 +6,68 @@
                 <div class="ladoIzq">
                     <div class="form-group">
                         <label for="name">Nombre:</label>
-                        <input type="text" v-model="name" required>
+                        <input type="text" v-model="name" @input="convertirAMinusculas" required>
                     </div>
                     <div class="form-group">
                         <label for="descripcion">Descripcion:</label>
                         <input type="text" v-model="descripcion" required>
                     </div>
                     <div class="form-group">
-                        <label for="descripcion">Codigo:</label>
-                        <input type="numeric" v-model="barcode" required>
-                    </div>
-                    <div class="form-group">
                         <label for="size">Tamaño:</label>
-                        <input type="text" v-model="size" required>
+                        <input class="tama" type="number" v-model="size" required> 
+                        <label class="uni" for="categoria">Unidad:</label>
+                        
+                        <select class="uni" v-model="Unidad" required>
+                            <option value="Kilogramos">Kilogramos</option>
+                            <option value="Gramos" >Gramos</option>
+                            <option value="Litros">Litros</option>
+                            <option value="Mililitros">Mililitros</option>
+                            <option value="Pieza">Pieza</option>
+
+
+                        </select>
+                       
                     </div>
+                    
                     <div class="form-group">
-                        <label for="precio">Precio:</label>
-                        <input type="numeric" v-model="precio" required>
+                        <label for="precio">Precio compra:</label>
+                        <input class="compra" type="number" v-model="precioCompra" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="precio">Precio venta:</label>
+                        <input type="number" v-model="precioVenta" required>
                     </div>
 
                 </div>
                 <div class="ladoDerecho">
                     <div class="form-group">
-                        <label for="descripcion">Marca:</label>
-                        <input type="text" v-model="brand" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="descripcion">Imagen:</label>
-                        <input type="text" v-model="imgurl">
-                    </div>
-                    <div class="form-group">
                         <label for="stock">Existencia:</label>
-                        <input type="numeric" v-model="stock" required>
+                        <input type="number" v-model="stock" required>
+                        
                     </div>
                     <div class="form-group">
-                        <label for="prov">Proveedor:</label>
-                        <input type="numeric" v-model="prov" required>
+                        <label for="descripcion">Marca:</label>
+                        <input type="text" v-model="brand" @input="sinNumeros" required>
                     </div>
                     <div class="form-group">
-                        <label for="categoria">Categoria:</label>
-                        <select v-model="categoria" required>
+                        <label class="cate" for="prov">Proveedor:</label>
+                        <select class="case" v-model="prov" required>
+                            <option v-for="proveedor in listaProveedores" :key="proveedor.id" :value="proveedor.id">
+                              {{ proveedor.name }}
+                            </option>
+                          </select>
+                    </div>
+                    <div class="form-group">
+                        <label  class="cate" for="categoria">Categoria:</label>
+                        <select class="case" v-model="categoria" required>
                             <option value="1">Bebidas</option>
-                            <option value="2" selected>Abarrotes</option>
-                            <option value="3">Comestibles</option>
+                            <option value="2">Abarrotes</option>
+                            <option value="3">Alimentos</option>
+                            <option value="4">Articulos de hogar</option>
+                            <option value="5">Higiene personal</option>
+
+
                         </select>
                     </div>
                 </div>
@@ -73,13 +92,17 @@ export default {
             descripcion: "",
             imgurl: "",
             size: "",
-            precio: 0,
-            stock: 0,
+            precioCompra: "",
+            precioVenta:"",
+            unidad:"",
+            stock: "",
             brand: "",
             prov: 0,
             categoria: 0,
-            barcode: 0,
+            barcode: "0",
             editingProductId: 0,
+            listaProveedores: [],
+
 
         };
     },
@@ -100,10 +123,12 @@ export default {
                 // Llena el formulario con los datos del producto existente
                 const producto = response.data;
                 this.name = producto.name;
-                this.descripcion = producto.description;
+                this.descripcion = producto.name;
                 this.barcode = producto.barCode;
-                this.size = producto.measureUnit;
-                this.precio = producto.salePrice;
+                this.size = producto.size;
+                this.precioVenta = producto.salePrice;
+                this.precioCompra = producto.purchasePrice;
+
                 this.stock = producto.stock;
                 this.brand = producto.brand;
 
@@ -115,20 +140,32 @@ export default {
                 console.error('Error al cargar los datos del producto para edición:', error);
             }
         },
+
+        convertirAMinusculas() {
+    
+      this.name = this.name.replace(/[^a-z]/g, '');
+      this.name = this.name.toLowerCase();
+    },
+    sinNumeros() {
+      // Filtrar el texto para evitar números
+      this.brand = this.brand.replace(/[0-9]/g, '');
+    },
+
         async enviarProducto() {
             let response;
 
             try {
                 const producto = {
                     name: this.name,
-                    purchasePrice: this.precio,
-                    salePrice: this.precio, // Puedes ajustar según tus necesidades
-                    description: this.descripcion,
-                    barCode: this.barcode, // Puedes ajustar según tus necesidades
+                    purchasePrice: this.precioCompra,
+                    salePrice: this.precioVenta, // Puedes ajustar según tus necesidades
+                    description: this.descripcion +" " + this.size +" " + this.Unidad,
+                    barCode: this.name + this.precioVenta +this.precioCompra + this.stock, // Puedes ajustar según tus necesidades
                     // Puedes ajustar según tus necesidades
+                    
                     stock: this.stock,
                     brand: this.brand, // Puedes ajustar según tus necesidades
-                    measureUnit: this.size, // Puedes ajustar según tus necesidades
+                    measureUnit: this.size +" " + this.Unidad, // Puedes ajustar según tus necesidades
                     providerId: this.prov, // Puedes ajustar según tus necesidades
                     categoryId: this.categoria, // Puedes ajustar según tus necesidades
                 };
@@ -159,8 +196,29 @@ export default {
 
 
         },
+        async cargarListaProveedores() {
+      try {
+        const token = localStorage.getItem("token");
+        const response = await this.$axios.get(
+          "http://localhost:3000/api/providers/",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        this.listaProveedores = response.data;
+
+        console.log("Lista de proveedores para el formulario:", this.listaProveedores);
+      } catch (error) {
+        console.error("Error al cargar la lista de proveedores:", error);
+      }
+    },
     },
     mounted() {
+        // Llama a cargarProductos al montar el componente
+    //this.cargarProveedores();
+    this.cargarListaProveedores();
         // Llama a cargarDatosProducto cuando el componente se crea, si estás editando un producto existente
         if (this.$route.params.id) {
             this.cargarDatosProducto();
@@ -190,7 +248,38 @@ input{
 padding-left: 2%;
 font-size:medium;
 
+
 }
+
+.compra{
+    width: 60%;
+}
+
+.tama{
+    padding-left: 1%;
+    margin: 0%;
+    
+    font-size:medium;
+    margin-right: 0%;
+    width: 17%;
+    }
+
+    .cate{
+        padding-left: 9%;
+        margin: 0%;
+        
+        font-size:medium;
+        margin-right: 0%;
+        width: 17%;
+        }
+
+        .case{
+            width: 65%;
+        }
+
+    .uni{
+       margin-left: 1%;
+        }
 
 .campos {
     box-sizing: border-box;

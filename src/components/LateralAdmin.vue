@@ -22,6 +22,13 @@
       </div>
     </router-link>
 
+    <router-link class="link" :to="{ name: 'listaProveedores' }">
+      <div class="sidebar-button">
+        <img src="https://cdn-icons-png.flaticon.com/512/1524/1524539.png " alt="">
+        <h3>Proveedores</h3>
+      </div>
+    </router-link>
+
 
     <div class="sidebar-button">
       <img src="https://cdn-icons-png.flaticon.com/128/1188/1188576.png" alt="">
