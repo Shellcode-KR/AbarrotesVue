@@ -40,7 +40,7 @@
                 <h3>Productos por Existencia</h3>
                 <ul>
                     <li v-for="producto in productosOrdenados" :key="producto.id">
-                        {{ producto.name }} - Existencia: {{ producto.stock }}
+                        {{ producto.name }} {{producto.brand}} - Existencia: {{ producto.stock }}
                     </li>
                 </ul>
             </div>
